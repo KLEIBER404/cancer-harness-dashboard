@@ -218,6 +218,8 @@ GitHub Free 对公开仓库提供 protected branches；私有仓库是否可用�
 ```powershell
 python scripts/update_dashboard_docs.py
 python scripts/update_dashboard_docs.py --check
+python scripts/update_code_structure.py
+python scripts/update_code_structure.py --check
 python scripts/build_public_site.py
 python scripts/build_public_site.py --check
 .\scripts\publish_dashboard.ps1
@@ -227,3 +229,5 @@ python scripts/build_public_site.py --check
 5. 源码项目与网站仓库分别提交、分别检查。禁止用源码工程根目录作发布源，禁止上传切片、患者信息、本地运行数据或凭据。文档删除或改名时，生成器清理对应的旧 Markdown 副本，发布脚本必须同时提交删除，防止旧文件继续留在线上。
 
 仅在网络、授权或部署故障等实际阻碍下可留下待发布状态：先完成本地同步与检查，在看板和交付中写清失败步骤、已完成范围及恢复命令，不得报告已完成本次线上更新。阻碍消除后仍须补齐发布及验证。`-Watch` 只在进程运行时辅助同步，不替代开发者或 Agent 的这项交付责任。
+
+代码结构预览也属于这项强制同步范围。新增、删除或修改源码文件、类/函数、导入或依赖后，必须刷新 `代码结构预览.html`，同时核对模块职责、依赖图和调用路线；新增源码目录要更新生成器的明确目录名单。发布脚本会自动运行结构生成器，`-Watch` 同时检查源码内容摘要。结构生成通过不表示执行、隔离或模型验收通过。维护规则见 [frame.md §17.7](frame.md#177-独立代码结构预览)。
