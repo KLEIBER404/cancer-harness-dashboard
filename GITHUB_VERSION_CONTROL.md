@@ -1,8 +1,8 @@
 # GitHub 版本管理指南
 
-适用于 [QuPath Agentic Pathology 设计](frame.md)，面向 Windows PowerShell、个人开发和导师协作。核对日期：2026-10-18。
+适用于 [QuPath Agentic Pathology 设计](frame.md)，面向 Windows PowerShell、个人开发和导师协作。网站部署与维护约定核对日期：2026-10-21；其余操作指南保留原有验证范围。
 
-当前目录尚未初始化 Git，也没有配置 GitHub 远程地址。实现位于 `qupath-agent/`，分阶段测试见 [TESTING_GUIDE.md](TESTING_GUIDE.md)。以下命令是操作指南，尚未执行初始化、提交、创建远程仓库或推送。
+当前目录已有本地 Git 仓库，主项目的提交与远程同步状态须单独核对。实现位于 `qupath-agent/`，分阶段测试见 [TESTING_GUIDE.md](TESTING_GUIDE.md)。独立网站仓库 `public-site/` 已连接 [KLEIBER404/cancer-harness-dashboard](https://github.com/KLEIBER404/cancer-harness-dashboard)，2026-10-21 首次 Pages 部署成功，[公网主页](https://kleiber404.github.io/cancer-harness-dashboard/)已验证可访问。网站发布不等于主项目源码已提交或推送。下文首次建库命令只用于尚未建立的仓库，已有仓库不得重复初始化；网站维护必须遵守第 7 节。
 
 ## 1. 管理哪些内容
 
@@ -29,7 +29,7 @@ git --version
 git rev-parse --show-toplevel
 ```
 
-当前目录最后一条预期报告不是 Git 仓库。以后如果它返回已有仓库根目录，先确认路径，不要在其内部再建嵌套仓库。未安装 Git 时先安装 Git for Windows。
+最后一条若返回已有仓库根目录，先确认路径并跳过初始化；仅在确认目标目录尚无仓库时才执行 `git init`。`public-site/` 是按发布方案明确隔离的独立网站仓库，其余目录不要随意嵌套建库。未安装 Git 时先安装 Git for Windows。
 
 确认在项目根目录后初始化；将姓名和邮箱替换为自己的值，邮箱可使用 GitHub 提供的 noreply 地址：
 
@@ -206,3 +206,24 @@ GitHub Free 对公开仓库提供 protected branches；私有仓库是否可用�
 当前已有 `.github/workflows/phase1.yml`，运行 Python 3.11/3.12 与 Windows/Linux 矩阵、JDK 21 指纹互验、共享契约/离线测试及 CLI 合成用例；首次推送后确认 Actions 实际通过，再选择对应 required check。Phase 0 的 QuPath GUI、保存/崩溃和隔离不由该 CI 证明。正式实验和 GitHub Actions 都默认使用合成数据，真实数据与生产密钥不进入 PR 检查。
 
 每次提交前确认：改动只包含本次任务；没有敏感信息和运行产物；文档与实际状态相符；完成了相关检查；待确认的科学问题仍明确标为待确认。
+
+## 7. 网站同步是每次变更的强制交付条件
+
+**强制规则：项目功能、架构、验证结果、阶段进度，以及网页、文档或发布配置发生新增、删除、修改、重命名或回退后，负责的开发者或 Agent 必须在同一次交付中同步网站。不得等用户再次提醒，也不得把网页维护留作下一次任务。** 架构中的同等要求见 [frame.md §17.6](frame.md#176-增删改后的强制同步与交付条件)。
+
+1. 先完成源码与原始文档，清理被删除或改名内容的入口、正文、目录、单份下载和 ZIP 下载；根目录 Markdown 是文档页的来源，不直接手改其生成快照。`public-site/` 仅存生成副本，不在其中手写文档。
+2. 同步根目录 `项目进度看板.html` 的已有能力、缺项、下一步、证据、实际核对日期和最近活动；涉及能力变化时更新动画说明与终点。若只改网站或文档，记录这次维护，不提升研究阶段或延伸能力边界。
+3. 刷新并检查文档与发布副本，按改动运行相关检查；只有本地生成通过不能算网站更新完成。
+
+```powershell
+python scripts/update_dashboard_docs.py
+python scripts/update_dashboard_docs.py --check
+python scripts/build_public_site.py
+python scripts/build_public_site.py --check
+.\scripts\publish_dashboard.ps1
+```
+
+4. 远程与授权可用时必须运行发布脚本，推送独立网站仓库的 `main`。核对[部署工作流](https://github.com/KLEIBER404/cancer-harness-dashboard/actions)中**本次提交**部署成功，并实际请求[公网主页](https://kleiber404.github.io/cancer-harness-dashboard/)、文档页和受影响的入口；确认线上新增/修改已出现、删除内容不再被列出或下载。交付时记录网站提交、部署链接、核对时间与访问结果。`git push` 成功不能代替部署成功或线上内容核对。
+5. 源码项目与网站仓库分别提交、分别检查。禁止用源码工程根目录作发布源，禁止上传切片、患者信息、本地运行数据或凭据。文档删除或改名时，生成器清理对应的旧 Markdown 副本，发布脚本必须同时提交删除，防止旧文件继续留在线上。
+
+仅在网络、授权或部署故障等实际阻碍下可留下待发布状态：先完成本地同步与检查，在看板和交付中写清失败步骤、已完成范围及恢复命令，不得报告已完成本次线上更新。阻碍消除后仍须补齐发布及验证。`-Watch` 只在进程运行时辅助同步，不替代开发者或 Agent 的这项交付责任。
