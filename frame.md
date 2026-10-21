@@ -1,6 +1,8 @@
-# QuPath Agentic Pathology — 系统架构设计（v0.3，修订 4）
+# QuPath Agentic Pathology — 系统架构设计（v0.3，修订 5）
 
-状态：Draft，未经真实导师确认
+状态：Draft。近期目标已按第二次导师谈话对齐；具体技术方案、科学规则与验收仍待验证。
+
+2026-10-21 修订 5：近期优先完成“人工圈选 ROI → 自然语言 → Groovy → QuPath 内细胞计数”，不以修改或重新编译 QuPath 为前置条件。新增 §1.1–§1.3，明确 `qupath-main 2` 中 PathPilot 源码的可复用范围与独立脚本试验路线；已有 Python 固定统计和研究预检继续保留。本轮只更新设计及展示，未接模型、运行生成脚本或完成跨项目集成。
 
 文档审核日期：2026-10-18。实现位于 `qupath-agent/`：已有 Phase 0 环境采集/探针与 Phase 1 离线契约、执行器、L2 和测试；操作与实测记录见 [分阶段测试指南](TESTING_GUIDE.md)。Phase 0 的 QuPath GUI、权限和隔离验收仍待实机确认，Phase 2 及后续产品 API/写回流程仍为设计；GitHub CI 已配置但尚未在远程运行。2026-10-18 审核时 `agent架构研究.md` 未提供；2026-10-19 已只读取得笔记，但原 L1/L2 与实验材料仍未找到，[R] 不构成已复现实验证据，详见 [来源核对](docs/source-reconciliation.md)。
 
@@ -8,7 +10,7 @@
 
 当前阶段与现有能力见根目录的[项目进度看板](项目进度看板.html)，通俗解释见[架构入门](Agent架构入门与导师沟通.md)。看板是随开发维护的展示文件，不是运行时状态或研究证据的来源。
 
-Cancer Harness 运行时扩展设计、上游证据与路线决策见 [cancer-harness-architecture.md](cancer-harness-architecture.md)。已有只读 H0 骨架；修订 4 新增独立研究预检，不改变产品/研究隔离、科学待决项或 QuPath 写回验收边界。
+Cancer Harness 运行时扩展设计、上游证据与路线决策见 [cancer-harness-architecture.md](cancer-harness-architecture.md)。已有只读 H0 骨架；修订 4 新增独立研究预检。修订 5 增加独立 QuPath 脚本试验设计，不将执行生成代码的能力加入产品服务。配套旧文档中的 Python 容器研究路线继续有效；近期优先级和新脚本路线以本文 §1.1–§1.3、§14 为准。
 
 标注约定：
 - [K] 架构师已有知识，未在实际环境验证，Phase 0 必须核验
@@ -22,6 +24,12 @@ Cancer Harness 运行时扩展设计、上游证据与路线决策见 [cancer-ha
 ---
 
 ## 0. 变更记录
+
+### v0.3 修订 5（2026-10-21 第二次谈话与现有 QuPath 源码核对）
+- 根据第二次谈话 07:09–08:01，将下一次演示聚焦到人工圈选区域和细胞总数，先保持 QuPath 本体不变；阳性、边界指标和源码适配分阶段推进。
+- 只读检查 `../qupath-main 2/qupath-main/`：发现 PathPilot 聊天入口、DeepSeek 工具循环及定量分析源码；确认它是候选集成资源，不是已经接入 Python Harness 的成果。
+- 增加独立 QuPath/Groovy 试验路线和验收条件；保留产品固定执行器、既有 Python 研究预检与强隔离约束。现有 Python AST 预检不能用于判定 Groovy 安全或正确。
+- 简历概况单独保存为本地 TXT，不将他人提供的源码能力记作本人已实现成果。网站同步已尝试，现有 HTML 写入被拒绝，本次尚未发布；阻碍与恢复命令见 §17.8。
 
 ### v0.3 修订 4（2026-10-18 转录对齐）
 - 根据首次会议转录明确：受控生成、执行和修正传统 CV 分析代码是研究主线；固定 PathClass 统计是工程基线，不是完整 FYP 成果。
@@ -72,7 +80,7 @@ Cancer Harness 运行时扩展设计、上游证据与路线决策见 [cancer-ha
 
 ## 1. 执行摘要
 
-推荐拓扑 A'：QuPath Java 扩展（确定性客户端，不监听端口） + 本机 Python 产品服务 `agent_service` + 独立研究 CLI `agent_lab`。两者共享不含代码执行能力的 `agent_core`。
+长期产品拓扑 A'：QuPath Java 扩展（确定性客户端，不监听端口） + 本机 Python 产品服务 `agent_service` + 独立研究 CLI `agent_lab`。两者共享不含代码执行能力的 `agent_core`。近期先走 §1.1 的独立 QuPath 脚本试验，不等待完整 HTTP 服务、扩展或写回状态机建设。
 
 研究主线是受控 coding agent：需求 → 版本化分析规格 → 生成/修改代码或组合标准库 → 隔离执行 → 确定性核验 → 专家复核 → 反馈修改。依据为 [首次会议转录](first%20FYP%20Meeting%20Transcript.md) 10:21–12:46、17:13–18:14、19:15–19:44；该文本为自动整理，具体科学任务和验收口径仍需导师确认。不得把“自然语言调用固定统计函数”当成已完成该研究目标，也不得把录音中的监管设想当作已核实认证结论。
 
@@ -83,9 +91,9 @@ Cancer Harness 运行时扩展设计、上游证据与路线决策见 [cancer-ha
    - 未注册的 task_type 直接拒绝。
    - `agent_service` 的依赖图中没有代码生成请求类型、CoderAgent 或沙箱。
 3. 代码生成只存在于研究路径。
-   - B1–B3 由 `agent_lab` 在经 IsolationProbe 验证的 Linux 容器中执行。
+   - Python 研究的 B1–B3 由 `agent_lab` 在经 IsolationProbe 验证的 Linux 容器中执行。
    - 隔离验证失败就不执行。
-   - 研究路径没有 PlanBuilder，也不连接 QuPath。
+   - 现有 Python 研究路径没有 PlanBuilder，也不连接 QuPath；新增 Groovy 试验另见 §1.3，不能复用产品连接来绕过执行边界。
 4. 产品工程基线的阳性统计只基于 QuPath 中已有的 PathClass，通过项目负责人维护的显式 `class_map` 映射到 marker；这不是完整研究任务。本产品基线不做阈值分类，也不验证上游分类的质量。独立研究任务另行定义像素输入、算法规格和参考，不改变现有 DetectionTable。
 5. LLM 在产品路径中只把自然语言翻译成 TaskSpec 的业务参数（task_type、markers、coexpression、metrics）。target 来自 GUI 选择，科学语义来自 SemanticsProfile。
 6. 产品输入数据以内容寻址的方式上传：先上传、校验 SHA-256，再在创建 run 时绑定。detection 表只含 `object_id` 和 `path_class` 两列，不含像素、坐标和 measurement；研究像素输入另用版本化契约。
@@ -96,12 +104,85 @@ Cancer Harness 运行时扩展设计、上游证据与路线决策见 [cancer-ha
 8. 用户授权写回不等于病理结论正确。L3 审查（ReviewRecord）与授权（ApprovalRecord）分开记录。
 9. 多 agent 不预设更优 [R]。B1/B2/B2m/B3 分离测量"核验反馈"与"角色拆分"的效果，结论只限于本任务与本用例集。
 
+### 1.1 第二次导师谈话：近期目标与任务定义
+
+依据为[第二次谈话总结](../谈话录音/第二次谈话/fyp第二次谈话_总结稿.md)及[带时间戳文字稿](../谈话录音/第二次谈话/fyp第二次谈话_文字稿.md)，原录音为同目录 `fyp第二次谈话.m4a`，时长 23 分 7 秒。本轮复用现成转写，未重新逐句听校；会议日期未明确，2026-10-21 是本次核对日期。
+
+| 优先级 | 目标 | 依据与边界 |
+|---|---|---|
+| 首个演示 | 人在 QuPath 圈画并选中一个 annotation，自然语言请求“统计这个区域的细胞总数”，agent 生成或调用 Groovy，在 QuPath 内返回计数 | 07:09–08:01；保持 QuPath 本体不变，不先做自动圈画、全片分析或重新编译 |
+| 可靠性 | 保存脚本、参数、实际输出和失败，检查代码是否完成任务；超能力范围时明确提示 | 05:56–07:09；可执行不等于结果正确，不承诺百分之百可信 |
+| 数据准备 | 确认核通道及通道—marker 映射，记录强度、单位和来源 | 00:00–00:57、10:32–12:19；显示颜色或染料编号不能单独证明 marker |
+| 下一项扩展 | 人工确认阳性阈值后，再做指定 marker 阳性计数；之后考虑近边界细胞和边界长度 | 08:01–09:03；“50”仅为口头示例，不能作为默认阈值 |
+| 后续研究 | 新需求驱动代码生成、反馈修正与场景适配；必要时再研究源码修改、编译和多 Agent | 04:20–06:24、13:49–17:22；尚无多中心泛化、发表或临床有效性结论 |
+
+**首个计数必须区分两种输入：** 已有并经复核的细胞对象时，先只读统计；没有对象时，先由人工配置并运行经确认的检测方法，或在独立试验中允许检测创建对象，再统计。零个对象不能自动解释为“图像里零个细胞”。仅检测细胞核时，结果明确命名为“细胞核数”，不能因 `isDetection()` 为真就称为细胞总数。
+
+先固定一张获准切片、一个 ROI、一个图像平面、一套检测参数和计数规则。暂定对象代表点落在 ROI 内且不落入空洞才纳入，边界点规则先在合成样例中固定并请导师复核；不假设 hierarchy 子对象天然等价于几何纳入。纯对象计数与手写脚本应得到相同整数；图像检测质量另与人工复核对象比较，不能用“两个程序计数一致”证明分割准确。
+
+### 1.2 `qupath-main 2` 能否融入现有架构
+
+**结论：可以分层复用，不能直接整包合并后称为集成完成。** 实际源码根目录是 `../qupath-main 2/qupath-main/`；`__MACOSX/` 是附带目录，不作为源码入口。以下为本地静态检查结果，未构建、启动 GUI、请求模型或跑真实切片；也未确认它就是录音中名称存疑的定量软件或小窗口原型。
+
+为便于定位，下表的 `ai/` 指 `qupath-gui-fx/src/main/java/qupath/lib/gui/ai/`。
+
+| 源码证据 | 已看到的实现 | 在本架构中的位置／接入条件 |
+|---|---|---|
+| `qupath-gui-fx/.../QuPathGUI.java:332`、`ai/ChatPanel.java`、`ai/AISettingsDialog.java` | GUI 创建聊天面板；有文本输入、后台处理、设置与语音入口 | 候选 `AgentPanel`；近期脚本演示可先用现有 Script Editor，面板移植后置 |
+| `ai/AgentEngine.java`、`ai/agent/DeepSeekAgent.java` | `process → DeepSeekAgent.run → 工具分派 → Tool.execute`；最多 14 轮；经 Java HttpClient 请求模型 | 可参考 Planner、ModelClient 和工具接口；集成时由 Harness 管预算、状态和日志，只保留一个实际执行入口，避免 Java/Python 各跑一套决策循环 |
+| `ai/tool/Tool.java`、`ToolRegistry.java` | Java 工具接口和名称注册表；重复名称当前覆盖，返回可变工具表 | 可参考工具清单；不等于 Harness 的权限、Schema、审计或可信插件校验。不得直接映射为已授权 Python Tool |
+| `ai/tool/StarDistTool.java`、`detection/StarDistRunner.java` | 选择 annotation 后调用 StarDist，创建 detection 并计数；无选区时拒绝全图检测 | 候选检测实现和人工脚本基线；有 hierarchy 副作用，不能塞进产品 `read_only` 路线 |
+| `ai/tool/MarkerMeasurementTool.java`、`PhenotypeClassificationTool.java`、`MultiMarkerPhenotypeTool.java`、`AnalysisThresholdManager.java` | 通道测量、单／多 marker 统计，支持指定阈值或自动阈值和阈值上下文 | 后续病理执行器候选；先核对通道与对象类型，再将经人工确认的阈值纳入版本化科学配置，自动 Otsu 仅作建议 |
+| `ai/tool/SpatialAnalysisTool.java`、`PixelClassifierTool.java`、`ComprehensiveAnalysisTool.java` | 有空间、像素分类及组合分析工具源码 | 独立扩展候选；不能根据文件名认定满足肿瘤边界长度或所有新需求，须逐任务验证 |
+| `ai/analysis/AnalysisSession.java`、`AnalysisSessionManager.java`、`AnalysisReportExporter.java` | 分析会话、结果汇总与导出实现 | 可参考结果展示；转为严格、可核验的领域结果后再交 Harness 归档，成功消息不代替 L2 或科学复核 |
+| `ai/voice/WhisperSpeechToText.java` | 使用外部 whisper.cpp，默认 CLI／模型路径依赖用户目录，可用配置覆盖 | 首次计数不需要语音；Windows 路径及外部程序后续单独验证 |
+
+**兼容性和行为缺口：**
+
+- `VERSION=0.8.0-SNAPSHOT`；本地版本目录声明 JDK 25、JavaFX 26.0.1、Groovy 5.0.6，Wrapper 声明 Gradle 9.6.1。原工程探针按 QuPath 0.6／JDK 21 设计，不能直接认定二进制或 API 兼容。先用现有可运行的 QuPath 做脚本探测，选择实际版本并冻结，再考虑移植源码。
+- GUI 构建声明 `com.openai:openai-java:4.46.0` 及本地 `qupath-extension-stardist-0.6.0.jar`；JAR 和两份 StarDist `.pb` 模型文件确实存在，仍需验证传递依赖、平台原生库及与该 QuPath 快照的兼容性。存在 `build/` 或 `jpackage/` 不证明能在当前 Windows 环境运行。
+- `StarDistRunner` 使用工作目录相对模型路径、固定 `pixelSize(0.5)`，找不到 DAPI／Hoechst 时回退通道 0，并用选区的直接子 detection 计数。接入前必须改为显式核通道与可配置检测分辨率，核对像素标定、深层子对象、去重及重复检测行为；不能沿用“回退通道 0”作为已确认数据语义。
+- 已检查的 AI 主执行链是注册 Java 工具调用，未发现该链生成并运行 Groovy 的入口。`ChatPanel` 的 WebView `executeScript` 是界面 JavaScript，不是 QuPath Groovy 执行。现有工具成功也不满足“新增指标由 agent 编写脚本”的研究验收。
+- 现有主链直接调用 `tool.execute(qupath, parameters)`；尚未形成与本项目一致的独立科学复核、写回授权、WAL、指纹和恢复验收证据。检测、测量和导出须分别声明效果，并检查 FX 线程、取消及半途失败；不能把这些工具一律称为只读。
+- `AISettings` 支持保存 API key 和环境变量。接入时沿用本项目的最小模型上下文和凭据管理，不复制个人设置、key、聊天历史或切片；模型名称及接口可用性待实际配置确认，不根据默认字符串宣称已经调用成功。
+
+源码包未提供可用 Git 提交来源。2026-10-21 核对的 SHA-256：`AgentEngine.java` 为 `624ecb70a7b4c96297554093cd7f8e7a41d55ef0d7917be3f36e672d705efc46`；`StarDistRunner.java` 为 `aadb15d4b369dbc269af5ddb5ab7e785e5c68726731e11e44d776bffd9c2568a`。包内根许可证为 GPL v3 文本；后续复制或分发前记录来源及所用依赖许可。本次不复制其 Java 实现、不修改上游源码。
+
+### 1.3 修订后的分工、接入顺序与验收
+
+```mermaid
+flowchart LR
+  U[人工圈选 ROI 和自然语言需求] --> G[独立脚本试验：生成 Groovy 并预览]
+  G --> Q[独立测试 QuPath：受控执行]
+  Q --> V[实际计数与手写脚本及人工参考比较]
+  V --> F[反馈修订及记录]
+  F --> G
+  P[PathPilot 源码资源] -. 后续择取界面和工具 .-> Q
+  H[现有 Python Harness] -. 后续接入严格记录契约 .-> V
+```
+
+此图是待实现路线。现有 `agent_core` 保留确定性类别统计；`harness_core` 保留固定工具、任务、权限、SQLite 审计及摘要产物；`agent_lab` 保留 Python 源码文本、合成像素参考和版本链。三者目前都不调用这个 QuPath 包，也没有 Groovy 执行器。直接复用 Python AST 检查、`analysis_py` 产物类型或两列 DetectionTable，均不能表达 Groovy、像素检测或空间规则；先设计独立版本契约，再实现必要的连接代码，不预建空模块。
+
+新增的“QuPath 脚本试验”是独立研究入口，不属于现有产品 API 的 G1/G2 或 E2，不沿用 `read_only` 标签掩盖任意脚本能力；需要的 JVM、允许操作、输入与报告契约单独验证。`agent_service` 继续禁止执行模型代码，生成脚本也不得自动注册成受信任产品工具。
+
+| 顺序 | 最小工作 | 通过依据 |
+|---|---|---|
+| Q0：人工基线 | 在当前可运行的 QuPath 中选一个 ROI；人工完成检测和手写 Groovy 计数；不改 QuPath 本体 | 保存版本、输入摘要、ROI／平面、核通道、检测参数、对象类型与纳入规则、脚本和整数输出；人工核对样例 |
+| Q1：首个 agent 演示 | 一个 agent 接收自然语言和最小上下文，产出 Groovy；受控执行后把实际结果返回用户 | 保存模型／提示／源码摘要、实际执行环境、输出或异常及与 Q0 的比较；没有实际执行就维持“仅生成／未执行” |
+| Q2：连接与反馈 | 先接入严格记录及结果契约；有第二项实际需求时再择取 PathPilot 面板或分析工具 | Java/Python 双端字段验证和拒绝用例；旧 CLI 回归；同一输入上保留初版、反馈、修订版及前后误差 |
+| Q3：扩展与研究 | 人工阈值、阳性／空间指标、生成新指标；视需要研究源码适配与比较实验 | 分别建立数据、参考及副作用验收；不得用固定工具的成功替代新代码适配实验 |
+
+**执行边界：** 模型生成的任意 Groovy 在活动 JVM 内具有宿主能力，预览、人工确认、关键词扫描或单独启动一个 JVM 都不构成 OS 隔离。自动候选执行前，须在通过探测的独立 OS 隔离环境中运行 QuPath/JVM，限制挂载、网络、资源与时间，且不提供产品 token、API key 或原项目写权限；原 Python 容器探测通过不能自动覆盖新的 JVM 路线。隔离尚未验证时只能保留代码文本，或由人审查为可信脚本后在获准测试副本中进行人工基线验证；后者不得称为任意生成脚本的自动闭环或安全保证。保持 QuPath 本体不变与独立运行环境可以同时满足。
+
+**首个闭环至少检查：** 无 ROI／多个 ROI 拒绝；未检测与已检测的零计数区分；内外／空洞／边界对象和重复对象的纳入一致；非细胞 detection 不误计为细胞；执行前 ROI／输入变化拒绝复用旧结果；脚本异常／超时保存失败且不自动重跑可能已产生副作用的操作。超范围任务返回原因和当前证据等级，不用模型自然语言自评充当核验。
+
 ## 2. 目标、范围与研究设计
 
 目标（v1）：
+- 下次演示目标：按 §1.1–§1.3 完成单 ROI 的自然语言／Groovy 计数；先证明实际执行与对象计数，再独立评价检测质量。
 - 首要研究目标：在一个经确认的传统 CV 定量任务上，实现受控代码生成、隔离执行、核验和人工反馈修正，并测量结果质量、适配成本与单/多 Agent 差异。
 - 工程基线：在 QuPath GUI 内发起 marker 阳性统计，得到经核验、可审计、经人工授权后才写回的结果。固定统计及 Harness H0 通过仅证明工程基础可用。
-- QuPath 是图像上下文和结果展示入口；研究启动器独立，不获取产品写权限。研究代码/结果不会因核验通过自动成为产品插件或 ActionPlan。
+- QuPath 是图像上下文和结果展示入口；Python 研究启动器独立，不获取产品写权限；新增脚本试验仅使用受控测试环境。研究代码/结果不会因核验通过自动成为产品插件或 ActionPlan。
 
 范围：
 - 单用户、单机、单张活动图像。
@@ -158,7 +239,7 @@ Phase 2R 在 T0-12 强隔离与研究输入许可通过后，实现单 Agent 代
 
 研究候选必须绑定规格、输入、库/镜像/提示版本、源码摘要和父版本；反馈绑定被评论的候选摘要与观察依据，修订不覆盖旧版本。设备/中心/批次采用获准的去标识编码；本阶段合成数据不伪装成真实中心适配证据。修改规格或数据形成新上下文，旧候选核验与人工审查不能复用。参考答案保存在评估侧，不进入 Coder 请求。
 
-第一项工程任务为 `synthetic_foreground_area`：8-bit 合成二维数组，按显式 `pixel >= threshold` 计算前景像素数和比例，无物理面积或病理阳性含义。它用于验证像素契约和边界值，不证明细胞分割/mIHC 有效性。正式任务须由导师从细胞分割、区域面积、通道强度或空间关系中确认一项，明确参考、误差、数据许可和专家审查；无需一次实现全部。涉及 tile 时另定义 overlap、拼接去重和性能验收，不把录音中的经验值设为通用常数。
+已有 Python 工程任务为 `synthetic_foreground_area`：8-bit 合成二维数组，按显式 `pixel >= threshold` 计算前景像素数和比例，无物理面积或病理阳性含义。它继续用于验证像素契约和边界值，不证明细胞分割/mIHC 有效性。第二次谈话已将首个 QuPath 演示聚焦为单 ROI 细胞总数；检测方法、对象定义、参考、误差、数据许可和专家审查仍需落实，见 §1.1–§1.3。涉及 tile 时另定义 overlap、拼接去重和性能验收，不把录音中的经验值设为通用常数。
 
 将来返回 QuPath 的研究报告必须带输入指纹、候选/规格/环境摘要、执行与核验报告、数据等级及专家复核记录；先设计独立的只读报告导入契约与 Java 校验，再接入展示。当前研究进程仍不连接产品服务；报告导入不授予源码执行或写回能力，报告也不是 ActionPlan。需要产品化时经过人工代码审查、固定版本、注册和完整回归，不能热装载模型源码。
 
@@ -306,6 +387,8 @@ S1–S9 见 §9A.3。S1 的既有 PathClass 限制只适用于产品统计基线
 - B：Py4J + QuBaLab，只用于 Phase 0 探索。
 - C：扩展承担 Agent 职责，拒绝。
 
+修订 5 补充：§1.3 的独立 Groovy 试验先复用 QuPath Script Editor，不要求实现拓扑 A' 的全部组件。PathPilot 的 Java 内循环作为现有资源及对照保留，不直接变成正式产品内核；将来集成择取界面／工具，并由单一 Harness 入口管理任务，不能同时保留两套未经协调的执行循环。
+
 属于"状态图"拓扑，配合黑板式产物存储 [R]。不采用群聊广播、由模型选人的编排或辩论模式。
 
 | 维度 | agent_service（产品） | agent_lab（研究） |
@@ -372,7 +455,7 @@ S1–S9 见 §9A.3。S1 的既有 PathClass 限制只适用于产品统计基线
 | `Sweeper` | 清理过期输入和临时文件 |
 | 进程策略 | 用 `LlmPolicy.product()` 构造 ModelClient，策略写在代码中，不从配置读取 |
 
-`agent_lab`（导入 agent_core，不含 PlanBuilder，不连接 QuPath）：
+`agent_lab`（现有 Python 研究路线；导入 agent_core，不含 PlanBuilder，不连接 QuPath；独立 Groovy 试验见 §1.3）：
 | 模块 | 职责 |
 |---|---|
 | `ExperimentRunner` | manifest、protocol、臂 × 重复次数；断点续跑；导出 RunMetrics |
@@ -1625,6 +1708,8 @@ RECOVERY_REQUIRED 对话框展示：每个 key 的 before、expected、observed�
 ## 14. 分阶段实施计划
 时长为粗略估计 [I]，需按实际学期安排调整。
 
+**2026-10-21 优先级调整：** 首先推进 §1.3 的 Q0 人工基线和 Q1 自然语言／Groovy 单 ROI 计数。它们是新增 QuPath 研究试验，不要求先完成 Phase 2 的 HTTP 连接或 3a 写回。下表保留原 Python／产品阶段划分，不能把 Q1 待实现标作 Phase 2R 已完成；Q1 自动执行还须单独通过 JVM 隔离和计数验收。
+
 | Phase | 内容 | 出口标准 |
 |---|---|---|
 | 0（1–2 周） | T0-1..T0-16；确定 D1、D2、D10 | 每个 T0 都有记录；失败项已更新到相应 ADR |
@@ -1637,7 +1722,7 @@ RECOVERY_REQUIRED 对话框展示：每个 key 的 before、expected、observed�
 | 4（可选，不计入 MVP） | 阈值分类、多图像或其他新增任务 | 先确认新增科学问题与资源；重新设计契约、隐私边界、执行器与测试，单独评审 |
 
 实施约束：
-- 产品先完成 Phase 0–2 的无 LLM 只读闭环，再增加写回与产品 Planner。独立研究 Phase 2R 只依赖研究侧 Phase 0/1 门槛，不依赖 Phase 3a/3b；资源有限时优先受控 coding agent 最小研究闭环，不先扩展写回功能。
+- 产品先完成 Phase 0–2 的无 LLM 只读闭环，再增加写回与产品 Planner。独立 Python 研究 Phase 2R 只依赖研究侧 Phase 0/1 门槛，不依赖 Phase 3a/3b；当前优先 §1.3 的 QuPath 计数试验，Python 合成预检保留作基础，不用合成像素结果替代导师要求的细胞计数。
 - 每个 Phase 记录使用的 commit、依赖版本、执行命令、结果和未通过项；未通过出口标准不标记完成。时间估算不包含数据许可和导师决策等待。
 - S1–S9、D3–D5 未确认时只使用合成数据与 draft profile；D7/D8 缺失时如需自建 L1/L2，必须在实验协议和论文中明确其并非原核验器。
 - 实验冻结记录源码 commit、干净工作区、profile/schema/输入/提示模板哈希、模型标识、容器 digest 与协议版本；详见 [GitHub 指南](GITHUB_VERSION_CONTROL.md)。
@@ -1660,13 +1745,14 @@ RECOVERY_REQUIRED 对话框展示：每个 key 的 before、expected、observed�
 | ADR-010 | L3 审查与写回授权分开记录 | 采用；§9.8–§9.9、§10.5 | 审查者或授权责任发生变化 |
 | ADR-011 | 已有 L1/L2 只在研究路径适配复用 | 暂定；§3.1、§6.2；待 D7/D8、T0-13 | 无法取得源码/记录或接口不可调用 |
 | ADR-012 | B2m 控制预算上限，P1 单独评估 Planner | 暂定；§2.2 | 预实验显示成本或统计方案不可行；正式冻结前调整 |
-| ADR-013 | 生成代码仅在通过探测的 Linux 容器内运行 | 采用；§10.4；待 T0-12 | 探测失败则停用研究执行，不降级 |
+| ADR-013 | Python 生成代码仅在通过探测的 Linux 容器内运行；QuPath/Groovy 自动候选执行须另验 JVM 所在 OS 隔离 | 修订 5；§10.4、§1.3；待 T0-12 及 JVM 专项验证 | 任一路线探测失败则停用该路线自动候选执行，不降级到活动宿主 JVM |
 | ADR-014 | 产品服务仅监听回环地址，token 与本地文件权限保护 | 采用；§11.2；待 T0-14 | 远程部署或多用户需求出现时重新设计 |
 | ADR-015 | 数据最小化，保留期服从数据协议 | 采用；§11.4–§11.7；待 D3/D12 | 许可、数据类型或归档要求变化 |
 | ADR-016 | DetectionTable v1 内容寻址上传与 run 绑定 | 采用；§9.13；待 T0-15 | 行数/体积或新任务超出契约 |
 | ADR-017 | ModelClient + LlmPolicy；规划和代码生成请求隔离 | 采用；§6.2、§11.4 | 新 provider 或请求类型加入 |
 | ADR-018 | 产品基线阳性判定只使用已有 PathClass + 显式 class_map | 采用为产品工程范围；§9A；不限制独立研究的版本化 CV 任务 | 产品增加阈值分类仍进入 Phase 4；研究任务按 §2.2.1 单独确认 |
-| ADR-019 | 受控 coding agent 是研究主线，Phase 1 预检后提前 Phase 2R 隔离闭环 | 修订 4；首次会议转录与 §2.2.1；具体任务待确认 | 数据、参考或隔离不具备时保留预检，不把固定统计替代为最终成果 |
+| ADR-019 | 受控 coding agent 是研究主线；近期优先 QuPath 内单 ROI Groovy 计数，保留 Python Phase 2R | 修订 5；两次谈话与 §1.1–§1.3；方法与科学参考待落实 | 数据、参考或隔离不具备时保留预检，不把固定统计替代为最终成果 |
+| ADR-020 | PathPilot 作为可择取的 GUI／领域工具资源，不整包替代 Harness；不以重编译 QuPath 为首个目标 | 修订 5；本地源码静态核对，见 §1.2 | 只有特定任务确需源码适配时，才另立构建、兼容及副作用验证 |
 
 决策变更在本节写明日期、原因、替代方案、受影响契约/测试和 PR 或 commit。科学决策还须保留确认人及确认日期，不能由开发者或模型代签。
 
@@ -1770,3 +1856,34 @@ Phase 0 的版本安装信息可从 [QuPath 0.6 安装文档](https://qupath.rea
 快照工具 `scripts/update_code_structure.py` 仅读取明确源码目录，使用标准库 AST 解析 Python 符号和导入，提取文件路径、行数、摘要及依赖声明。源目录、定义、文件或依赖增删改后，必须运行生成器与 `--check`，同时人工核对模块职责、图中箭头、调用路线和未实现边界；新增整个源码目录时也须更新目录名单。原始代码不会被导入执行。`--signature` 为发布监视提供这些源文件的内容摘要，发布脚本自动刷新快照。
 
 页面验证并入 `node output/playwright/check-dashboard.cjs`：检查主页入口、模块点选、目录搜索与空结果、文件选择、调用路线、跨页面跳转、桌面/手机布局、暗色、离线与无脚本阅读；公开副本仍须核对项目子路径和公网访问。解析器检查见 `python scripts/test_code_structure.py`。这些均为网页与结构验证，不能计为真实分析或科学评价证据。
+
+### 17.8 本次同步阻碍与待发布范围（2026-10-21）
+
+修订 5 的 `frame.md` 和工程上一级的 `项目概况_简历用.txt` 已保存。内容核对通过：第二次谈话来源存在、§1.1–§1.3 和 Q0/Q1 路线完整、两份 QuPath 源码摘要与本地文件一致、TXT 为简短 UTF-8 文本且区分在研目标与现有能力。未运行模型、生成脚本或开展新的病理实验。
+
+网站同步**未完成**：原位修改 `项目进度看板.html`、`cancer-harness-architecture.md` 和 `docs/implementation-roadmap.md` 返回写入失败；`python scripts/update_dashboard_docs.py` 明确返回 `PermissionError: [Errno 13] Permission denied`，目标为 `项目文档.html`。运行 `scripts/publish_dashboard.ps1` 在同一文档刷新步骤终止，报告 `Document refresh failed; nothing was pushed.`，尚未到达公开副本生成、推送或部署核对。现有代码结构快照检查通过，但文档 `--check` 提示快照已过期；旧站点和旧文档下载不能代表修订 5。
+
+独立 `代码结构预览.html` 可以写入，已补充 PathPilot 尚未接通、近期脚本试验和本次未发布的边界说明；源模块关系未变。待发布内容：本次 frame 正文及单份／ZIP 下载；看板的近期目标、下一步、资源与活动；配套架构／实施路线的优先级提示；结构页新增说明。看板应明确“已有 Python 离线基础；近期做单 ROI 自然语言／Groovy 计数；PathPilot 仅静态评估，尚未集成”，三个动画保持原能力终点。
+
+恢复条件为当前会话可正常写入上述现有文件；本轮未改文件权限或请求提权。恢复后先完成上述看板和配套文字更新，再在 `code/` 运行：
+
+```powershell
+python scripts/update_code_structure.py
+python scripts/update_code_structure.py --check
+python scripts/update_dashboard_docs.py
+python scripts/update_dashboard_docs.py --check
+python scripts/build_public_site.py
+python scripts/build_public_site.py --check
+node output/playwright/check-dashboard.cjs
+.\scripts\publish_dashboard.ps1
+```
+
+最后核对本次网站提交对应的 Actions 成功及线上正文。简历 TXT 保留本地，不加入网站公开文件清单。
+
+### 17.9 QuPath 源码通俗报告与本次发布方式（2026-10-21）
+
+新增 [QuPath 与 PathPilot 技术原理通俗报告](QuPath源码技术原理通俗报告.md)，沿 GUI、主 Agent 循环、注册工具、StarDist、强度与阈值、空间算法、会话与 XLSX 导出、语音入口解释源码。报告区分本地静态证据、外部算法原理和未完成的运行验证；没有将源码阅读计作模型调用、检测实验或集成完成。
+
+本轮现有网页原位写入仍受阻，本机文件编辑连接器也返回内部错误。为完成用户要求的网站发布，复用原文档渲染与公开链接清理工具，在 `qupath-report-release/` 生成独立发布副本，更新看板的报告入口、第二次谈话目标和维护活动，保留原动画终点；通过已连接的 GitHub 仓库发布。该路径不修改原文件权限，不包含切片、完整源码、运行数据或凭据。新报告原文仍保存在根目录，后续恢复常规同步前须将本轮看板与文档配置合回原文件，避免旧页面覆盖新报告入口。
+
+发布是否成功以该目录中的本次提交／部署核对记录及线上实际内容为准，不能以生成副本或创建 Git 对象代替部署成功。§17.8 保留上一轮失败事实；本轮网站发布与原位文件同步分别记录。
