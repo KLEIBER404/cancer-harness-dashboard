@@ -130,6 +130,8 @@ StarDist 的基本思想可以想成：从一个候选中心向多个方向伸�
 
 `MarkerMeasurementTool` 收集选区中的 detection，调用 QuPath `ObjectMeasurements.addIntensityMeasurements()` 计算通道平均强度，写入对象的 MeasurementList。它指定了核／细胞区室；实际可得到哪些区室取决于对象类型。
 
+2026-10-21 数据补充：用户已提供当前面板的 7 通道日志，完整表见 [frame.md §1.4](frame.md#14-重要当前面板的通道标志物与染料对应表)。本面板的 DAPI 为 0、CD8 为 3、PDL1 为 2，`PDL1 → PD-L1` 通过显式别名对应；Autofluorescence 为 6，不作为生物 marker 计入阳性／共表达。该记录补齐通道身份，不表示已经确认阳性阈值或完成图像分析。
+
 可以把平均强度理解为 `对象内该通道有效像素强度之和 ÷ 有效像素数`。随后工具根据通道名、marker 名和测量名称查找相应数值。名字匹配只是工程定位：把一个通道命名为 CD8，不会自动证明它在实验中真的对应 CD8。
 
 ### 7.2 分类：明确一条阈值线
