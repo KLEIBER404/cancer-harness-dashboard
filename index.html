@@ -196,7 +196,7 @@
     @media(prefers-color-scheme:dark) { :root { --bg:#16211e; --surface:#1c2a25; --ink:#e3eae3; --muted:#a0b1a7; --line:#38473f; --green:#88d0b2; --green-soft:#233c30; --amber:#e5b579; --amber-soft:#3b3020; --gray-soft:#29362f; --blue:#99c8df; --blue-soft:#24333d; --shadow:none; } .done .step-num { background:#246d54; color:#fff; } }
     @media(prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } }
     @media print { :root { color-scheme:light; --bg:white; --surface:white; --ink:#172b24; --muted:#526158; --line:#ccc; --green:#17654f; --green-soft:#eef7f0; --amber:#85501a; --amber-soft:#fff5e8; } .layout { display:block; padding:0; } aside,.skip { display:none; } .hero { grid-template-columns:1fr 250px; } section { break-inside:avoid; } details { break-inside:avoid; } details:not([open])>.detail-body { display:block; } a { color:inherit; } }
-  .local-only-link{color:var(--muted);cursor:help;text-decoration:underline dotted}</style>
+  .local-only-link{color:var(--muted);cursor:help;text-decoration:underline dotted}.local-only-link{color:var(--muted);cursor:help;text-decoration:underline dotted}</style>
 </head>
 <body>
   <a class="skip" href="#main">跳到主要内容</a>
@@ -219,9 +219,9 @@
 
     <main id="main">
       <header id="overview">
-        <div class="topline"><span>FYP / AGENTIC PATHOLOGY</span><div class="offline"><i class="dot" aria-hidden="true"></i>项目看板 · <time datetime="2026-10-21">2026.10.21</time></div></div>
+        <div class="topline"><span>FYP / AGENTIC PATHOLOGY</span><div class="offline"><i class="dot" aria-hidden="true"></i>项目看板 · <time datetime="2026-10-23">2026.10.23</time></div></div>
         <div class="hero">
-          <div><p class="eyebrow">项目全流程 / 当前进度</p><h1>离线基础已跑通，<br>下一步做选区计数。</h1><p class="intro">第二次谈话已明确近期目标：人工圈选区域，通过自然语言生成或调用 Groovy，在 QuPath 内统计细胞。Python 离线基础已有验证；PathPilot 源码已完成静态阅读，模型、脚本执行与集成尚未接通。</p></div>
+          <div><p class="eyebrow">项目全流程 / 当前进度</p><h1>离线基础已跑通，<br>围绕 QuPath 做分析。</h1><p class="intro">QuPath 是主工作台和图像分析执行端，Harness 管任务边界、权限、预算、核验与记录。已核对本机 0.7.0 安装；先做单 ROI Groovy 基线，再接自然语言和 PathPilot 薄面板，真实桥接尚未完成。</p></div>
           <div class="location"><div class="label">你在这里 · 研究闭环前的准备</div><h2>Phase 1 → Phase 2R</h2><p>Phase 1 的离线功能已有验证。Phase 2R 尚未开始执行；Phase 0 的实机与隔离检查仍有缺项。</p></div>
         </div>
         <div class="facts" aria-label="已有事实">
@@ -286,7 +286,7 @@
           <li><span class="step-num">05</span><h3>专家反馈后修订</h3><p>根据具体意见修改，再运行和评价</p><span class="status">待实现</span></li>
           <li><span class="step-num">06</span><h3>比较与研究结论</h3><p>结果质量、人工时间、成本与多 Agent</p><span class="status">待开展</span></li>
         </ol>
-        <div class="checkpoint"><strong>当前最关键的一步</strong><p>先在现有 QuPath 中跑通手写 Groovy 的单 ROI 计数，再接自然语言生成与受控执行。先区分细胞与细胞核、检测与计数，保持 QuPath 本体不变；完整 HTTP 和写回后置。</p></div>
+        <div class="checkpoint"><strong>当前最关键的一步</strong><p>先在 F:\QuPath-0.7.0 的 Script Editor 跑通单 ROI 手写计数，再把固定计数接入 Harness，证明未知工具、错误 ROI 和未授权写入被执行前拒绝；之后接模型与独立受控 Groovy，薄面板随后适配。</p></div>
       </section>
 
       <section id="tracks" aria-labelledby="tracks-title">
@@ -301,10 +301,10 @@
       </section>
 
       <section id="next" aria-labelledby="next-title">
-        <div class="section-head"><h2 id="next-title">下一步，把准备变成一次真实运行</h2><p>两组工作可以同时推进</p></div>
+        <div class="section-head"><h2 id="next-title">下一步，把准备变成一次真实运行</h2><p>先完成单 ROI 基线与边界拒绝，再接模型</p></div>
         <div class="next">
           <div class="next-block"><h3>和老师一起确定</h3><ul class="tasks"><li><strong>先选一个小任务</strong><span>近期任务已明确为单 ROI 细胞总数；仍需落实检测方法、细胞／细胞核对象定义、边界纳入和人工参考。</span></li><li><strong>确定参考与反馈例子</strong><span>怎样判断对错、谁来复核、允许改什么，以及什么情况算改善。</span></li><li><strong>补齐数据与使用说明</strong><span>当前面板通道表已由用户提供并写入架构 §1.4；继续绑定具体图像，确认可用范围、阈值、模型可见材料和预算。</span></li></ul><p class="goal">应得到：一页任务说明、一份可用小输入、评价依据和具体反馈例子。</p></div>
-          <div class="next-block"><h3>由开发继续完成</h3><ul class="tasks"><li><strong>验证隔离运行环境</strong><span>检查文件访问、资源限制和失败处理，通过后再运行待测试代码。</span></li><li><strong>接上最小模型调用</strong><span>整理必要输入，记录调用版本、次数和成本，保留生成的代码。</span></li><li><strong>接好实际输入和结果评价</strong><span>按选定路线补真实区域输入或 QuPath 导出转换，并保存输出与误差。</span></li></ul><p class="goal">下一次可演示目标：自然语言 → Groovy → QuPath 内实际计数，并与手写脚本及人工参考比较。</p></div>
+          <div class="next-block"><h3>由开发继续完成</h3><ul class="tasks"><li><strong>固定计数先接 Harness</strong><span>绑定单 ROI、七通道和对象输入；越界请求的 executor 调用次数必须为 0。</span></li><li><strong>模型调用与脚本隔离分开验收</strong><span>先用 stub 验证参数与总预算，再接获准模型；自动 Groovy 执行前验证独立 QuPath/JVM 隔离。</span></li><li><strong>接 PathPilot 薄面板和结果核验</strong><span>从 ChatPanel／AgentEngine.process 适配单一任务入口，QuPath 执行前复检，结果对照手写参考。</span></li></ul><p class="goal">下一次可演示目标：自然语言 → Groovy → QuPath 内实际计数，并与手写脚本及人工参考比较。</p></div>
         </div>
       </section>
 
@@ -324,9 +324,9 @@
         <div class="section-head"><h2 id="evidence-title">进度有依据，材料找得到</h2><p>本地链接需要与项目目录一起保留</p></div>
         <div class="evidence-grid">
           <div><h3 class="small-title">直接打开相关材料</h3><ul class="resources"><li><a href="%E9%A1%B9%E7%9B%AE%E6%96%87%E6%A1%A3.html#doc-3f3e94cdbc0a">架构入门与一分钟汇报稿 ↗</a><span>从零理解模型、Agent、工具和 Harness 的分工。</span></li><li><a href="%E9%A1%B9%E7%9B%AE%E6%96%87%E6%A1%A3.html#doc-bbc69e11f94c">阶段成果与导师沟通指南 ↗</a><span>目前完成了什么，还缺什么，要问老师什么。</span></li><li><a aria-disabled="true" title="此材料保留在本地工程，未发布到公网。" class="local-only-link">10 月 19 日开发交接与测试依据 ↗</a><span>两个 Python 环境各 71 项测试，以及安装后检查的范围。</span></li><li><a aria-disabled="true" title="此材料保留在本地工程，未发布到公网。" class="local-only-link">正式开发路线与验收条件 ↗</a><span>阶段名称、实机检查和研究执行的前置条件。</span></li><li><a aria-disabled="true" title="此材料保留在本地工程，未发布到公网。" class="local-only-link">真实切片信息与预览文件夹 ↗</a><span>3 张切片的尺寸、通道和本地缩略图路径。</span></li></ul></div>
-          <div><h3 class="small-title">最近的进展</h3><ol class="events"><li><time datetime="2026-10-21">2026.10.21</time><strong>已登记 7 通道映射</strong><p>用户 INFO 日志：0 DAPI；1 CD20／Opal 480；2 PDL1／Opal 520；3 CD8／Opal 570；4 CD23／Opal 620；5 PANCK／Opal 690；6 Autofluorescence。完整来源、PD-L1 别名和适用边界见架构 §1.4；登记不表示检测完成，动画终点不变。</p></li><li><time datetime="2026-10-21">2026.10.21</time><strong>新增 QuPath 与 PathPilot 技术原理报告</strong><p>沿真实调用链解释模型、StarDist、阈值、空间分析和导出；报告为源码静态阅读，不表示实际模型调用、检测或集成完成。第二次谈话目标收敛到单 ROI Groovy 计数，动画保持原能力终点。</p></li><li><time datetime="2026-10-19">2026.10.19</time><strong>离线研究输入与记录检查完成</strong><p>补上外部源码导入、文件检查和模型输入准备，保留本地测试与安装验证证据。</p></li><li><time datetime="2026-10-20">2026.10.20</time><strong>找到并读取 3 张真实切片</strong><p>已查看元数据和缩略图；尚未检测细胞或判断标记阳性。</p></li><li><time datetime="2026-10-20">2026.10.20</time><strong>加入能力动画与文档阅读区</strong><p>三种能力可逐步播放，根目录 Markdown 可分组搜索并阅读全文；后续开发同步维护进度、动画和文档快照。</p></li><li><time datetime="2026-10-21">2026.10.21</time><strong>网站上线，增删改后必须同步</strong><p>GitHub Pages 首次部署成功，公网主页返回 HTTP 200；<a href="%E9%A1%B9%E7%9B%AE%E6%96%87%E6%A1%A3.html#doc-d2c1e478b57f-7-网站同步是每次变更的强制交付条件">版本管理</a>与<a href="%E9%A1%B9%E7%9B%AE%E6%96%87%E6%A1%A3.html#doc-306e3fd31ffd-176-增删改后的强制同步与交付条件">架构</a>已明确要求同次交付更新看板、正文、下载与公网内容，并核对部署。研究阶段与动画终点仍按原有证据。</p></li></ol></div>
+          <div><h3 class="small-title">最近的进展</h3><ol class="events"><li><time datetime="2026-10-23">2026.10.23</time><strong>明确 QuPath 主线与 Harness 边界实施</strong><p>安装基线 F:\QuPath-0.7.0 的核心／GUI JAR 为 0.7.0，runtime 声明 Java 25.0.2；PathPilot 源码为 0.8.0-SNAPSHOT，移植待验证。架构 §1.5–§1.6 写明优先接入点、统一执行入口和越界拒绝验收，现有阶段及动画终点不变。</p></li><li><time datetime="2026-10-21">2026.10.21</time><strong>已登记 7 通道映射</strong><p>用户 INFO 日志：0 DAPI；1 CD20／Opal 480；2 PDL1／Opal 520；3 CD8／Opal 570；4 CD23／Opal 620；5 PANCK／Opal 690；6 Autofluorescence。完整来源、PD-L1 别名和适用边界见架构 §1.4；登记不表示检测完成，动画终点不变。</p></li><li><time datetime="2026-10-21">2026.10.21</time><strong>新增 QuPath 与 PathPilot 技术原理报告</strong><p>沿真实调用链解释模型、StarDist、阈值、空间分析和导出；报告为源码静态阅读，不表示实际模型调用、检测或集成完成。第二次谈话目标收敛到单 ROI Groovy 计数，动画保持原能力终点。</p></li><li><time datetime="2026-10-19">2026.10.19</time><strong>离线研究输入与记录检查完成</strong><p>补上外部源码导入、文件检查和模型输入准备，保留本地测试与安装验证证据。</p></li><li><time datetime="2026-10-20">2026.10.20</time><strong>找到并读取 3 张真实切片</strong><p>已查看元数据和缩略图；尚未检测细胞或判断标记阳性。</p></li><li><time datetime="2026-10-20">2026.10.20</time><strong>加入能力动画与文档阅读区</strong><p>三种能力可逐步播放，根目录 Markdown 可分组搜索并阅读全文；后续开发同步维护进度、动画和文档快照。</p></li><li><time datetime="2026-10-21">2026.10.21</time><strong>网站上线，增删改后必须同步</strong><p>GitHub Pages 首次部署成功，公网主页返回 HTTP 200；<a href="%E9%A1%B9%E7%9B%AE%E6%96%87%E6%A1%A3.html#doc-d2c1e478b57f-7-网站同步是每次变更的强制交付条件">版本管理</a>与<a href="%E9%A1%B9%E7%9B%AE%E6%96%87%E6%A1%A3.html#doc-306e3fd31ffd-176-增删改后的强制同步与交付条件">架构</a>已明确要求同次交付更新看板、正文、下载与公网内容，并核对部署。研究阶段与动画终点仍按原有证据。</p></li></ol></div>
         </div>
-        <div class="meeting"><h3>和老师沟通时，可以这样说</h3><p>“我已经完成了固定统计、最小任务管理，以及代码和反馈的记录检查。现在有真实切片，但还没接上模型、执行待测试代码或完成 QuPath 集成。下一步先做人工选区后的 Groovy 计数基线，再接生成、受控执行和反馈核验；PathPilot 目前只有源码评估，尚未集成。”</p></div>
+        <div class="meeting"><h3>和老师沟通时，可以这样说</h3><p>“我把 QuPath 明确为主工作台和分析执行端，Python Harness 管理边界、记录与核验。现有离线基础保留，下一步在 0.7.0 上做单 ROI Groovy 基线，并展示合法计数和被程序阻断的越界请求；模型、PathPilot 面板和实际桥接尚未接通。”</p></div>
       </section>
 
 <section id="qupath-report" class="document-entry" aria-labelledby="qupath-report-title"><div><h2 id="qupath-report-title">QuPath 与 PathPilot，到底怎样工作</h2><p>16 节通俗源码报告：从一句话到模型选工具、检测对象、阳性阈值、空间统计与 Excel 导出，附真实调用链和源码定位。</p><p><small>2026-10-21 源码核对；没有构建运行、模型调用或真实检测验证。可在线阅读、下载原文或随全部文档打包。</small></p></div><a href="%E9%A1%B9%E7%9B%AE%E6%96%87%E6%A1%A3.html#doc-0c4d1c7164fe" class="document-entry-link">阅读技术原理报告 →</a></section>
@@ -338,7 +338,7 @@
 
       <p class="footnote">公网发布：2026-10-21 已完成 GitHub Pages 首次部署，<a href="https://kleiber404.github.io/cancer-harness-dashboard/">公网主页</a>实测返回 HTTP 200，<a href="https://github.com/KLEIBER404/cancer-harness-dashboard/actions/runs/39543580765">首次部署工作流成功</a>。后续增删改内容必须在同次交付运行同步脚本并核对线上结果，<a href="https://github.com/KLEIBER404/cancer-harness-dashboard/actions">部署记录可查看</a>。仅发布展示页与文档；研究阶段、缺项与能力动画终点保持原有证据范围。<a aria-disabled="true" title="此材料保留在本地工程，未发布到公网。" class="local-only-link">查看连接与自动更新说明</a>。</p>
       <p class="footnote">2026-10-21 网页自检通过：三个动画场景、四种屏幕尺寸、文档搜索跳转、全部 MD 与 ZIP 下载内容一致；<a aria-disabled="true" title="此材料保留在本地工程，未发布到公网。" class="local-only-link">本地网页检查记录</a>仅证明页面行为，不作为病理分析、模型调用或候选执行证据。</p>
-      <footer><span>网页发布核对：2026-10-21；研究进度证据截至 2026-10-20。后续开发同步维护进度与独立文档页；页面本身不会自动扫描或修改项目。</span><span>离线双击或公网访问 · 动画演示与文档入口 · 无外部脚本、字体或图片</span></footer>
+      <footer><span>本轮架构／环境核对：2026-10-23；研究执行证据仍截至 2026-10-20。后续开发同步维护进度与独立文档页；页面本身不会自动扫描或修改项目。</span><span>离线双击或公网访问 · 动画演示与文档入口 · 无外部脚本、字体或图片</span></footer>
     </main>
   </div>
   <script>

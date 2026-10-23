@@ -212,6 +212,8 @@ Otsu 的思路是把强度排成直方图，尝试不同分界点，寻找能把
 
 ## 13. 与你现有工程怎样接合
 
+2026-10-23 方向已进一步明确：QuPath 是主工作台与图像分析执行端，Harness 是边界、编排、记录及核验支撑；当前安装基线为 `F:\QuPath-0.7.0`，PathPilot 的 0.8.0-SNAPSHOT 源码需先适配，尚未安装。优先接入点及实施顺序见 [frame.md §1.5](frame.md#15-当前主线以-qupath-为中心的接入与本机环境)；如何用统一执行入口、权限交集、QuPath 复检、脚本隔离和负例测试约束 Agent，见 [§1.6](frame.md#16-harness-如何实际约束-agent-的边界)。
+
 你现有的 `agent_core` 已有确定性类别统计，`harness_core` 管任务、权限和审计，`agent_lab` 管 Python 候选文本、预检和反馈记录。PathPilot 提供 QuPath 侧界面、活动图像／选区访问和领域分析工具。两边有互补价值，但当前没有桥接。
 
 最小顺序可以沿用 [frame.md §1.3](frame.md#13-修订后的分工接入顺序与验收)：先用现有 QuPath 的 Script Editor 做一个手写 Groovy 单 ROI 计数基线；再实现自然语言生成和受控执行；之后按实际需要接入记录契约、聊天面板或固定工具。

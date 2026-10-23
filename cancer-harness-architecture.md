@@ -2,6 +2,10 @@
 
 状态：设计草案 + H0 最小验证骨架；2026-10-18。面向癌症病理研究与分析辅助，不具备已验证的临床诊断能力。
 
+2026-10-23 主线更新：**QuPath 是工作入口和图像分析执行端，Harness 是不可绕过的任务、权限、核验及记录支撑层。** 当前安装基线为 `F:\QuPath-0.7.0`（核心／GUI JAR 为 0.7.0，内置 runtime 声明 Java 25.0.2）；`qupath-main 2` 的 PathPilot 面板与必要固定工具作为优先接入资源，尚未装入该安装版。先复用 Script Editor 完成单 ROI 基线，再适配 `ChatPanel → 单一 Harness 任务入口 → QuPath 执行／复检`，不先重编译本体。完整分工、路径、权限矩阵和实施门槛见 [frame.md §1.5](frame.md#15-当前主线以-qupath-为中心的接入与本机环境) 与 [§1.6](frame.md#16-harness-如何实际约束-agent-的边界)。
+
+原 Python 固定统计继续用作回归与参考；下文的 product/read_only H0 事实和产品窄写回协议保持原范围。新增 QuPath 检测／写测量、模型预算及生成 Groovy 研究执行须按各自效果设计，不因主线调整自动获得权限。本轮只更新设计及安装证据，尚未接通运行链。
+
 ## 1. 决策与证据边界
 
 **推荐路线 B：在现有 Java + Python 架构上自主实现小型 Harness，借鉴 DeepSeek 的接口与生命周期思想，不 Fork、嵌入或运行其 Cordis/Node 内核。** 路线 C（以 dsh/其 Python SDK 作 sidecar）保留为未来独立研究选项，当前没有需要第三套运行时才能满足的用例。理由及替代路线见 [ADR-CH-001](docs/adr/0001-runtime-route.md)。
@@ -34,7 +38,7 @@
 
 ```mermaid
 flowchart LR
-  U[研究者] --> Q[QuPath Java Adapter]
+  U[研究者] --> Q[QuPath 工作台／图像分析执行与薄连接]
   Q -->|本机认证 HTTP / 版本化 JSON| P[agent_service 产品进程]
   P --> H[Harness Core: 状态 / 策略 / 注册 / 存储]
   H --> F[固定病理任务插件]
@@ -152,6 +156,8 @@ H0 独占数据库实例，第二个写入者失败；这不是完整产品 OS �
 Session replay 仅重建事实/视图，禁止重放 Tool、模型网络请求或 Java 写入。模型真正可见的投影与调用摘要必须可追溯，但敏感请求正文留在受控产物并受保留期约束，不能为了“全部日志可重构”默认永久保存 PHI。记录已清理正文的 tombstone 与删除原因，明确可复现范围缩小。
 
 ## 8. QuPath Adapter
+
+当前目标为 0.7.0 兼容薄连接：优先适配 PathPilot 面板接缝，固定分析 API 在 QuPath 内执行；Python 不通过通用网关直接操控活动 JVM。模型提议必须经过 Harness 任务边界和效果授权，Java 端实际执行前再核对图像／ROI／输入；生成 Groovy 进入独立受控研究环境。旧产品 ActionPlan 仅覆盖原定 measurement 写回，不自动扩展到细胞检测或任意脚本。安装与具体接缝见 frame.md §1.5，已有／缺失的 Harness 实施点见 §1.6。
 
 | 职责 | Java 端边界与调用 | 待验证 |
 |---|---|---|
