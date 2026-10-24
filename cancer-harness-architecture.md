@@ -4,11 +4,13 @@
 
 2026-10-23 主线更新：**QuPath 是工作入口和图像分析执行端，Harness 是不可绕过的任务、权限、核验及记录支撑层。** 当前安装基线为 `F:\QuPath-0.7.0`（核心／GUI JAR 为 0.7.0，内置 runtime 声明 Java 25.0.2）；`qupath-main 2` 的 PathPilot 面板与必要固定工具作为优先接入资源，尚未装入该安装版。先复用 Script Editor 完成单 ROI 基线，再适配 `ChatPanel → 单一 Harness 任务入口 → QuPath 执行／复检`，不先重编译本体。完整分工、路径、权限矩阵和实施门槛见 [frame.md §1.5](frame.md#15-当前主线以-qupath-为中心的接入与本机环境) 与 [§1.6](frame.md#16-harness-如何实际约束-agent-的边界)。
 
-原 Python 固定统计继续用作回归与参考；下文的 product/read_only H0 事实和产品窄写回协议保持原范围。新增 QuPath 检测／写测量、模型预算及生成 Groovy 研究执行须按各自效果设计，不因主线调整自动获得权限。本轮只更新设计及安装证据，尚未接通运行链。
+原 Python 固定统计继续用作回归与参考；下文的 product/read_only H0 事实和产品窄写回协议保持原范围。新增 QuPath 检测／写测量、模型预算及生成 Groovy 研究执行须按各自效果设计，不因主线调整自动获得权限。2026-10-23 当轮只更新设计及安装证据；2026-10-24 已接通的可信脚本／快照链路及限制见下方首版更新。
 
 本周任务更新（2026-10-23）：人工单 ROI 的**细胞数量＋五 marker 表达与初步性状说明**，验收以 [frame.md §1.7](frame.md#17-本周最小实现人工选区内计数与初步性状判断) 为准。先在 QuPath 形成手写及人工复核基线；读取已有对象／测量可只读，新增检测、测量和分类写入分别声明效果。Harness 后续只允许已绑定的 ROI、通道和经确认规则，Agent 不能自改阈值或凭信号强度推导高增殖。原 H0 合成配置与契约不因任务登记改变。
 
 ## 1. 决策与证据边界
+
+2026-10-24 首版已实现：`qupath_bridge` 的可信手动 Groovy 入口在安装版 0.7.0 读取单 ROI，复用 CellObject 或按人工确认参数执行 watershed，在 detached copies 上测量，再通过冻结快照接入现有 Harness 的 `roi.summary`。配置／快照使用独立的 `qupath.roi.*.v1`，未改变 H0 契约、能力上限和旧 `mihc.summary`。错误目标／额外参数在执行前拒绝，测试证明 executor 调用为 0；75 项 Python 测试、16 项安装包 CLI 检查及安装版合成图端到端通过。可选检测仍是人工基线，不是 Agent 工具；模型、面板、实时双端授权和真实切片另行验收。分工与限制见 [frame.md §1.8](frame.md#18-首版实现与合成图验收2026-10-24)。
 
 **推荐路线 B：在现有 Java + Python 架构上自主实现小型 Harness，借鉴 DeepSeek 的接口与生命周期思想，不 Fork、嵌入或运行其 Cordis/Node 内核。** 路线 C（以 dsh/其 Python SDK 作 sidecar）保留为未来独立研究选项，当前没有需要第三套运行时才能满足的用例。理由及替代路线见 [ADR-CH-001](docs/adr/0001-runtime-route.md)。
 

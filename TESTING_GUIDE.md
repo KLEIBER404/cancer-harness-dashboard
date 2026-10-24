@@ -6,6 +6,8 @@
 
 原来较详细的技术内容已保留在 [测试技术参考](docs/testing-reference.md)，不是删除了验收要求。
 
+**2026-10-24 新入口：** 本周单 ROI 计数与初步性状程序已完成首版；75 项 Python 回归、安装版 QuPath 合成图链路及 16 项安装包 CLI 检查通过。现在可按 [第 9 节](#9-本周-roi-计数与初步性状首版2026-10-24) 准备固定脚本。真实切片按用户选择稍后验收，不把合成图通过称为真实染色规则已确认。
+
 ## 1. 先弄清楚：现在能测试什么
 
 | 测试 | 通俗解释 | 现在能不能做 |
@@ -14,6 +16,7 @@
 | 统计例子 | 给程序一份人工编好的“细胞类别名单”，让它算数量和比例 | 可以 |
 | 任务管理例子 | 检查一次统计任务是否完成、结果是否保存 | 可以 |
 | 代码版本例子 | 看第一版代码、修改意见、第二版代码能不能对应起来 | 可以；只是保存和检查代码，不执行它 |
+| QuPath 单 ROI 固定脚本 | 安装版检测合成细胞、测量五 marker，接 Harness 生成报告 | 首版及合成图链路通过；真实 ROI 与交互 GUI 待验收 |
 | 在 QuPath 中点按钮分析真实图像 | 真正连接软件和分析流程 | 尚未完成 |
 | 让大模型写代码并运行 | 研究目标中的完整流程 | 尚未完成 |
 
@@ -373,3 +376,74 @@ notepad $envFile
 | 两版候选和反馈 | `local-data/research-preflight-r4-final-py312/` |
 
 更完整的历史记录见 [测试技术参考](docs/testing-reference.md)；给老师的介绍见 [阶段成果与导师沟通指南](阶段成果与导师沟通指南.md)。
+
+## 9. 本周 ROI 计数与初步性状首版（2026-10-24）
+
+目前已经能运行固定脚本与报告链路，暂未接模型。按本轮选择，真实切片稍后验收；下面步骤为下一次人工测试准备。
+
+### 9.1 准备一个新的本地会话
+
+先在 PowerShell 进入 `E:\XJTLU\大四\FYP\code\qupath-agent`，运行：
+
+~~~powershell
+.\.venv\Scripts\python.exe -X utf8 -m qupath_bridge prepare --output local-data/my-first-roi
+~~~
+
+本机已预备一个未确认规则的会话：`qupath-agent/local-data/roi-mvp-20261024/user-session/`，也可直接使用。
+
+生成 `config.json` 和 `run_in_qupath.groovy`。后者是项目可信固定脚本，会调用当前 Python 环境；目录已存在则拒绝覆盖。项目移动位置或更换 Python 后重新准备会话，不使用旧启动脚本。
+
+1. 打开 `F:\QuPath-0.7.0\QuPath-0.7.0.exe`，载入测试图像，显式设置为 Fluorescence，并核对像素标定。
+2. 人工框选并只选中一个 annotation，初次选小区域：包围框最多 400 万像素、最多 1000 个细胞。
+3. 在 **Automate → Show script editor** 打开生成的 `run_in_qupath.groovy`。先核对配置，再用 **Run → Run** 执行，不用 Run for project。
+
+首次配置未确认时程序会停下，并在会话的 `capture-.../context.json` 中保存实际通道名称和顺序。将 `config.json` 的七个 `channels` 与该图像逐个对应；`PDL1 → PD-L1` 是显式别名，`name` 必须写实际完整名称。初始模板来自用户提供的面板；实际文件的 Opal 顺序可能不同，不能直接套用。核对后再把 `panel_confirmed` 改为 `true`；DAPI 本版本仍要求在 0，自发荧光不参与五 marker 的阳性判断。
+
+### 9.2 检测细胞和设定判据
+
+**已有细胞时：** 保持 `detection.method="existing"`。程序只统计真正的 CellObject，不把所有 detection 或 StarDist 核对象当细胞；需要核对检测方法、参数和质量。在确实完成检测后填写 `review_note`，按实际情况设 `completed` 和 `confirmed`。未完成检测的空对象集不会报告零细胞。
+
+**需要由脚本检测时：** 将 `method` 改为 `watershed`，填好 `parameters` 对象并明确 `confirmed=true`、`review_note`；`completed` 保持 false，由本次执行结果决定。参数必须来自对照图／QuPath Cell detection 设置和人工核对，不能照搬合成测试数值：
+
+| parameters 的数值字段 | 含义 |
+|---|---|
+| requestedPixelSizeMicrons | 分析像素大小；至少为该图像原像素大小，本版不做上采样 |
+| backgroundRadiusMicrons、medianRadiusMicrons、sigmaMicrons | 背景、滤波和平滑参数 |
+| minAreaMicrons、maxAreaMicrons | 核面积范围；这里的数值单位是 μm² |
+| threshold | DAPI 检测阈值，和五 marker 阳性阈值不同 |
+| cellExpansionMicrons | 从核向外扩展近似细胞，必须为正；这不是经过验证的真实细胞边界 |
+
+脚本固定使用绑定的 DAPI 通道，保留核、创建细胞对象；有子对象或相交 detection 的 ROI 会拒绝重复检测。检测仅在当前 QuPath 内存中创建对象，异常可能留下部分对象，需要人工检查；不会自动删除、重试或保存项目。
+
+检测完成后需要修改阈值再分析时，将方法切回 `existing`、`parameters` 设为 null，并按实际检测结果填写完成记录；不要再次运行 watershed 覆盖旧对象。
+
+**初步定性规则：** 在 `rules` 中分别核对 CD20、PD-L1、CD8、CD23、PANCK 的 `compartment`（Cell／Nucleus／Cytoplasm／Membrane）、`threshold` 和 `review_note`；仅在人工确认后设 `confirmed=true`。模板 Cell 只便于准备，不表示所有 marker 都应测全细胞。当前只支持 Mean 和 `>=`，保留原始强度单位；不自动套用 Otsu、统一阈值或“信号越亮功能越强”。
+
+阈值留空／未确认时仍可获得细胞数量和测量值，定性为 unknown，报告状态是 `PARTIAL_REVIEW_REQUIRED`。不能把它作为本周完整定性验收通过。
+
+### 9.3 查看结果
+
+每次执行创建新的 `capture-...` 子目录，不覆盖上次结果：
+
+| 文件 | 用途 |
+|---|---|
+| context.json、config.json、snapshot.json | 捕获目标、实际配置和逐细胞测量；后续改配置需重新捕获 |
+| report/report.txt | 中文区域汇总与初步性状说明，也会打印到 QuPath 日志 |
+| report/cells.csv | UTF-8 CSV：对象 ID、像素坐标、五 marker 测量／状态及性状标签，可回到原图定位 |
+| report/results.json、task.json、harness/ | 完整结果、任务状态、SQLite 审计及内容摘要产物 |
+| capture-failed.json、config-check.txt、analysis-log.txt | 拒绝或错误说明；无报告不能当成功，失败后先检查对象，不盲目重跑 |
+
+计数按**细胞轮廓质心**位于 ROI 内或外边界纳入，空洞内部排除，包含嵌套细胞。五 marker 的群体可重叠，阳性数量不能相加充当总细胞数；每个比例以阳性＋阴性为有效分母，同时显示未知数量。
+
+性状说明包含 B 细胞相关、上皮相关、CD8 相关、CD23／PD-L1 表达等线索，逐细胞保留依据。没有 Ki-67 等增殖指标时不推断高增殖。`PRELIMINARY_REVIEW_READY` 表示程序满足已确认规则，仍须人工检查检测质量和生物学解释。
+
+### 9.4 重现本轮合成测试
+
+~~~powershell
+.\.venv\Scripts\python.exe -X utf8 -m unittest discover -s tests -v
+.\.venv\Scripts\python.exe -X utf8 tests/run_roi_qupath_smoke.py --qupath 'F:\QuPath-0.7.0\QuPath-0.7.0 (console).exe' --output local-data/my-new-roi-smoke
+~~~
+
+本轮结果：75 项 Python 测试全部通过；安装版 0.7.0／Java 25.0.2 通过生产固定脚本对合成七通道像素做实际测量，watershed 三核团得到 3 个 CellObject；既有对象场景得到 4 个纳入细胞，边界／嵌套／空洞与已知参考一致。无 ROI、多 ROI、错误通道、泛核对象和重复检测均拒绝，未确认阈值保持 unknown。wheel 已离线构建，在源码目录外以 `-I` 完成 16 项安装包 CLI 检查。
+
+证据保留于 `qupath-agent/local-data/roi-mvp-20261024/`，不发布到公网。Windows 沙箱曾因临时目录 ACL 使测试失败，在正常本机权限下以相同测试命令通过；不要因此修改 Harness 权限或把合成图结果当真实切片准确率。交互 GUI、真实染色、PathPilot、模型及生成代码隔离仍待独立验收。
