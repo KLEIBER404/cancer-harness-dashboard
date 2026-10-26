@@ -1,14 +1,14 @@
-# QuPath Agentic Pathology — 系统架构设计（v0.3，修订 9）
+# QuPath Agentic Pathology — 系统架构设计（v0.3，修订 10）
 
 状态：Draft。近期目标已按第二次导师谈话对齐；具体技术方案、科学规则与验收仍待验证。
 
 2026-10-26 学习与汇报材料：新增[完整代码说明与最小验证](代码通俗说明与最小验证.md)，按当前源码解释模块、函数、实际调用链和最小演示，供 10 月 28 日周三导师沟通。当天复跑 75 项 Python 测试与安装版 QuPath 合成图链路通过；本轮不改分析算法或扩大已验收范围。
 
-**本周最小实现（2026-10-24 进展）：人工框选一个 ROI，统计细胞数量，依据五个生物 marker 的表达作初步性状判断。固定脚本、QuPath 测量和 Harness 报告链路已实现，并在安装版 0.7.0 的合成七通道图上实测通过；按用户选择，真实切片稍后验收。任务规格见 §1.7，实际能力、边界与证据见 §1.8。**
+**本周最小实现（2026-10-26 更新）：人工框选一个 ROI，在 PathPilot 点“检测并分析”，自动完成固定检测、五 marker 测量、Harness 统计和面板报告；已有对象则点“统计已有细胞”。所提供源码的面板已适配接入安装版 0.7.0，合成图 GUI 验收通过。真实图上的面板流程和科学判据仍需人工验收，见 §1.9。**
 
-**当前方向（2026-10-24）：以 QuPath 为工作入口和图像分析执行环境，围绕它构建自然语言驱动、可核验、可反馈修订的定量分析助手；Python Harness 提供编排、审计、核验与实验支持。PathPilot 的面板／工具作为优先接入资源；安装基线为 `F:\QuPath-0.7.0`，与 0.8.0-SNAPSHOT 源码包分开管理。现已接通可信手动脚本 → 冻结快照 → Harness 固定统计；自然语言、PathPilot 面板和任意生成 Groovy 的自动执行仍未实现。**
+**当前方向（2026-10-26）：QuPath 是工作台与图像执行端，Python Harness 管快照统计、审计和核验。已从所提供源码接入 PathPilot 面板及受约束的固定单 ROI 分析，支持按钮和有限文字指令。安装基线仍为 `F:\QuPath-0.7.0`，不是整份 0.8 源码已编译上线；远程模型、任意自然语言规划和生成代码隔离仍未实现。**
 
-**重要数据依据（2026-10-21）：用户已提供完整的 7 通道日志，固定对应表见 §1.4。DAPI 为通道 0，CD20 为 1，PDL1 为 2，CD8 为 3，CD23 为 4，PANCK 为 5，Autofluorescence 为 6。后续读取、检测、测量和脚本生成应显式引用这份对应表。**
+**重要数据依据（2026-10-21）：用户已提供完整的 7 通道日志，用户原始日志对应表见 §1.4，不代表所有切片的物理通道顺序。DAPI 为通道 0，CD20 为 1，PDL1 为 2，CD8 为 3，CD23 为 4，PANCK 为 5，Autofluorescence 为 6。后续读取、检测、测量和脚本生成应显式引用这份对应表。**
 
 2026-10-21 修订 5：近期优先完成“人工圈选 ROI → 自然语言 → Groovy → QuPath 内细胞计数”，不以修改或重新编译 QuPath 为前置条件。新增 §1.1–§1.3，明确 `qupath-main 2` 中 PathPilot 源码的可复用范围与独立脚本试验路线；已有 Python 固定统计和研究预检继续保留。本轮只更新设计及展示，未接模型、运行生成脚本或完成跨项目集成。
 
@@ -470,6 +470,21 @@ H0 的拒绝有些发生在任务创建前，不能称为已具备“所有拒�
 
 **未验收：** 在交互 GUI 中人工框选的实际操作、真实染色／抗体／阈值／检测质量、病理专家复核、自然语言与模型、PathPilot 面板、生成脚本隔离及反馈改进。真实切片按用户要求留到后续。本周状态为“首版程序及合成图链路完成，真实 ROI 待验收”，不标记完整研究闭环完成。操作步骤见 [测试指南 §9](TESTING_GUIDE.md#9-本周-roi-计数与初步性状首版2026-10-24)。
 
+## 1.9 PathPilot 已接入现有 QuPath 与 Harness（2026-10-26）
+
+本轮补齐用户要求的实际界面入口：构建时直接读取所提供 0.8 源码中的 `ChatPanel.java`、`AssistantLanguage.java` 和两份界面辅助类，适配为安装版 QuPath 0.7 可加载的扩展。没有把整份 0.8 工程重编译替换安装版；来源文件摘要、适配代码、GPL 许可和对应源码包均保留。原 DeepSeek／StarDist／其他工具循环没有直接启用，避免绕过现有边界。
+
+实际调用链为：**PathPilot 按钮／有限文字指令 → AgentEngine.bind → HarnessRoiTool → 内嵌固定检测／测量脚本 → 冻结快照 → 现有 Harness roi.summary → 面板报告与本地 CSV。** “检测并分析”在干净选区自动串起检测、测量、统计；“统计已有细胞”复用对象，不重复检测。首次检测需确认参数，后续可以在“分析设置”修改；marker 阈值未确认仍输出无法判定。未实现任意自然语言规划或远程模型。
+
+- 新源码：`qupath-agent/qupath_bridge/pathpilot/AgentEngine.java`、`HarnessRoiTool.java`、`PathPilotExtension.java`、`build.py`。上游 ChatPanel 由构建脚本读取并适配，不再作为仅供阅读的参考。
+- 提交时绑定活动图像引用、annotation 引用、几何和平面；固定脚本在检测前复检。沿用单选区、通道完全匹配、标定、400 万像素、1000 细胞、重复检测保护及严格 Python 输入校验。
+- 受约束 Java 入口负责启动固定检测；Python read_only Profile 仍只负责快照统计，不冒称所有 QuPath 修改已由同一个 Python 权限协议管理。没有任意 Groovy 执行入口、模型密钥需求或 OS 沙箱。
+- 实测：最终扩展加载进 QuPath 0.7 的真实 JavaFX 界面，测试通过首次参数确认窗口和实际按钮得到 3 个合成细胞，五 marker 各 1 阳性；再次统计得到 3，重复检测和提交后改选形状相同但 ID 不同的区域也拒绝。75 项 Python 回归通过。合成输入不证明真实分割或染色判据正确。
+- 本地证据：`qupath-agent/local-data/pathpilot-integration/gui-native-final/gui-smoke.json`、同目录界面截图及回复；最终扩展和对应源码包在 `release-native/`。输出、图片和真实配置不上传网站。
+- 用户入口：工程根目录的 `启动 PathPilot.lnk`。当前旧窗口中的未保存对象要先自行保存到测试项目，再在新窗口打开对应项目。原手动脚本仍作为开发／故障排查入口保留。
+
+详细使用与源码说明见 [测试指南第 10 节](TESTING_GUIDE.md) 和 [代码通俗说明第 15 节](代码通俗说明与最小验证.md)。真实图上的新面板流程、分割准确性、marker 规则、远程模型和生成代码隔离仍需独立验收。
+
 ## 2. 目标、范围与研究设计
 
 目标（v1）：
@@ -493,7 +508,22 @@ H0 的拒绝有些发生在任务创建前，不能称为已具备“所有拒�
 - 以 LLM 自评替代人工审查。
 - 引入重型多 agent 框架 [R]。
 
-### 2.1 执行配置与字段职责
+### 1.9 PathPilot 已接入现有 QuPath 与 Harness（2026-10-26）
+
+本轮补齐用户要求的实际界面入口：构建时直接读取所提供 0.8 源码中的 `ChatPanel.java`、`AssistantLanguage.java` 和两份界面辅助类，适配为安装版 QuPath 0.7 可加载的扩展。没有把整份 0.8 工程重编译替换安装版；来源文件摘要、适配代码、GPL 许可和对应源码包均保留。原 DeepSeek／StarDist／其他工具循环没有直接启用，避免绕过现有边界。
+
+实际调用链为：**PathPilot 按钮／有限文字指令 → AgentEngine.bind → HarnessRoiTool → 内嵌固定检测／测量脚本 → 冻结快照 → 现有 Harness roi.summary → 面板报告与本地 CSV。** “检测并分析”在干净选区自动串起检测、测量、统计；“统计已有细胞”复用对象，不重复检测。首次检测需确认参数，后续可以在“分析设置”修改；marker 阈值未确认仍输出无法判定。未实现任意自然语言规划或远程模型。
+
+- 新源码：`qupath-agent/qupath_bridge/pathpilot/AgentEngine.java`、`HarnessRoiTool.java`、`PathPilotExtension.java`、`build.py`。上游 ChatPanel 由构建脚本读取并适配，不再作为仅供阅读的参考。
+- 提交时绑定活动图像引用、annotation 引用、几何和平面；固定脚本在检测前复检。沿用单选区、通道完全匹配、标定、400 万像素、1000 细胞、重复检测保护及严格 Python 输入校验。
+- 受约束 Java 入口负责启动固定检测；Python read_only Profile 仍只负责快照统计，不冒称所有 QuPath 修改已由同一个 Python 权限协议管理。没有任意 Groovy 执行入口、模型密钥需求或 OS 沙箱。
+- 实测：最终扩展加载进 QuPath 0.7 的真实 JavaFX 界面，测试通过首次参数确认窗口和实际按钮得到 3 个合成细胞，五 marker 各 1 阳性；再次统计得到 3，重复检测和提交后改选形状相同但 ID 不同的区域也拒绝。75 项 Python 回归通过。合成输入不证明真实分割或染色判据正确。
+- 本地证据：`qupath-agent/local-data/pathpilot-integration/gui-native-final/gui-smoke.json`、同目录界面截图及回复；最终扩展和对应源码包在 `release-native/`。输出、图片和真实配置不上传网站。
+- 用户入口：工程根目录的 `启动 PathPilot.lnk`。当前旧窗口中的未保存对象要先自行保存到测试项目，再在新窗口打开对应项目。原手动脚本仍作为开发／故障排查入口保留。
+
+详细使用与源码说明见 [测试指南第 10 节](TESTING_GUIDE.md) 和 [代码通俗说明第 15 节](代码通俗说明与最小验证.md)。真实图上的新面板流程、分割准确性、marker 规则、远程模型和生成代码隔离仍需独立验收。
+
+## 2.1 执行配置与字段职责
 | 字段 | 回答的问题 | 取值 |
 |---|---|---|
 | `source` | 谁发起 | `gui`（HTTP API）\| `experiment`（agent_lab 进程内调用） |
@@ -523,9 +553,39 @@ detection 表上传 → RunRequest（绑定输入）→ [Planner] → TaskSpec �
 研究路径：
 case_manifest → [Planner → L0] → Coder → L1 → ResearchSandbox → L2 → EVAL。路径中不包含 ActionPlan，也不产生写回。
 
-### 2.2 研究设计 [I]
+### 1.9 PathPilot 已接入现有 QuPath 与 Harness（2026-10-26）
 
-#### 2.2.1 最小研究闭环与阶段责任
+本轮补齐用户要求的实际界面入口：构建时直接读取所提供 0.8 源码中的 `ChatPanel.java`、`AssistantLanguage.java` 和两份界面辅助类，适配为安装版 QuPath 0.7 可加载的扩展。没有把整份 0.8 工程重编译替换安装版；来源文件摘要、适配代码、GPL 许可和对应源码包均保留。原 DeepSeek／StarDist／其他工具循环没有直接启用，避免绕过现有边界。
+
+实际调用链为：**PathPilot 按钮／有限文字指令 → AgentEngine.bind → HarnessRoiTool → 内嵌固定检测／测量脚本 → 冻结快照 → 现有 Harness roi.summary → 面板报告与本地 CSV。** “检测并分析”在干净选区自动串起检测、测量、统计；“统计已有细胞”复用对象，不重复检测。首次检测需确认参数，后续可以在“分析设置”修改；marker 阈值未确认仍输出无法判定。未实现任意自然语言规划或远程模型。
+
+- 新源码：`qupath-agent/qupath_bridge/pathpilot/AgentEngine.java`、`HarnessRoiTool.java`、`PathPilotExtension.java`、`build.py`。上游 ChatPanel 由构建脚本读取并适配，不再作为仅供阅读的参考。
+- 提交时绑定活动图像引用、annotation 引用、几何和平面；固定脚本在检测前复检。沿用单选区、通道完全匹配、标定、400 万像素、1000 细胞、重复检测保护及严格 Python 输入校验。
+- 受约束 Java 入口负责启动固定检测；Python read_only Profile 仍只负责快照统计，不冒称所有 QuPath 修改已由同一个 Python 权限协议管理。没有任意 Groovy 执行入口、模型密钥需求或 OS 沙箱。
+- 实测：最终扩展加载进 QuPath 0.7 的真实 JavaFX 界面，测试通过首次参数确认窗口和实际按钮得到 3 个合成细胞，五 marker 各 1 阳性；再次统计得到 3，重复检测和提交后改选形状相同但 ID 不同的区域也拒绝。75 项 Python 回归通过。合成输入不证明真实分割或染色判据正确。
+- 本地证据：`qupath-agent/local-data/pathpilot-integration/gui-native-final/gui-smoke.json`、同目录界面截图及回复；最终扩展和对应源码包在 `release-native/`。输出、图片和真实配置不上传网站。
+- 用户入口：工程根目录的 `启动 PathPilot.lnk`。当前旧窗口中的未保存对象要先自行保存到测试项目，再在新窗口打开对应项目。原手动脚本仍作为开发／故障排查入口保留。
+
+详细使用与源码说明见 [测试指南第 10 节](TESTING_GUIDE.md) 和 [代码通俗说明第 15 节](代码通俗说明与最小验证.md)。真实图上的新面板流程、分割准确性、marker 规则、远程模型和生成代码隔离仍需独立验收。
+
+## 2.2 研究设计 [I]
+
+#### 1.9 PathPilot 已接入现有 QuPath 与 Harness（2026-10-26）
+
+本轮补齐用户要求的实际界面入口：构建时直接读取所提供 0.8 源码中的 `ChatPanel.java`、`AssistantLanguage.java` 和两份界面辅助类，适配为安装版 QuPath 0.7 可加载的扩展。没有把整份 0.8 工程重编译替换安装版；来源文件摘要、适配代码、GPL 许可和对应源码包均保留。原 DeepSeek／StarDist／其他工具循环没有直接启用，避免绕过现有边界。
+
+实际调用链为：**PathPilot 按钮／有限文字指令 → AgentEngine.bind → HarnessRoiTool → 内嵌固定检测／测量脚本 → 冻结快照 → 现有 Harness roi.summary → 面板报告与本地 CSV。** “检测并分析”在干净选区自动串起检测、测量、统计；“统计已有细胞”复用对象，不重复检测。首次检测需确认参数，后续可以在“分析设置”修改；marker 阈值未确认仍输出无法判定。未实现任意自然语言规划或远程模型。
+
+- 新源码：`qupath-agent/qupath_bridge/pathpilot/AgentEngine.java`、`HarnessRoiTool.java`、`PathPilotExtension.java`、`build.py`。上游 ChatPanel 由构建脚本读取并适配，不再作为仅供阅读的参考。
+- 提交时绑定活动图像引用、annotation 引用、几何和平面；固定脚本在检测前复检。沿用单选区、通道完全匹配、标定、400 万像素、1000 细胞、重复检测保护及严格 Python 输入校验。
+- 受约束 Java 入口负责启动固定检测；Python read_only Profile 仍只负责快照统计，不冒称所有 QuPath 修改已由同一个 Python 权限协议管理。没有任意 Groovy 执行入口、模型密钥需求或 OS 沙箱。
+- 实测：最终扩展加载进 QuPath 0.7 的真实 JavaFX 界面，测试通过首次参数确认窗口和实际按钮得到 3 个合成细胞，五 marker 各 1 阳性；再次统计得到 3，重复检测和提交后改选形状相同但 ID 不同的区域也拒绝。75 项 Python 回归通过。合成输入不证明真实分割或染色判据正确。
+- 本地证据：`qupath-agent/local-data/pathpilot-integration/gui-native-final/gui-smoke.json`、同目录界面截图及回复；最终扩展和对应源码包在 `release-native/`。输出、图片和真实配置不上传网站。
+- 用户入口：工程根目录的 `启动 PathPilot.lnk`。当前旧窗口中的未保存对象要先自行保存到测试项目，再在新窗口打开对应项目。原手动脚本仍作为开发／故障排查入口保留。
+
+详细使用与源码说明见 [测试指南第 10 节](TESTING_GUIDE.md) 和 [代码通俗说明第 15 节](代码通俗说明与最小验证.md)。真实图上的新面板流程、分割准确性、marker 规则、远程模型和生成代码隔离仍需独立验收。
+
+## 2.2.1 最小研究闭环与阶段责任
 
 Phase 1 提供 `agent_lab` 离线预检：独立 ResearchSpec、SyntheticImage、CodeCandidate 和 RevisionFeedback 契约，固定合成像素参考实现，候选源码摘要、父版本/反馈绑定和静态结构检查。候选源码只作为文本读取和保存；成功预检状态仍为 `AWAITING_ISOLATION`，执行状态必须为 `NOT_EXECUTED`。不接模型、不执行候选、不宣称已经实现原 L1 或完成科学核验。
 
@@ -537,7 +597,22 @@ Phase 2R 在 T0-12 强隔离与研究输入许可通过后，实现单 Agent 代
 
 将来返回 QuPath 的研究报告必须带输入指纹、候选/规格/环境摘要、执行与核验报告、数据等级及专家复核记录；先设计独立的只读报告导入契约与 Java 校验，再接入展示。当前研究进程仍不连接产品服务；报告导入不授予源码执行或写回能力，报告也不是 ActionPlan。需要产品化时经过人工代码审查、固定版本、注册和完整回归，不能热装载模型源码。
 
-#### 2.2.2 对照实验
+#### 1.9 PathPilot 已接入现有 QuPath 与 Harness（2026-10-26）
+
+本轮补齐用户要求的实际界面入口：构建时直接读取所提供 0.8 源码中的 `ChatPanel.java`、`AssistantLanguage.java` 和两份界面辅助类，适配为安装版 QuPath 0.7 可加载的扩展。没有把整份 0.8 工程重编译替换安装版；来源文件摘要、适配代码、GPL 许可和对应源码包均保留。原 DeepSeek／StarDist／其他工具循环没有直接启用，避免绕过现有边界。
+
+实际调用链为：**PathPilot 按钮／有限文字指令 → AgentEngine.bind → HarnessRoiTool → 内嵌固定检测／测量脚本 → 冻结快照 → 现有 Harness roi.summary → 面板报告与本地 CSV。** “检测并分析”在干净选区自动串起检测、测量、统计；“统计已有细胞”复用对象，不重复检测。首次检测需确认参数，后续可以在“分析设置”修改；marker 阈值未确认仍输出无法判定。未实现任意自然语言规划或远程模型。
+
+- 新源码：`qupath-agent/qupath_bridge/pathpilot/AgentEngine.java`、`HarnessRoiTool.java`、`PathPilotExtension.java`、`build.py`。上游 ChatPanel 由构建脚本读取并适配，不再作为仅供阅读的参考。
+- 提交时绑定活动图像引用、annotation 引用、几何和平面；固定脚本在检测前复检。沿用单选区、通道完全匹配、标定、400 万像素、1000 细胞、重复检测保护及严格 Python 输入校验。
+- 受约束 Java 入口负责启动固定检测；Python read_only Profile 仍只负责快照统计，不冒称所有 QuPath 修改已由同一个 Python 权限协议管理。没有任意 Groovy 执行入口、模型密钥需求或 OS 沙箱。
+- 实测：最终扩展加载进 QuPath 0.7 的真实 JavaFX 界面，测试通过首次参数确认窗口和实际按钮得到 3 个合成细胞，五 marker 各 1 阳性；再次统计得到 3，重复检测和提交后改选形状相同但 ID 不同的区域也拒绝。75 项 Python 回归通过。合成输入不证明真实分割或染色判据正确。
+- 本地证据：`qupath-agent/local-data/pathpilot-integration/gui-native-final/gui-smoke.json`、同目录界面截图及回复；最终扩展和对应源码包在 `release-native/`。输出、图片和真实配置不上传网站。
+- 用户入口：工程根目录的 `启动 PathPilot.lnk`。当前旧窗口中的未保存对象要先自行保存到测试项目，再在新窗口打开对应项目。原手动脚本仍作为开发／故障排查入口保留。
+
+详细使用与源码说明见 [测试指南第 10 节](TESTING_GUIDE.md) 和 [代码通俗说明第 15 节](代码通俗说明与最小验证.md)。真实图上的新面板流程、分割准确性、marker 规则、远程模型和生成代码隔离仍需独立验收。
+
+## 2.2.2 对照实验
 
 | 臂 | pipeline | 最大 LLM 调用 | 反馈轮 | L1 | L2 | 被测问题 |
 |---|---|---|---|---|---|---|
