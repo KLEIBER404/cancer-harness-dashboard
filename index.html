@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
-  <meta name="description" content="Cancer Harness 本地项目进度：已完成的离线基础、当前准备事项，以及尚未接通的真实切片与 AI 分析流程。">
+  <meta name="description" content="QuPath 0.8 源码版 PathPilot 现采用模型生成量化代码、人工审查、独立用例核验后执行的工作流。">
   <title>项目进度看板 · Cancer Harness</title>
   <style>
     :root { --bg:#f6f5f0; --surface:#fffefa; --ink:#20332e; --muted:#66746e; --line:#dce1d8; --green:#19745f; --green-soft:#e8f2ea; --amber:#9a561e; --amber-soft:#fcf0de; --gray-soft:#eceee9; --blue:#37657b; --blue-soft:#eaf1f5; --shadow:0 12px 32px #20332e06; }
@@ -199,6 +199,7 @@
   .local-only-link{color:var(--muted);cursor:help;text-decoration:underline dotted}.local-only-link{color:var(--muted);cursor:help;text-decoration:underline dotted}</style>
 </head>
 <body>
+<div role="note" aria-label="源码版 PathPilot 更新" style="margin:1rem;padding:1rem;border:1px solid #7c8db5;border-radius:.6rem">2026-10-27 核验：三张真实 ROI 已通过源码版 PathPilot 的模型生成、操作者审查、冻结输入统计、独立数值核对与 Harness 审计。保存重读一致；科学准确性、阳性阈值和 OS 级候选隔离尚未验证。</div>
   <a class="skip" href="#main">跳到主要内容</a>
   <div class="layout">
     <aside aria-label="项目导航">
@@ -219,16 +220,12 @@
 
     <main id="main">
       <header id="overview">
-        <div class="topline"><span>FYP / AGENTIC PATHOLOGY</span><div class="offline"><i class="dot" aria-hidden="true"></i>项目看板 · <time datetime="2026-10-26">2026.10.26</time></div></div>
+        <div class="topline"><span>FYP / AGENTIC PATHOLOGY</span><div class="offline"><i class="dot" aria-hidden="true"></i>项目看板 · <time datetime="2026-10-27">2026.10.27</time></div></div>
         <div class="hero">
-          <div><p class="eyebrow">项目全流程 / 当前进度</p><h1>PathPilot 已接入，<br>框选后点一次分析。</h1><p class="intro">已将所提供源码的 PathPilot 面板适配到 QuPath 0.7：从按钮自动检测或复用细胞、测量五个 marker，经现有 Harness 显示报告。首次参数窗口、按钮和拒绝边界通过合成图 GUI 验收；真实图科学判据与远程模型仍待验收。</p></div>
-          <div class="location"><div class="label">你在这里 · 研究闭环前的准备</div><h2>Phase 1 → Phase 2R</h2><p>PathPilot 按钮与固定分析已在合成图 GUI 实际运行；AI 生成代码的 Phase 2R 尚未执行，真实图面板流程、科学判据和研究隔离仍待验收。</p></div>
+          <div><p class="eyebrow">项目全流程 / 当前进度</p><h1>三张真实 ROI，<br>工程链路已验证。</h1><p class="intro">QuPath 0.8 源码版 PathPilot 已完成真实模型生成、操作者审查、冻结已有细胞计算和 Harness 审计。三张 ROI 的数值与独立参考一致，保存重读通过；检测与七通道测量来自另行审查的原生流程。科学准确性、专家反馈和系统级隔离继续保留为未验证。</p></div>
+          <div class="location"><div class="label">你在这里 · 真实 ROI 工程验证</div><h2>Phase 2R · 部分完成</h2><p>模型生成、冻结统计、独立参考与持久化已验证。下一步确认检测质量与科学规则、验证隔离，并完成专家反馈后的修订评价。</p></div>
         </div>
-        <div class="facts" aria-label="已有事实">
-          <div class="fact"><strong>3<small>张真实切片</small></strong><p>已读元数据与缩略图，未做细胞检测</p></div>
-          <div class="fact"><strong>75<small>项程序测试</small></strong><p>10 月 26 日：75 项及 QuPath 合成图复跑通过；16 项安装检查为 10 月 24 日证据</p></div>
-          <div class="fact"><strong>未开始<small>AI 代码执行</small></strong><p>模型未接入，生成代码候选未运行；可信固定脚本已有合成图实测</p></div>
-        </div>
+        <div class="facts" aria-label="已有事实"><div class="fact"><strong>3<small>张真实切片 ROI</small></strong><p>实际 PathPilot 统计、独立核验和保存重读通过</p></div><div class="fact"><strong>15 / 10 / 75<small>项回归检查</small></strong><p>源码 coder／0.7 兼容／基础代码分别通过；GUI 和 CLI 证据另行记录</p></div><div class="fact"><strong>已验证<small>模型代码运行</small></strong><p>完整候选经操作者审阅；冻结已有测量计算，非科学准确性或隔离证明</p></div></div>
       </header>
 
       <section id="capability-demo" aria-labelledby="demo-title">
@@ -237,7 +234,7 @@
           <div class="demo-tabs" role="group" aria-label="选择能力演示">
             <button type="button" data-scene="stats" aria-pressed="true">① 固定统计</button>
             <button type="button" data-scene="research" aria-pressed="false">② 代码记录与检查</button>
-            <button type="button" data-scene="slides" aria-pressed="false">③ 真实切片读取</button><button type="button" data-scene="roi" aria-pressed="false">④ ROI 合成图分析</button>
+            <button type="button" data-scene="slides" aria-pressed="false">③ 真实 ROI 工程流程</button><button type="button" data-scene="roi" aria-pressed="false">④ ROI 合成图分析</button>
           </div>
           <p class="demo-notice">这是根据已核对材料编排的流程动画。播放不会运行 Python、调用模型或分析切片；演示走完也不会改变上面的项目进度。</p>
           <ol class="demo-flow" id="demo-flow" aria-label="当前场景的演示步骤"><li data-state="active" aria-current="true">读取模拟名单</li><li>安排固定任务</li><li>按规则筛选</li><li>计算数量比例</li><li>保存结果记录</li></ol>
@@ -264,11 +261,11 @@
             </div>
             <div class="demo-visual" data-panel="slides" hidden>
               <p class="visual-title">本地真实文件信息 · 文件卡片示意</p>
-              <div class="slide-stack"><div class="slide-file">SH2509625<br>1.52 GiB</div><div class="slide-file">SH2511078<br>5.85 GiB</div><div class="slide-file">SH2513853<br>1.73 GiB</div></div>
+              <div class="slide-stack"><div class="slide-file">切片 01<br>1.52 GiB</div><div class="slide-file">切片 02<br>5.85 GiB</div><div class="slide-file">切片 03<br>1.73 GiB</div></div>
               <div class="slide-metadata" id="slide-metadata" hidden><div><span>每张片子的通道</span><strong>7 个</strong></div><div><span>像素大小</span><strong>约 0.5 μm</strong></div></div>
               <p class="demo-annotation" id="slide-note">已找到 3 张 .qptiff；这一步没有检测细胞。</p>
             </div>
-            <div class="demo-visual" data-panel="roi" hidden><p class="visual-title">已知合成七通道图 · 安装版 QuPath 0.7.0 实测</p><div class="research-facts"><div><span>DAPI 核团的已知数量</span><strong>3 个</strong></div><div><span>watershed 实际细胞数</span><strong>3 个</strong></div></div><p class="demo-annotation">五 marker 均测量自像素；每个 marker 的阳性数量为 1，阈值仅用于合成测试。</p><div class="demo-result" id="roi-result" hidden><strong>3 个细胞 · 逐细胞依据</strong><small>CD20／CD23、PD-L1／PANCK、CD8 相关表达，标签可重叠</small></div><p class="demo-annotation">这张页面不运行分析。真实切片、人工阈值与生物学解释仍待验收。</p></div><div class="demo-copy"><p class="eyebrow" id="demo-stage-label">固定统计 · 步骤 1 / 5</p><div role="status" aria-live="polite" aria-atomic="true"><h3 id="demo-step-title">读取内置的 7 个对象</h3><p id="demo-step-copy">没有输入真实图像时，演示会读取预先准备的模拟名单。CD8、PD-L1 等类别已经写在名单里。</p></div><div class="demo-boundary" id="demo-boundary" hidden></div></div>
+            <div class="demo-visual" data-panel="roi" hidden><p class="visual-title">已知合成七通道图 · 安装版 QuPath 0.7.0 实测</p><div class="research-facts"><div><span>DAPI 核团的已知数量</span><strong>3 个</strong></div><div><span>watershed 实际细胞数</span><strong>3 个</strong></div></div><p class="demo-annotation">五 marker 均测量自像素；每个 marker 的阳性数量为 1，阈值仅用于合成测试。</p><div class="demo-result" id="roi-result" hidden><strong>3 个细胞 · 逐细胞依据</strong><small>CD20／CD23、PD-L1／PANCK、CD8 相关表达，标签可重叠</small></div><p class="demo-annotation">这张页面不运行分析。真实 ROI 工程流程已另行核验，科学阈值与生物学解释仍待专家确认。</p></div><div class="demo-copy"><p class="eyebrow" id="demo-stage-label">固定统计 · 步骤 1 / 5</p><div role="status" aria-live="polite" aria-atomic="true"><h3 id="demo-step-title">读取内置的 7 个对象</h3><p id="demo-step-copy">没有输入真实图像时，演示会读取预先准备的模拟名单。CD8、PD-L1 等类别已经写在名单里。</p></div><div class="demo-boundary" id="demo-boundary" hidden></div></div>
           </div>
           <div class="demo-controls" role="group" aria-label="演示播放控制"><button type="button" class="primary" id="demo-play" aria-pressed="false">播放演示</button><button type="button" id="demo-prev" disabled>上一步</button><button type="button" id="demo-next">下一步</button><button type="button" id="demo-reset">重置</button><output id="demo-position">演示步骤 1 / 5 · 尚未播放</output></div>
           <noscript><p class="footnote">当前浏览器未启用 JavaScript，展示固定统计的起始画面。下方的路线图、阶段详情和资料链接仍可正常查看。</p></noscript>
@@ -279,32 +276,27 @@
         <div class="section-head"><h2 id="roadmap-title">从基础程序，到完整研究</h2><p>按工作依赖展示，阶段不代表相同工作量</p></div>
         <div class="legend" aria-label="状态说明"><span><i class="complete"></i>已验证，范围见下方说明</span><span><i class="active"></i>当前准备 / 部分完成</span><span><i></i>尚未完成</span></div>
         <ol class="roadmap" aria-label="六个研究步骤">
-          <li class="done"><span class="step-num" aria-label="第 1 步">✓</span><h3>离线计算与管理</h3><p>固定统计、权限、任务和结果记录</p><span class="status done">已验证 · 模拟数据</span></li>
-          <li class="done"><span class="step-num" aria-label="第 2 步">✓</span><h3>代码记录与预检</h3><p>任务、源码、反馈与版本对应</p><span class="status done">已验证 · 不执行代码</span></li>
-          <li class="current" aria-current="step"><span class="step-num">03</span><h3>任务与运行准备</h3><p>正式任务、参考、输入、模型和隔离</p><span class="status current">当前所在</span></li>
-          <li><span class="step-num">04</span><h3>第一次 AI 分析</h3><p>生成代码，隔离运行，比较实际结果</p><span class="status">待实现</span></li>
-          <li><span class="step-num">05</span><h3>专家反馈后修订</h3><p>根据具体意见修改，再运行和评价</p><span class="status">待实现</span></li>
-          <li><span class="step-num">06</span><h3>比较与研究结论</h3><p>结果质量、人工时间、成本与多 Agent</p><span class="status">待开展</span></li>
+          <li class="done"><span class="step-num">✓</span><h3>离线计算与管理</h3><p>固定统计、权限、任务和审计</p><span class="status done">模拟范围已验证</span></li>
+          <li class="done"><span class="step-num">✓</span><h3>代码记录与预检</h3><p>任务、源码与历史版本对应</p><span class="status done">记录与预检已验证</span></li>
+          <li class="current" aria-current="step"><span class="step-num">03</span><h3>任务与运行边界</h3><p>任务绑定已验证；隔离仍待验收</p><span class="status current">当前继续核验</span></li>
+          <li><span class="step-num">04</span><h3>AI 生成与 ROI 运行</h3><p>真实工程链路通过，科学评价待补</p><span class="status current">部分完成</span></li>
+          <li><span class="step-num">05</span><h3>专家反馈后修订</h3><p>具体反馈、再运行和前后比较</p><span class="status">待验证</span></li>
+          <li><span class="step-num">06</span><h3>比较与研究结论</h3><p>质量、人工时间、成本与多 Agent</p><span class="status">待开展</span></li>
         </ol>
-        <div class="checkpoint"><strong>当前最关键的一步</strong><p>所提供源码的 PathPilot 面板已接入：框选后可自动检测、测量、Harness 统计和显示报告。合成图 GUI 的首次设置、按钮及拒绝检查通过；下一步人工验收新面板在真实图上的流程与科学判据。</p></div>
+        <div class="checkpoint"><strong>当前验证终点</strong><p>三张真实 ROI 的模型计算、独立数值参考、快照与审计、保存重读均通过。旧固定报告另经真实数据 CLI 核验，未知阈值保留 unknown。下一步验证科学规则和隔离；长路径修复尚未写入维护源，界面恢复仍待核对。</p></div>
       </section>
 
       <section id="tracks" aria-labelledby="tracks-title">
         <div class="section-head"><h2 id="tracks-title">哪些环节已经接通？</h2><p>沿着每条线看，避免把局部成功当成全流程完成</p></div>
-        <div class="lanes"><div class="lane"><div class="lane-title"><h3>PathPilot ROI 固定分析</h3><p>已在安装版合成图上实际跑通</p></div><div class="flow" aria-label="单ROI固定脚本合成图链路通过，真实切片待验收"><div class="flow-node complete"><strong>PathPilot 按钮入口</strong><small>单 ROI、通道与参数复检</small></div><span class="arrow" aria-hidden="true">→</span><div class="flow-node complete"><strong>检测与副本测量</strong><small>watershed 三核团 → 3 个细胞</small></div><span class="arrow" aria-hidden="true">→</span><div class="flow-node complete"><strong>Harness 绑定核验</strong><small>快照、图像、ROI 和规则</small></div><span class="arrow" aria-hidden="true">→</span><div class="flow-node complete"><strong>报告与逐细胞依据</strong><small>初步性状、CSV 与审计</small></div></div></div>
-          <div class="lane"><div class="lane-title"><h3>固定统计演示</h3><p>目前可运行的完整小例子</p></div><div class="flow" aria-label="固定统计全部已在模拟范围内跑通"><div class="flow-node complete"><strong>模拟类别名单</strong><small>内置 7 个对象</small></div><span class="arrow" aria-hidden="true">→</span><div class="flow-node complete"><strong>任务管理</strong><small>固定工具与权限</small></div><span class="arrow" aria-hidden="true">→</span><div class="flow-node complete"><strong>统计与检查</strong><small>数量、比例、密度</small></div><span class="arrow" aria-hidden="true">→</span><div class="flow-node complete"><strong>保存结果</strong><small>报告与运行记录</small></div></div></div>
-          <div class="lane"><div class="lane-title"><h3>真实切片输入</h3><p>图像还未变成真实对象名单</p></div><div class="flow" aria-label="仅切片元信息和缩略图已读取，后续未完成"><div class="flow-node complete"><strong>读取图像信息</strong><small>已完成 · 独立本地读取</small></div><span class="arrow" aria-hidden="true">→</span><div class="flow-node"><strong>选区、检测细胞</strong><small>未完成 · QuPath 分析</small></div><span class="arrow" aria-hidden="true">→</span><div class="flow-node"><strong>确认规则并分类</strong><small>未完成 · 染色表与复核</small></div><span class="arrow" aria-hidden="true">→</span><div class="flow-node"><strong>导出并接入统计</strong><small>未完成 · 真实输入转换</small></div></div></div>
-          <div class="lane"><div class="lane-title"><h3>AI 代码研究</h3><p>目前停在代码文本与预检</p></div><div class="flow" aria-label="仅离线记录和预检已完成，模型与代码运行未完成"><div class="flow-node complete"><strong>任务、代码与预检</strong><small>已有 · 人工演示材料</small></div><span class="arrow" aria-hidden="true">→</span><div class="flow-node"><strong>AI 生成代码</strong><small>未实现 · 模型尚未接入</small></div><span class="arrow" aria-hidden="true">→</span><div class="flow-node"><strong>隔离运行与评价</strong><small>未完成 · 尚无实际输出</small></div><span class="arrow" aria-hidden="true">→</span><div class="flow-node"><strong>反馈修改再测试</strong><small>未实现 · 尚无改进数据</small></div></div></div>
-          <div class="lane"><div class="lane-title"><h3>QuPath 面板／服务产品链路</h3><p>可信脚本基线已通；此处为后续服务与面板</p></div><div class="flow" aria-label="QuPath 已有接口设计和探针，其余集成待完成"><div class="flow-node partial"><strong>接口方案与探针</strong><small>部分完成 · 非完整集成</small></div><span class="arrow" aria-hidden="true">→</span><div class="flow-node"><strong>连接层与本机服务</strong><small>未接通 · Java ↔ Python</small></div><span class="arrow" aria-hidden="true">→</span><div class="flow-node"><strong>软件内展示结果</strong><small>未完成 · 先做只读</small></div><span class="arrow" aria-hidden="true">→</span><div class="flow-node"><strong>批准后写回与恢复</strong><small>后续 · 单独验收</small></div></div></div>
-        </div>
-        <p class="footnote">真实图像元信息是本次通过独立本地工具读取的，尚未进入 QuPath—Agent 自动流程。文件完整、结构通过、运行成功和分析正确，分别需要不同证据。</p>
+        <div class="lanes"><div class="lane"><div class="lane-title"><h3>源码版 PathPilot</h3><p>三张真实切片 ROI 已实测</p></div><div class="flow"><div class="flow-node complete"><strong>Harness 管理 skill</strong><small>来源、摘要与上下文任务</small></div><span class="arrow" aria-hidden="true">→</span><div class="flow-node complete"><strong>真实模型生成</strong><small>独立用例及答案保留本地</small></div><span class="arrow" aria-hidden="true">→</span><div class="flow-node complete"><strong>审查后冻结计算</strong><small>每张 ROI 独立回执与快照</small></div><span class="arrow" aria-hidden="true">→</span><div class="flow-node complete"><strong>结果与审计核验</strong><small>独立参考、保存后重读通过</small></div></div></div><div class="lane"><div class="lane-title"><h3>原生检测与测量</h3><p>工程流程通过，准确性未验证</p></div><div class="flow"><div class="flow-node complete"><strong>真实 ROI</strong><small>保留用户圈画并绘制测试区</small></div><span class="arrow" aria-hidden="true">→</span><div class="flow-node complete"><strong>DAPI 检测与测量</strong><small>七通道原生均值</small></div><span class="arrow" aria-hidden="true">→</span><div class="flow-node partial"><strong>科学规则</strong><small>阈值与检测准确性待专家确认</small></div><span class="arrow" aria-hidden="true">→</span><div class="flow-node partial"><strong>固定报告扩展检查</strong><small>短目录通过；长路径修复待落地</small></div></div></div><div class="lane"><div class="lane-title"><h3>固定统计与研究</h3><p>已实现与计划分开记录</p></div><div class="flow"><div class="flow-node complete"><strong>固定统计</strong><small>合成类别名单与规则已验证</small></div><span class="arrow" aria-hidden="true">→</span><div class="flow-node complete"><strong>代码版本与预检</strong><small>保留独立历史实验工具</small></div><span class="arrow" aria-hidden="true">→</span><div class="flow-node partial"><strong>候选隔离</strong><small>当前执行需审查，非 OS 沙箱</small></div><span class="arrow" aria-hidden="true">→</span><div class="flow-node "><strong>专家反馈与比较</strong><small>真实修订效果及研究结论待完成</small></div></div></div></div>
+        <p class="footnote">三张真实 ROI 已在实际 QuPath—PathPilot 链路计算，原始图像与逐细胞数据仅留本地。运行成功与病理准确性分别需要证据。</p>
       </section>
 
       <section id="next" aria-labelledby="next-title">
-        <div class="section-head"><h2 id="next-title">下一步，把准备变成一次真实运行</h2><p>本周：人工框选区域 → 细胞数量＋初步性状</p></div>
+        <div class="section-head"><h2 id="next-title">下一步，补齐科学依据与运行边界</h2><p>已有工程结果 → 专家参考、隔离及修订评价</p></div>
         <div class="next">
           <div class="next-block"><h3>和老师一起确定</h3><ul class="tasks"><li><strong>本周任务已明确</strong><span>人工单 ROI 内统计细胞数量，依据 CD20、PD-L1、CD8、CD23、PANCK 的实测表达作初步性状判断；仍需确认检测、区室、阈值与人工参考。</span></li><li><strong>确定参考与反馈例子</strong><span>逐细胞对照原图和人工参考，核对计数及表型依据；缺测和阈值未确认保留为无法判定，不算阴性。</span></li><li><strong>补齐数据与使用说明</strong><span>当前面板通道表已由用户提供并写入架构 §1.4；继续绑定具体图像，确认可用范围、阈值、模型可见材料和预算。</span></li></ul><p class="goal">应得到：获准 ROI、检测与测量参数、人工确认的阈值及解释规则、独立参考。</p></div>
-          <div class="next-block"><h3>由开发继续完成</h3><ul class="tasks"><li><strong>PathPilot 与固定分析已接通</strong><span>固定脚本和 Harness 已输出总数、五 marker 数量／比例、逐细胞表及性状说明；后续补真实图面板验收与独立参考，当前不推断增殖强弱。</span></li><li><strong>模型调用与脚本隔离分开验收</strong><span>先用 stub 验证参数与总预算，再接获准模型；自动 Groovy 执行前验证独立 QuPath/JVM 隔离。</span></li><li><strong>PathPilot 面板已接入，继续核验真实结果</strong><span>复用所提供 ChatPanel；AgentEngine.bind 绑定图像和选区，固定检测／测量接 roi.summary。合成 GUI 的重复检测和选区变化已拒绝。</span></li></ul><p class="goal">当前已交付：PathPilot 扩展、双击启动入口、合成图 GUI 链路、中文报告与 CSV。只支持固定按钮和有限文字命令；真实科学规则、模型与候选执行另验收。</p></div>
+          <div class="next-block"><h3>由开发继续完成</h3><ul class="tasks"><li><strong>验证候选执行隔离</strong><span>当前代码经操作者审阅后在 QuPath 进程中运行。文本检查和冻结输入不等于 OS 沙箱；独立运行环境及失败恢复需要单独验收。</span></li><li><strong>落地已验证的修复补丁</strong><span>Windows 长路径补丁的临时副本通过 76 项检查，但维护源写入受限，尚未应用。短目录报告已通过，长路径能力不标为完成。</span></li><li><strong>开展专家反馈与修订实验</strong><span>形成独立标注、具体反馈和修订前后结果；保留错误与失败，不以生成两份代码代替效果评价。</span></li></ul><p class="goal">已验证终点：真实模型代码、三张 ROI 的冻结统计和审计、保存重读；后续能力按新增证据推进。</p></div>
         </div>
       </section>
 
@@ -313,8 +305,8 @@
         <div class="milestones">
           <details><summary><span class="detail-number">01</span><h3>离线计算与任务管理</h3><span class="status done">指定范围已完成</span></summary><div class="detail-body"><p><strong>已有：</strong>agent_core 固定统计、harness_core 权限与状态管理、结果和任务记录。内置例子能算出 CD8 3 个、60%，PD-L1 2 个、40%，双阳性 1 个、20%。</p><p><strong>范围：</strong>输入是人为准备的类别名单。它证明程序按规则计算，没有证明从真实图像识别细胞的效果。</p><p><a href="%E9%A1%B9%E7%9B%AE%E6%96%87%E6%A1%A3.html#doc-1d475b67a90d">查看测试方法</a> · <a aria-disabled="true" title="此材料保留在本地工程，未发布到公网。" class="local-only-link">查看已有统计记录</a></p></div></details>
           <details><summary><span class="detail-number">02</span><h3>研究代码记录与预先检查</h3><span class="status done">指定范围已完成</span></summary><div class="detail-body"><p><strong>已有：</strong>分析要求、合成输入、源码与反馈的版本关系，外部文本导入，文件完整性检查，以及首次模型输入整理。</p><p><strong>范围：</strong>两版源码和修改意见来自人工演示；0.5 来自固定参考程序。所有待测试代码仍是 NOT_EXECUTED，不是实际执行结果。</p><p><a aria-disabled="true" title="此材料保留在本地工程，未发布到公网。" class="local-only-link">查看已验证研究材料</a></p></div></details>
-          <details open><summary><span class="detail-number">03</span><h3>正式任务、输入和运行环境准备</h3><span class="status current">当前阶段</span></summary><div class="detail-body"><p><strong>已有：</strong>3 张真实切片，元数据与缩略图已读取；均有 7 通道，像素大小约 0.5 μm。SH2509625 为 24,960 × 25,920，SH2511078 为 46,080 × 50,400，SH2513853 为 32,640 × 36,000。</p><p><strong>首版程序：</strong>QuPath 固定脚本与 Harness 快照统计已在合成图上跑通；75 项 Python 和 16 项安装 CLI 检查通过。<strong>新增：</strong>PathPilot 合成图 GUI 验收通过。<strong>还缺：</strong>真实图上的新面板流程、人工确认的检测／阈值和独立参考；模型及隔离自动执行另验收。</p><p><strong>进入下一步的条件：</strong>任务与参考说得清，模型使用范围明确，代码运行的隔离和失败处理有验证证据。不能把已有文件或配置当作环境验证通过。</p><p><a aria-disabled="true" title="此材料保留在本地工程，未发布到公网。" class="local-only-link">查看切片信息记录</a> · <a href="%E9%A1%B9%E7%9B%AE%E6%96%87%E6%A1%A3.html#doc-bbc69e11f94c">查看需要与老师确认的问题</a></p></div></details>
-          <details><summary><span class="detail-number">04</span><h3>第一次 AI 生成与实际分析</h3><span class="status">待实现</span></summary><div class="detail-body"><p><strong>要做：</strong>按明确任务生成一版代码，在验证过的隔离环境里运行，保存实际输出或失败原因，并与独立参考比较。</p><p><strong>完成依据：</strong>模型调用记录、生成代码、输入对应关系、环境记录、实际执行结果和评价结果。PREPARED 或结构 PASSED 不能代替执行。</p></div></details>
+          <details open><summary><span class="detail-number">03</span><h3>正式任务、输入和运行边界</h3><span class="status current">部分完成</span></summary><div class="detail-body"><p><strong>已验证：</strong>三张真实图像的像素读取、面积 ROI、原生 DAPI 检测与七通道测量；任务规格、实际测量键、图像与区域绑定。原项目保持不变，结果保存在测试项目副本。</p><p><strong>继续核验：</strong>检测准确性与科学阈值的专家依据、系统级代码隔离，以及桌面恢复。当前原生检测是单独审阅的上游流程，PathPilot 不自动检测或保存项目。</p><p>切片标识、原始图像、逐细胞数据和截图仅留本地；网页只展示脱敏的工程验证范围。</p></div></details>
+          <details><summary><span class="detail-number">04</span><h3>第一次 AI 生成与实际分析</h3><span class="status current">工程流程已验证</span></summary><div class="detail-body"><p><strong>已验证：</strong>真实模型生成纯计算函数；完整源码经操作者审阅后，从实际 PathPilot 面板冻结三个 ROI 的已有细胞输入并分别执行。四个独立参考用例、细胞 ID 和几何、数值参考、来源及结果审计、重复导入与保存重读通过。</p><p><strong>仍缺：</strong>专家科学评价及经过验证的隔离环境。操作者审阅不等于独立病理专家审查，工程统计一致性不等于检测或诊断准确。</p></div></details>
           <details><summary><span class="detail-number">05</span><h3>专家反馈、代码修订与重新评价</h3><span class="status">待实现</span></summary><div class="detail-body"><p><strong>要做：</strong>专家指出一个具体问题，模型在允许范围内修改代码，再运行并比较修改前后结果。</p><p><strong>完成依据：</strong>初版结果、明确反馈、修订代码、新结果及误差。改好、没变或变差都要保存；仅有两份代码文件不算跑通。</p></div></details>
           <details><summary><span class="detail-number">06</span><h3>比较实验与研究结论</h3><span class="status">待开展</span></summary><div class="detail-body"><p><strong>要做：</strong>比较人工固定方法、单次 AI 生成和加入核验反馈的方案；按题目要求再加入多 Agent，与单 Agent 在可比预算下比较。</p><p><strong>完成依据：</strong>预先确定任务、指标和数据划分，记录质量、全部失败、人工时间与资源成本。反馈用材料和最终测试材料分开，不预设多个 Agent 一定更好。</p><p><strong>并行的 QuPath 工作：</strong>真实连接、只读结果展示、批准后写回与恢复分别验收，不要求先完成写回才开展研究。</p></div></details>
         </div>
@@ -324,14 +316,15 @@
         <div class="section-head"><h2 id="evidence-title">进度有依据，材料找得到</h2><p>本地链接需要与项目目录一起保留</p></div>
         <div class="evidence-grid">
           <div><h3 class="small-title">直接打开相关材料</h3><ul class="resources"><li><a href="%E9%A1%B9%E7%9B%AE%E6%96%87%E6%A1%A3.html#doc-3f3e94cdbc0a">架构入门与一分钟汇报稿 ↗</a><span>从零理解模型、Agent、工具和 Harness 的分工。</span></li><li><a href="%E9%A1%B9%E7%9B%AE%E6%96%87%E6%A1%A3.html#doc-bbc69e11f94c">阶段成果与导师沟通指南 ↗</a><span>目前完成了什么，还缺什么，要问老师什么。</span></li><li><a aria-disabled="true" title="此材料保留在本地工程，未发布到公网。" class="local-only-link">10 月 19 日开发交接与测试依据 ↗</a><span>两个 Python 环境各 71 项测试，以及安装后检查的范围。</span></li><li><a aria-disabled="true" title="此材料保留在本地工程，未发布到公网。" class="local-only-link">正式开发路线与验收条件 ↗</a><span>阶段名称、实机检查和研究执行的前置条件。</span></li><li><a aria-disabled="true" title="此材料保留在本地工程，未发布到公网。" class="local-only-link">真实切片信息与预览文件夹 ↗</a><span>3 张切片的尺寸、通道和本地缩略图路径。</span></li></ul></div>
-          <div><h3 class="small-title">最近的进展</h3><ol class="events"><li><time datetime="2026-10-26">2026.10.26</time><strong>新增完整代码说明与周三最小验证指南</strong><p>按当前源码逐块说明 QuPath 接入、规则统计、Harness、研究预检、契约、探针和测试；附最小命令、预期 3／4 个对象的不同场景、报告查看及导师自查。当天重新通过 75 项测试和安装版合成图链路；没有改分析算法、打开真实片或推进模型／动画终点。</p></li><li><time datetime="2026-10-24">2026.10.24</time><strong>QuPath 单 ROI 首版完成合成图验证</strong><p>新增 qupath_bridge：可信固定脚本 → 单 ROI 检测／副本测量 → 冻结快照 → Harness roi.summary → 数量、初步性状、CSV 与审计。安装版 0.7.0 实测得到 3 个已知合成细胞；75 项 Python 和 16 项安装检查通过。按用户选择，真实切片稍后验收；新增合成 ROI 动画，原 AI／真实切片终点保持不变。</p></li><li><time datetime="2026-10-23">2026.10.23</time><strong>本周最小任务：ROI 计数与初步性状</strong><p>将五 marker 表达和有依据的表型说明纳入本周目标，架构 §1.7 明确输入、输出及验收。现有面板无 Ki-67 等增殖指标，不将信号强判作高增殖；真实分析仍待实现，阶段与动画终点保持原有证据。</p></li><li><time datetime="2026-10-23">2026.10.23</time><strong>明确 QuPath 主线与 Harness 边界实施</strong><p>安装基线 F:\QuPath-0.7.0 的核心／GUI JAR 为 0.7.0，runtime 声明 Java 25.0.2；PathPilot 源码为 0.8.0-SNAPSHOT，移植待验证。架构 §1.5–§1.6 写明优先接入点、统一执行入口和越界拒绝验收，现有阶段及动画终点不变。</p></li><li><time datetime="2026-10-21">2026.10.21</time><strong>已登记 7 通道映射</strong><p>用户 INFO 日志：0 DAPI；1 CD20／Opal 480；2 PDL1／Opal 520；3 CD8／Opal 570；4 CD23／Opal 620；5 PANCK／Opal 690；6 Autofluorescence。完整来源、PD-L1 别名和适用边界见架构 §1.4；登记不表示检测完成，动画终点不变。</p></li><li><time datetime="2026-10-21">2026.10.21</time><strong>新增 QuPath 与 PathPilot 技术原理报告</strong><p>沿真实调用链解释模型、StarDist、阈值、空间分析和导出；报告为源码静态阅读，不表示实际模型调用、检测或集成完成。第二次谈话目标收敛到单 ROI Groovy 计数，动画保持原能力终点。</p></li><li><time datetime="2026-10-19">2026.10.19</time><strong>离线研究输入与记录检查完成</strong><p>补上外部源码导入、文件检查和模型输入准备，保留本地测试与安装验证证据。</p></li><li><time datetime="2026-10-20">2026.10.20</time><strong>找到并读取 3 张真实切片</strong><p>已查看元数据和缩略图；尚未检测细胞或判断标记阳性。</p></li><li><time datetime="2026-10-20">2026.10.20</time><strong>加入能力动画与文档阅读区</strong><p>三种能力可逐步播放，根目录 Markdown 可分组搜索并阅读全文；后续开发同步维护进度、动画和文档快照。</p></li><li><time datetime="2026-10-21">2026.10.21</time><strong>网站上线，增删改后必须同步</strong><p>GitHub Pages 首次部署成功，公网主页返回 HTTP 200；<a href="%E9%A1%B9%E7%9B%AE%E6%96%87%E6%A1%A3.html#doc-d2c1e478b57f-7-网站同步是每次变更的强制交付条件">版本管理</a>与<a href="%E9%A1%B9%E7%9B%AE%E6%96%87%E6%A1%A3.html#doc-306e3fd31ffd-176-增删改后的强制同步与交付条件">架构</a>已明确要求同次交付更新看板、正文、下载与公网内容，并核对部署。研究阶段与动画终点仍按原有证据。</p></li></ol></div>
+          <div><h3 class="small-title">最近的进展</h3><ol class="events"><li><time datetime="2026-10-27">2026.10.27</time><strong>三张真实 ROI 的 PathPilot 统计与保存重读通过</strong><p>真实模型生成、审查运行、冻结细胞、独立数值核验和两阶段 Harness 审计通过。修复空输入异常用例契约及 JavaFX 样式启动参数；15／10／75 项 Python 检查、源码 GUI 与 0.7 CLI 回归通过。固定报告已通过；桌面恢复和长路径修复落地仍待完成，科学准确性未验证，本条只记录工程验证范围。</p></li><li><time datetime="2026-10-27">2026.10.27</time><strong>停用源码版重复加载的旧 PathPilot 扩展</strong><p>正常关闭旧实例，将 0.7 PathPilot JAR 移出扩展目录并校验备份，保留 0.8 内置面板。桌面连接器失败且系统拒绝桌面输入，用户桌面重启尚未完成；未将隔离窗口当作用户可见结果。该历史事件保留当时的验证范围，最新结果见本页当前定位。</p></li><li><time datetime="2026-10-27">2026.10.27</time><strong>Harness 已管理 QuPath skill 与冻结快照记录</strong><p>skill 经摘要校验和 Harness 任务提供给 coder；审查后冻结已有细胞，结果核对后保存审计。主线 14 项、0.7 回归 9 项及源码版合成 GUI 验收通过；现场测量修改后回放仍使用原值。真实模型／切片和任意代码隔离待验收。当时原目录写入受限；后续验证与发布记录单独保留。</p></li><li><time datetime="2026-10-27">2026.10.27</time><strong>代码整理：明确维护源并检查副本漂移</strong><p>以 QuPath 0.8 pathpilot-coder 为维护源，统一同步 coder、skill 与契约副本；64 个受控文件一致，0.8 回归 9 项、0.7 回归 8 项通过。未改变科学规则或新增真实模型／切片验收。code 原位写入仍被拒绝；该次原位发布失败；本页当前验证范围已单独更新。恢复命令见代码整理记录。</p></li><li><time datetime="2026-10-26">2026.10.26</time><strong>新增完整代码说明与周三最小验证指南</strong><p>按当前源码逐块说明 QuPath 接入、规则统计、Harness、研究预检、契约、探针和测试；附最小命令、预期 3／4 个对象的不同场景、报告查看及导师自查。当天重新通过 75 项测试和安装版合成图链路；没有改分析算法、打开真实片或推进模型／动画终点。</p></li><li><time datetime="2026-10-24">2026.10.24</time><strong>QuPath 单 ROI 首版完成合成图验证</strong><p>新增 qupath_bridge：可信固定脚本 → 单 ROI 检测／副本测量 → 冻结快照 → Harness roi.summary → 数量、初步性状、CSV 与审计。安装版 0.7.0 实测得到 3 个已知合成细胞；75 项 Python 和 16 项安装检查通过。按用户选择，真实切片稍后验收；新增合成 ROI 动画，原 AI／真实切片终点保持不变。</p></li><li><time datetime="2026-10-23">2026.10.23</time><strong>本周最小任务：ROI 计数与初步性状</strong><p>将五 marker 表达和有依据的表型说明纳入本周目标，架构 §1.7 明确输入、输出及验收。现有面板无 Ki-67 等增殖指标，不将信号强判作高增殖；真实分析仍待实现，阶段与动画终点保持原有证据。</p></li><li><time datetime="2026-10-23">2026.10.23</time><strong>明确 QuPath 主线与 Harness 边界实施</strong><p>安装基线 F:\QuPath-0.7.0 的核心／GUI JAR 为 0.7.0，runtime 声明 Java 25.0.2；PathPilot 源码为 0.8.0-SNAPSHOT，移植待验证。架构 §1.5–§1.6 写明优先接入点、统一执行入口和越界拒绝验收，现有阶段及动画终点不变。</p></li><li><time datetime="2026-10-21">2026.10.21</time><strong>已登记 7 通道映射</strong><p>用户 INFO 日志：0 DAPI；1 CD20／Opal 480；2 PDL1／Opal 520；3 CD8／Opal 570；4 CD23／Opal 620；5 PANCK／Opal 690；6 Autofluorescence。完整来源、PD-L1 别名和适用边界见架构 §1.4；登记不表示检测完成，动画终点不变。</p></li><li><time datetime="2026-10-21">2026.10.21</time><strong>新增 QuPath 与 PathPilot 技术原理报告</strong><p>沿真实调用链解释模型、StarDist、阈值、空间分析和导出；报告为源码静态阅读，不表示实际模型调用、检测或集成完成。第二次谈话目标收敛到单 ROI Groovy 计数，动画保持原能力终点。</p></li><li><time datetime="2026-10-19">2026.10.19</time><strong>离线研究输入与记录检查完成</strong><p>补上外部源码导入、文件检查和模型输入准备，保留本地测试与安装验证证据。</p></li><li><time datetime="2026-10-20">2026.10.20</time><strong>找到并读取 3 张真实切片</strong><p>已查看元数据和缩略图；尚未检测细胞或判断标记阳性。</p></li><li><time datetime="2026-10-20">2026.10.20</time><strong>加入能力动画与文档阅读区</strong><p>三种能力可逐步播放，根目录 Markdown 可分组搜索并阅读全文；后续开发同步维护进度、动画和文档快照。</p></li><li><time datetime="2026-10-21">2026.10.21</time><strong>网站上线，增删改后必须同步</strong><p>GitHub Pages 首次部署成功，公网主页返回 HTTP 200；<a href="%E9%A1%B9%E7%9B%AE%E6%96%87%E6%A1%A3.html#doc-d2c1e478b57f-7-网站同步是每次变更的强制交付条件">版本管理</a>与<a href="%E9%A1%B9%E7%9B%AE%E6%96%87%E6%A1%A3.html#doc-306e3fd31ffd-176-增删改后的强制同步与交付条件">架构</a>已明确要求同次交付更新看板、正文、下载与公网内容，并核对部署。研究阶段与动画终点仍按原有证据。</p></li></ol></div>
         </div>
-        <div class="meeting"><h3>和老师沟通时，可以这样说</h3><p>“我已把提供源码中的 PathPilot 面板适配进 QuPath 0.7。选区后从界面自动完成固定检测、测量和 Harness 报告，合成图 GUI 链路通过；真实图科学判据、远程模型和生成代码隔离仍待验收。”</p></div>
+        <div class="meeting"><h3>和老师沟通时，可以这样说</h3><p>“源码版 PathPilot 已在三张真实 ROI 上完成模型生成、审查后冻结统计、独立数值核对与 Harness 审计，保存重读一致。接下来补充专家检测参考和科学规则、候选隔离，以及反馈修订前后的效果评价。”</p></div>
       </section>
 
 <section id="qupath-report" class="document-entry" aria-labelledby="qupath-report-title"><div><h2 id="qupath-report-title">QuPath 与 PathPilot，到底怎样工作</h2><p>16 节通俗源码报告：从一句话到模型选工具、检测对象、阳性阈值、空间统计与 Excel 导出，附真实调用链和源码定位。</p><p><small>2026-10-21 源码原理核对；2026-10-26 已将面板适配成扩展并通过合成图 GUI 验收，未调用远程模型。可在线阅读、下载原文或随全部文档打包。</small></p></div><a href="%E9%A1%B9%E7%9B%AE%E6%96%87%E6%A1%A3.html#doc-0c4d1c7164fe" class="document-entry-link">阅读技术原理报告 →</a></section>
       <section id="code-preview" class="document-entry" aria-labelledby="code-preview-title"><div><h2 id="code-preview-title">代码结构，一张图看懂分工</h2><p>点选模块关系图与代码目录，沿固定统计、研究预检和 QuPath 探针路线，查看现有技术和实现边界。</p><p><small>2026-10-21 新增；8 组目录的模块与文件点选、搜索、四条路线、跨页和四种屏幕尺寸检查通过。研究阶段与能力动画终点保持原有证据范围。</small></p></div><a href="代码结构预览.html" class="document-entry-link">打开代码结构预览 →</a></section>
 
+<section class="document-entry" aria-labelledby="harness-skill-title"><div><h2 id="harness-skill-title">Harness 如何管理 skill 与执行记录</h2><p>QuPath skill 已注册为受控资源：校验、源码上下文和任务审计先于模型请求；人工审查后，冻结细胞快照与结果也保存到 Harness。</p><p><small>2026-10-27 合成链路通过；没有自动检测或任意代码 OS 沙箱。架构正文区分已实现与后续调度。</small></p></div><a href="%E9%A1%B9%E7%9B%AE%E6%96%87%E6%A1%A3.html#doc-97da8c1000f5" class="document-entry-link">阅读当前 Harness 架构 →</a></section>
 <section id="pathpilot-integration" class="document-entry" aria-labelledby="pathpilot-integration-title"><div><h2 id="pathpilot-integration-title">PathPilot 已真正接入 QuPath</h2><p>使用所提供源码的面板，框选后点“检测并分析”，自动完成固定检测、五指标测量与 Harness 报告；已有对象则直接统计。</p><p><small>2026-10-26：真实 JavaFX 界面的合成图验收通过。首次参数确认、重复检测和选区变化均有检查；未启用远程模型，科学规则仍需人工确认。</small></p></div><a href="项目文档.html#doc-83d8f61cf8bf" class="document-entry-link">阅读第 15 节接入说明 →</a></section>
 <section id="code-walkthrough" class="document-entry" aria-labelledby="code-walkthrough-title"><div><h2 id="code-walkthrough-title">周三前，把代码讲清楚</h2><p>完整解释每个模块、关键文件和实际调用链；区分程序结果与科学验证，并按步骤运行一次 QuPath 合成图最小演示。</p><p><small>2026-10-26 源码核对及复跑通过。面向 10 月 28 日导师沟通，附报告查看、故障定位和汇报自查。</small></p></div><a href="项目文档.html#doc-83d8f61cf8bf" class="document-entry-link">阅读代码说明与最小验证 →</a></section>
 
@@ -341,7 +334,7 @@
 
       <p class="footnote">公网发布：2026-10-21 已完成 GitHub Pages 首次部署，<a href="https://kleiber404.github.io/cancer-harness-dashboard/">公网主页</a>实测返回 HTTP 200，<a href="https://github.com/KLEIBER404/cancer-harness-dashboard/actions/runs/39543580765">首次部署工作流成功</a>。后续增删改内容必须在同次交付运行同步脚本并核对线上结果，<a href="https://github.com/KLEIBER404/cancer-harness-dashboard/actions">部署记录可查看</a>。仅发布展示页与文档；研究阶段、缺项与能力动画终点保持原有证据范围。<a aria-disabled="true" title="此材料保留在本地工程，未发布到公网。" class="local-only-link">查看连接与自动更新说明</a>。</p>
       <p class="footnote">2026-10-21 网页自检通过：三个动画场景、四种屏幕尺寸、文档搜索跳转、全部 MD 与 ZIP 下载内容一致；<a aria-disabled="true" title="此材料保留在本地工程，未发布到公网。" class="local-only-link">本地网页检查记录</a>仅证明页面行为，不作为病理分析、模型调用或候选执行证据。</p>
-      <footer><span>本轮 PathPilot 接入／合成图 GUI 验证：2026-10-26；真实图科学判据与 AI 生成代码仍未验收。后续开发同步维护进度与独立文档页；页面本身不会自动扫描或修改项目。</span><span>离线双击或公网访问 · 动画演示与文档入口 · 无外部脚本、字体或图片</span></footer>
+      <footer><span>本轮真实 ROI 工程验收：2026-10-27；模型生成、快照统计、独立核验及保存重读通过。桌面恢复及扩展报告待收尾，科学判据和系统级隔离待验收。原位维护源的同步状态另行记录。后续开发同步维护进度与独立文档页；页面本身不会自动扫描或修改项目。</span><span>离线双击或公网访问 · 动画演示与文档入口 · 无外部脚本、字体或图片</span></footer>
     </main>
   </div>
   <script>
@@ -368,9 +361,9 @@
             ['保存人工准备的第一版代码', '第一版写的是 >，会漏掉恰好等于 128 的像素。这里只保存源码文本和对应的任务，没有运行它。'],
             ['记录针对第一版的修改意见', '演示反馈指出比较符与要求不一致，要求改成 >=。这条反馈同样是人工准备的，不是真实专家现场反馈。'],
             ['保存第二版，保留前后关系', '第二版改成 >=，并对应到第一版和那条反馈。两版都可能通过结构检查；目前还不能据此判断实际分析效果。'],
-            ['预检完成，在执行前停下', '记录与源码结构可以检查，也能整理首次模型输入。但模型没有接入，候选仍是 NOT_EXECUTED，没有实际执行或修订提升数据。']
+            ['预检完成，在执行前停下', '记录与源码结构可以检查，也能整理首次模型输入。本历史工具的候选仍是 NOT_EXECUTED；源码版 PathPilot 已另行在真实 ROI 运行，真实专家修订提升数据仍缺。']
           ],
-          boundary: '当前能做到：保存和检查任务、代码、反馈及版本。到此停止：AI 生成、隔离运行和效果比较尚未接通。'
+          boundary: '当前能做到：保存和检查任务、代码、反馈及版本。本历史工具到此停止；源码版 PathPilot 已另行生成与执行。系统级隔离及效果比较仍待完成。'
         },
         roi: {
           name: 'ROI 合成图分析',
@@ -382,18 +375,19 @@
             ['固定统计进入既有 Harness', 'roi.summary 绑定快照、配置、图像及 ROI。错目标或额外 code／approved 参数在执行前拒绝。'],
             ['保存数量、表达及初步性状依据', '实际生成中文报告、逐细胞 CSV、JSON 结果和 SQLite 审计。三个合成细胞的 marker 数量与已知像素一致。']
           ],
-          boundary: '当前终点：PathPilot 按钮与固定分析的合成图 GUI 验收通过。真实图面板流程与科学判据待验收；没有远程模型或任意生成代码执行。'
+          boundary: '当前终点：本动画回放 0.7 固定分析；0.8 另已通过 Harness skill、冻结快照和结果审计的合成 GUI 验收。三张真实 ROI 的源码版 PathPilot 已另行通过工程验收；系统级代码隔离和科学准确性待验证。'
         },
         slides: {
-          name: '真实切片读取',
-          flow: ['找到切片文件', '读取图像信息', '读取现有缩略图', '到达当前边界'],
+          name: '真实 ROI 工程流程',
+          flow: ['实际查看与圈画', '检测与原生测量', '真实模型与审查', '冻结输入计算', '独立核验与保存'],
           steps: [
-            ['找到 3 张真实 .qptiff 切片', '本地病理片目录里的三张文件已经找到。文件大小约为 1.52、5.85 和 1.73 GiB。'],
-            ['读到尺寸、7 个通道和像素大小', '三张都包含 DAPI、五个 Opal 通道和 Sample AF，像素大小约 0.5 μm。通道名没有直接给出 CD8 等标记的对应关系。'],
-            ['成功读取三张文件自带的缩略图', '已经实际解码并查看缩略图，这说明这些预览可以读取；尚未遍历校验整张图像。该步骤由独立本地工具完成，没有接入 QuPath—Agent 流程。'],
-            ['目前停在图像信息与预览', '尚未选择测试区域、检测细胞或判断阳性，也没有导出真实细胞名单。下一步需要确定任务、染色对应关系和评价方法。']
+            ['三张真实切片，在查看器中选择 ROI', '保留用户原始圈画，另外绘制明确测试区；像素、截图与对象都保存在本地。网页仅解释已完成步骤。'],
+            ['DAPI 检测及七通道原生均值测量', '工程参数与真实组织区有本地记录；伪影选区已作废重选。检测结果没有专家真值，不能据此宣称病理准确。'],
+            ['实际 PathPilot 模型生成并审阅', '真实模型生成五通道统计函数；独立参考用例及答案留在本地。完整候选由测试操作者审阅，未宣称独立专家科学审查。'],
+            ['通过面板冻结三个 ROI 并分别运行', '同一份已审阅代码在三张 ROI 上分别形成回执、细胞快照和 Harness 任务。缺失值、零值和未检测空输入有明确规格。'],
+            ['独立数值与审计、保存重读通过', '细胞 ID、几何与统计核对通过；来源及结果审计链和重复导入通过，三个项目副本条目重读一致。固定报告链路已在短目录通过，桌面恢复与长路径补丁落地仍待完成。']
           ],
-          boundary: '当前能做到：独立读取真实文件的元数据和缩略图。尚不能给出这些片子的细胞数量、CD8 比例或病理分析结论。'
+          boundary: '当前终点：三张真实 ROI 的工程统计和保存重读通过。科学准确性、阳性阈值、诊断和系统级候选隔离未获验证；本页不会触发分析。'
         }
       };
       const root = document.getElementById('demo');
@@ -442,7 +436,7 @@
         document.getElementById('code-example').textContent = index >= 3 ? 'pixel >= 128' : 'pixel > 128';
         document.getElementById('code-note').textContent = ['要求“大于等于 128”，先保存任务和输入。', '第一版使用 >，代码仅保存为文本。', '人工反馈：改用 >=，包含等于阈值的情况。', '第二版已保存；两版均未执行。', '结构检查完成，执行状态仍为 NOT_EXECUTED。'][index];
         document.getElementById('slide-metadata').hidden = index < 1;
-        document.getElementById('slide-note').textContent = ['已找到 3 张 .qptiff；这一步没有检测细胞。', '通道：DAPI、Opal 570 / 690 / 480 / 620 / 520、Sample AF。', '三张缩略图已读取；尚未进行完整图像分析。', '细胞检测、阳性分类和真实名单导出均未完成。'][Math.min(index, 3)];
+        document.getElementById('slide-note').textContent = ['三张实际切片的面积 ROI 已圈定；这张网页只重现已验证流程。', '原生 DAPI 检测及七通道测量已通过工程检查。', '真实模型生成代码，经测试操作者审阅；独立用例留在本地。', '三个 ROI 的已有细胞输入分别冻结，从实际面板运行并记录审计。', '工程统计、独立核验及保存重读已通过；科学准确性、阳性分类与隔离尚未验证。'][Math.min(index, 4)];
       }
       root.querySelectorAll('[data-scene]').forEach(button => button.addEventListener('click', () => {
         stop(); scene = button.dataset.scene; index = 0; render();

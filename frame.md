@@ -1,3 +1,5 @@
+> 2026-10-27 当前验证范围：三张真实 ROI 的源码版 PathPilot 生成、冻结统计、独立核验和保存重读已通过。本文保留早期说明，最新已验证范围与未完成项见[三张切片工程验收](三张切片工程验收.md)。
+
 # QuPath Agentic Pathology — 系统架构设计（v0.3，修订 10）
 
 状态：Draft。近期目标已按第二次导师谈话对齐；具体技术方案、科学规则与验收仍待验证。
@@ -2278,4 +2280,14 @@ node output/playwright/check-dashboard.cjs
 
 ## 2026-10-27 源码版 PathPilot 实装
 
-2026-10-27：QuPath 0.8 源码版 PathPilot 已切换为“源码 skill → 模型生成 Groovy → 人工审查 → 独立用例核验 → ROI 执行”。当前提交 4f35191；旧流程可回滚至 before-coder-20261027。合成 ROI 界面链路通过；未验证真实模型或切片，代码执行需人工确认。 源码仓库提交 `4f35191`；旧流程标签为 `before-coder-20261027`，新流程标签为 `coder-flow-20261027`，版本 bundle 已通过独立恢复核验。Python 检查 8 项通过；本机模型 fixture 驱动生产 GUI 的合成 ROI 流程通过。该结果不代表真实模型、真实切片或临床验证。使用限制与回滚方法见源码仓库 `PATHPILOT_WORKFLOW.md`。
+2026-10-27：QuPath 0.8 源码版 PathPilot 已切换为“源码 skill → 模型生成 Groovy → 人工审查 → 独立用例核验 → ROI 执行”。当前提交 4f35191；旧流程可回滚至 before-coder-20261027。合成 ROI 界面链路通过；未验证真实模型或切片，代码执行需人工确认。 旧流程标签为 `before-coder-20261027`，新流程标签为 `coder-flow-20261027`，版本 bundle 已通过独立恢复核验。Python 检查 8 项通过；本机模型 fixture 驱动生产 GUI 的合成 ROI 流程通过。该结果不代表真实模型、真实切片或临床验证。使用限制与回滚方法见源码仓库 `PATHPILOT_WORKFLOW.md`。
+
+
+## 2026-10-27 代码整理与网站待同步
+
+以源码版 pathpilot-coder 为 coder 维护源，skill 源为 code-intelligence，共享契约源为 code/qupath-agent。sync_workspace.py 核对 64 个副本；0.8 回归 9 项、0.7 回归 8 项通过。生成、人工审查、运行与科学准确性的边界不变。本轮 code 原位写入被拒绝，网站在 pending-website 准备，本次尚未部署；恢复步骤见《代码整理记录》。
+
+
+## 2026-10-27 Harness 管理 QuPath skill 与快照结果
+
+qupath.skills 插件使用现有 Registry、只读 Profile、Runtime 和 Store 管理 skill 校验、源码上下文与任务记录。coder 取得上下文后单次请求模型；人工审查后在 FX 冻结已有细胞，固定 quantification.record 工具校验并留存结果。主线 14 项、0.7 回归 9 项与源码版合成 GUI 验收通过。仍不自动检测、不推定科学阈值、不授予模型任意工具权限，未实现 OS 沙箱；模型循环和 QuPath 写操作尚未全部纳入 Harness。详见《Harness架构与skill管理》。网站仍因原文件写入被拒绝而待同步。
