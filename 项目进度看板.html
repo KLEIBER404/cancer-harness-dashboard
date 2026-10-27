@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
-  <meta name="description" content="Cancer Harness 本地项目进度：已完成的离线基础、当前准备事项，以及尚未接通的真实切片与 AI 分析流程。">
+  <meta name="description" content="QuPath 0.8 源码版 PathPilot 现采用模型生成量化代码、人工审查、独立用例核验后执行的工作流。">
   <title>项目进度看板 · Cancer Harness</title>
   <style>
     :root { --bg:#f6f5f0; --surface:#fffefa; --ink:#20332e; --muted:#66746e; --line:#dce1d8; --green:#19745f; --green-soft:#e8f2ea; --amber:#9a561e; --amber-soft:#fcf0de; --gray-soft:#eceee9; --blue:#37657b; --blue-soft:#eaf1f5; --shadow:0 12px 32px #20332e06; }
@@ -199,6 +199,7 @@
   .local-only-link{color:var(--muted);cursor:help;text-decoration:underline dotted}.local-only-link{color:var(--muted);cursor:help;text-decoration:underline dotted}</style>
 </head>
 <body>
+<aside aria-label="源码版 PathPilot 更新" style="margin:1rem;padding:1rem;border:1px solid #7c8db5;border-radius:.6rem">2026-10-27：QuPath 0.8 源码版 PathPilot 已切换为“源码 skill → 模型生成 Groovy → 人工审查 → 独立用例核验 → ROI 执行”。当前提交 4f35191；旧流程可回滚至 before-coder-20261027。合成 ROI 界面链路通过；未验证真实模型或切片，代码执行需人工确认。</aside>
   <a class="skip" href="#main">跳到主要内容</a>
   <div class="layout">
     <aside aria-label="项目导航">
@@ -219,10 +220,10 @@
 
     <main id="main">
       <header id="overview">
-        <div class="topline"><span>FYP / AGENTIC PATHOLOGY</span><div class="offline"><i class="dot" aria-hidden="true"></i>项目看板 · <time datetime="2026-10-26">2026.10.26</time></div></div>
+        <div class="topline"><span>FYP / AGENTIC PATHOLOGY</span><div class="offline"><i class="dot" aria-hidden="true"></i>项目看板 · <time datetime="2026-10-27">2026.10.27</time></div></div>
         <div class="hero">
-          <div><p class="eyebrow">项目全流程 / 当前进度</p><h1>PathPilot 已接入，<br>框选后点一次分析。</h1><p class="intro">已将所提供源码的 PathPilot 面板适配到 QuPath 0.7：从按钮自动检测或复用细胞、测量五个 marker，经现有 Harness 显示报告。首次参数窗口、按钮和拒绝边界通过合成图 GUI 验收；真实图科学判据与远程模型仍待验收。</p></div>
-          <div class="location"><div class="label">你在这里 · 研究闭环前的准备</div><h2>Phase 1 → Phase 2R</h2><p>PathPilot 按钮与固定分析已在合成图 GUI 实际运行；AI 生成代码的 Phase 2R 尚未执行，真实图面板流程、科学判据和研究隔离仍待验收。</p></div>
+          <div><p class="eyebrow">项目全流程 / 当前进度</p><h1>源码版 PathPilot：<br>生成、审查，再运行。</h1><p class="intro">QuPath 0.8 源码入口已改为生成 Groovy 量化代码：从源码 skill 提取上下文，经独立参考用例核验后，由用户审查并选择 ROI 执行。没有自动检测、自动保存或模型直接分析图像。合成界面链路通过；真实模型和切片尚未验收。</p></div>
+          <div class="location"><div class="label">你在这里 · 研究闭环前的准备</div><h2>Phase 1 → Phase 2R</h2><p>代码生成、人工审查和 ROI 执行流程已在源码版合成界面验证；真实模型调用、真实切片、科学判据与 OS 级代码隔离仍待验收。</p></div>
         </div>
         <div class="facts" aria-label="已有事实">
           <div class="fact"><strong>3<small>张真实切片</small></strong><p>已读元数据与缩略图，未做细胞检测</p></div>
@@ -286,7 +287,7 @@
           <li><span class="step-num">05</span><h3>专家反馈后修订</h3><p>根据具体意见修改，再运行和评价</p><span class="status">待实现</span></li>
           <li><span class="step-num">06</span><h3>比较与研究结论</h3><p>结果质量、人工时间、成本与多 Agent</p><span class="status">待开展</span></li>
         </ol>
-        <div class="checkpoint"><strong>当前最关键的一步</strong><p>所提供源码的 PathPilot 面板已接入：框选后可自动检测、测量、Harness 统计和显示报告。合成图 GUI 的首次设置、按钮及拒绝检查通过；下一步人工验收新面板在真实图上的流程与科学判据。</p></div>
+        <div class="checkpoint"><strong>当前最关键的一步</strong><p>源码版 PathPilot 已接入“源码上下文 → 模型生成 Groovy → 独立用例核验 → 人工审查 → ROI 执行”。本轮生产界面以本机模型 fixture 和合成 ROI 验证；下一步核验真实模型响应、研究规则及真实切片结果。</p></div>
       </section>
 
       <section id="tracks" aria-labelledby="tracks-title">
@@ -382,7 +383,7 @@
             ['固定统计进入既有 Harness', 'roi.summary 绑定快照、配置、图像及 ROI。错目标或额外 code／approved 参数在执行前拒绝。'],
             ['保存数量、表达及初步性状依据', '实际生成中文报告、逐细胞 CSV、JSON 结果和 SQLite 审计。三个合成细胞的 marker 数量与已知像素一致。']
           ],
-          boundary: '当前终点：PathPilot 按钮与固定分析的合成图 GUI 验收通过。真实图面板流程与科学判据待验收；没有远程模型或任意生成代码执行。'
+          boundary: '当前终点：源码版代码工作流的合成 GUI 验收通过。真实模型、真实切片、科学判据与系统级代码隔离尚未验收；执行前必须人工审查并确认。'
         },
         slides: {
           name: '真实切片读取',
