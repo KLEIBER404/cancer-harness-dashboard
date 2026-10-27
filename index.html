@@ -196,7 +196,15 @@
     @media(prefers-color-scheme:dark) { :root { --bg:#16211e; --surface:#1c2a25; --ink:#e3eae3; --muted:#a0b1a7; --line:#38473f; --green:#88d0b2; --green-soft:#233c30; --amber:#e5b579; --amber-soft:#3b3020; --gray-soft:#29362f; --blue:#99c8df; --blue-soft:#24333d; --shadow:none; } .done .step-num { background:#246d54; color:#fff; } }
     @media(prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } }
     @media print { :root { color-scheme:light; --bg:white; --surface:white; --ink:#172b24; --muted:#526158; --line:#ccc; --green:#17654f; --green-soft:#eef7f0; --amber:#85501a; --amber-soft:#fff5e8; } .layout { display:block; padding:0; } aside,.skip { display:none; } .hero { grid-template-columns:1fr 250px; } section { break-inside:avoid; } details { break-inside:avoid; } details:not([open])>.detail-body { display:block; } a { color:inherit; } }
-  .local-only-link{color:var(--muted);cursor:help;text-decoration:underline dotted}.local-only-link{color:var(--muted);cursor:help;text-decoration:underline dotted}</style>
+  .local-only-link{color:var(--muted);cursor:help;text-decoration:underline dotted}    .roi-gallery { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px; }
+    .roi-card { margin:0; border:1px solid var(--line); border-radius:8px; overflow:hidden; background:var(--surface); }
+    .roi-card a { display:block; background:#080d0b; }
+    .roi-card img { display:block; width:100%; height:auto; aspect-ratio:1; object-fit:contain; }
+    .roi-card figcaption { padding:14px 16px; }
+    .roi-card strong,.roi-card span { display:block; }
+    .roi-card span { font-size:12px; color:var(--muted); margin-top:4px; }
+    @media(max-width:700px) { .roi-gallery { grid-template-columns:1fr; } }
+.local-only-link{color:var(--muted);cursor:help;text-decoration:underline dotted}</style>
 </head>
 <body>
 <div role="note" aria-label="源码版 PathPilot 更新" style="margin:1rem;padding:1rem;border:1px solid #7c8db5;border-radius:.6rem">2026-10-27 核验：三张真实 ROI 已通过源码版 PathPilot 的模型生成、操作者审查、冻结输入统计、独立数值核对与 Harness 审计。保存重读一致；科学准确性、阳性阈值和 OS 级候选隔离尚未验证。</div>
@@ -227,6 +235,8 @@
         </div>
         <div class="facts" aria-label="已有事实"><div class="fact"><strong>3<small>张真实切片 ROI</small></strong><p>实际 PathPilot 统计、独立核验和保存重读通过</p></div><div class="fact"><strong>15 / 10 / 75<small>项回归检查</small></strong><p>源码 coder／0.7 兼容／基础代码分别通过；GUI 和 CLI 证据另行记录</p></div><div class="fact"><strong>已验证<small>模型代码运行</small></strong><p>完整候选经操作者审阅；冻结已有测量计算，非科学准确性或隔离证明</p></div></div>
       </header>
+
+<section id="roi-screenshots" aria-labelledby="roi-screenshots-title"><div class="section-head"><h2 id="roi-screenshots-title">三张片子的圈选区域</h2><p>真实选区局部 · 点击图片放大</p></div><div class="roi-gallery"><figure class="roi-card"><a href="assets/roi/slide-01.jpg" target="_blank" rel="noopener"><img src="assets/roi/slide-01.jpg" width="800" height="800" loading="lazy" decoding="async" alt="片子 01 的原圈选区域与已有细胞检测轮廓"></a><figcaption><strong>片子 01</strong><span>原圈选区域 · 点击查看大图</span></figcaption></figure><figure class="roi-card"><a href="assets/roi/slide-02.jpg" target="_blank" rel="noopener"><img src="assets/roi/slide-02.jpg" width="800" height="800" loading="lazy" decoding="async" alt="片子 02 的原圈选区域与已有细胞检测轮廓"></a><figcaption><strong>片子 02</strong><span>原圈选区域 · 点击查看大图</span></figcaption></figure><figure class="roi-card"><a href="assets/roi/slide-03.jpg" target="_blank" rel="noopener"><img src="assets/roi/slide-03.jpg" width="800" height="800" loading="lazy" decoding="async" alt="片子 03 的原圈选区域与已有细胞检测轮廓"></a><figcaption><strong>片子 03</strong><span>原圈选区域 · 点击查看大图</span></figcaption></figure></div><p class="footnote">从已保存的原选区直接导出，保留黄色选区边界与红色检测轮廓。仅展示局部，不包含软件侧栏、文件名或患者标识；工程显示不代替科学准确性验证。</p></section>
 
       <section id="capability-demo" aria-labelledby="demo-title">
         <div class="section-head"><h2 id="demo-title">播放一次，看懂现在能做什么</h2><p>可暂停、逐步查看，最后停在当前能力边界</p></div>
@@ -334,7 +344,7 @@
 
       <p class="footnote">公网发布：2026-10-21 已完成 GitHub Pages 首次部署，<a href="https://kleiber404.github.io/cancer-harness-dashboard/">公网主页</a>实测返回 HTTP 200，<a href="https://github.com/KLEIBER404/cancer-harness-dashboard/actions/runs/39543580765">首次部署工作流成功</a>。后续增删改内容必须在同次交付运行同步脚本并核对线上结果，<a href="https://github.com/KLEIBER404/cancer-harness-dashboard/actions">部署记录可查看</a>。仅发布展示页与文档；研究阶段、缺项与能力动画终点保持原有证据范围。<a aria-disabled="true" title="此材料保留在本地工程，未发布到公网。" class="local-only-link">查看连接与自动更新说明</a>。</p>
       <p class="footnote">2026-10-21 网页自检通过：三个动画场景、四种屏幕尺寸、文档搜索跳转、全部 MD 与 ZIP 下载内容一致；<a aria-disabled="true" title="此材料保留在本地工程，未发布到公网。" class="local-only-link">本地网页检查记录</a>仅证明页面行为，不作为病理分析、模型调用或候选执行证据。</p>
-      <footer><span>本轮真实 ROI 工程验收：2026-10-27；模型生成、快照统计、独立核验及保存重读通过。桌面恢复及扩展报告待收尾，科学判据和系统级隔离待验收。原位维护源的同步状态另行记录。后续开发同步维护进度与独立文档页；页面本身不会自动扫描或修改项目。</span><span>离线双击或公网访问 · 动画演示与文档入口 · 无外部脚本、字体或图片</span></footer>
+      <footer><span>本轮真实 ROI 工程验收：2026-10-27；模型生成、快照统计、独立核验及保存重读通过。桌面恢复及扩展报告待收尾，科学判据和系统级隔离待验收。原位维护源的同步状态另行记录。后续开发同步维护进度与独立文档页；页面本身不会自动扫描或修改项目。</span><span>匿名 ROI 局部图 · 动画演示与文档入口 · 图片随站点托管</span></footer>
     </main>
   </div>
   <script>

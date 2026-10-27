@@ -36,9 +36,9 @@ jobs:
           from urllib.request import Request, urlopen
           import hashlib, os, time
           base = os.environ['SITE_URL'].rstrip('/') + '/'
-          for path in sorted([*Path('.').glob('*.html'), *Path('.').glob('*.md')]):
+          for path in sorted([*Path('.').glob('*.html'), *Path('.').glob('*.md'), *Path('assets/roi').glob('slide-*.jpg')]):
               expected = path.read_bytes()
-              url = base + quote(path.name) + '?revision=' + os.environ['GITHUB_SHA']
+              url = base + quote(path.as_posix()) + '?revision=' + os.environ['GITHUB_SHA']
               for attempt in range(6):
                   try:
                       with urlopen(Request(url, headers={'User-Agent': 'PathPilot-Pages-verification'}), timeout=20) as response:
