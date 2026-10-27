@@ -25,3 +25,30 @@ jobs:
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
+      - name: Verify deployed files
+        timeout-minutes: 5
+        env:
+          SITE_URL: ${{ steps.deployment.outputs.page_url }}
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from urllib.parse import quote
+          from urllib.request import Request, urlopen
+          import hashlib, os, time
+          base = os.environ['SITE_URL'].rstrip('/') + '/'
+          for path in sorted([*Path('.').glob('*.html'), *Path('.').glob('*.md')]):
+              expected = path.read_bytes()
+              url = base + quote(path.name) + '?revision=' + os.environ['GITHUB_SHA']
+              for attempt in range(6):
+                  try:
+                      with urlopen(Request(url, headers={'User-Agent': 'PathPilot-Pages-verification'}), timeout=20) as response:
+                          assert response.status == 200
+                          actual = response.read()
+                      assert actual == expected, 'Published bytes differ: ' + path.name
+                      print(path.name, 'HTTP 200, exact match, SHA-256', hashlib.sha256(actual).hexdigest())
+                      break
+                  except Exception:
+                      if attempt == 5:
+                          raise
+                      time.sleep(5)
+          PY
