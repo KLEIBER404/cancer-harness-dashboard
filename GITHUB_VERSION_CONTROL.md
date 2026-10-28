@@ -1,5 +1,7 @@
 # GitHub 版本管理指南
 
+> 2026-10-28 更新：网站维护源统一为 `code/`。`scripts/publish_dashboard.ps1` 使用 `../output/site-publish-checkout/` 作为独立发布检出，并在生成前检查该检出干净且与远端 `main` 一致；不一致时停止并先核对合并。`-PrepareOnly` 将预览生成到 `../output/site-preview/`，不会更改发布检出。下文旧 `public-site/` 路径为历史说明，不能直接用于发布。
+
 适用于 [QuPath Agentic Pathology 设计](frame.md)，面向 Windows PowerShell、个人开发和导师协作。网站部署与维护约定核对日期：2026-10-21；其余操作指南保留原有验证范围。
 
 当前目录已有本地 Git 仓库，主项目的提交与远程同步状态须单独核对。实现位于 `qupath-agent/`，分阶段测试见 [TESTING_GUIDE.md](TESTING_GUIDE.md)。独立网站仓库 `public-site/` 已连接 [KLEIBER404/cancer-harness-dashboard](https://github.com/KLEIBER404/cancer-harness-dashboard)，2026-10-21 首次 Pages 部署成功，[公网主页](https://kleiber404.github.io/cancer-harness-dashboard/)已验证可访问。网站发布不等于主项目源码已提交或推送。下文首次建库命令只用于尚未建立的仓库，已有仓库不得重复初始化；网站维护必须遵守第 7 节。
