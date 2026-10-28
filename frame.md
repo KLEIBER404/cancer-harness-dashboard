@@ -2291,3 +2291,11 @@ node output/playwright/check-dashboard.cjs
 ## 2026-10-27 Harness 管理 QuPath skill 与快照结果
 
 qupath.skills 插件使用现有 Registry、只读 Profile、Runtime 和 Store 管理 skill 校验、源码上下文与任务记录。coder 取得上下文后单次请求模型；人工审查后在 FX 冻结已有细胞，固定 quantification.record 工具校验并留存结果。主线 14 项、0.7 回归 9 项与源码版合成 GUI 验收通过。仍不自动检测、不推定科学阈值、不授予模型任意工具权限，未实现 OS 沙箱；模型循环和 QuPath 写操作尚未全部纳入 Harness。详见《Harness架构与skill管理》。网站仍因原文件写入被拒绝而待同步。
+
+
+## 2026-10-28：源码版统一与旧扩展退役
+
+- 停止维护 0.7 扩展及其快捷方式；现行主线为 QuPath 0.8 源码版。旧集成目录中源码启动所需的 Gradle 配置、缓存及历史证据仍保留。
+- Harness 授权后运行 `qupath.skill_context` 加载技能；未授权或资源异常时阻止后续模型请求。此机制不是操作系统沙箱。
+- 审查包装仅接受 PathPilot 冻结快照，不自动检测细胞；真实切片的科学准确性与专家反馈仍待验证。
+- 0.8 coder 15 项、共享研究代码 75 项通过；Groovy 独立验证了无快照拒绝和 3 个冻结细胞计数。未重新验收 QuPath GUI。
