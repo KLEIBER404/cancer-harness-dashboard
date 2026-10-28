@@ -229,12 +229,12 @@
     <main id="main">
       <aside aria-label="2026-10-28 架构更新" style="margin:1rem;padding:1rem;border:1px solid #7c8db5;border-radius:.6rem">2026-10-28：0.7 专属源码、兼容分支与快捷方式已退役；当前仅维护 QuPath 0.8 源码版。Harness 在授权后加载 QuPath skill，模型代码经人工审查后仅使用冻结快照。细胞检测仍需单独完成；科学准确性与操作系统级隔离尚未验证。</aside>
       <header id="overview">
-        <div class="topline"><span>FYP / AGENTIC PATHOLOGY</span><div class="offline"><i class="dot" aria-hidden="true"></i>项目看板 · <time datetime="2026-10-27">2026.10.27</time></div></div>
+        <div class="topline"><span>FYP / AGENTIC PATHOLOGY</span><div class="offline"><i class="dot" aria-hidden="true"></i>项目看板 · <time datetime="2026-10-28">2026.10.28</time></div></div>
         <div class="hero">
           <div><p class="eyebrow">项目全流程 / 当前进度</p><h1>三张真实 ROI，<br>工程链路已验证。</h1><p class="intro">QuPath 0.8 源码版 PathPilot 已完成真实模型生成、操作者审查、冻结已有细胞计算和 Harness 审计。三张 ROI 的数值与独立参考一致，保存重读通过；检测与七通道测量来自另行审查的原生流程。科学准确性、专家反馈和系统级隔离继续保留为未验证。</p></div>
           <div class="location"><div class="label">你在这里 · 真实 ROI 工程验证</div><h2>Phase 2R · 部分完成</h2><p>模型生成、冻结统计、独立参考与持久化已验证。下一步确认检测质量与科学规则、验证隔离，并完成专家反馈后的修订评价。</p></div>
         </div>
-        <div class="facts" aria-label="已有事实"><div class="fact"><strong>3<small>张真实切片 ROI</small></strong><p>实际 PathPilot 统计、独立核验和保存重读通过</p></div><div class="fact"><strong>15 / 10 / 75<small>项回归检查</small></strong><p>源码 coder／0.7 兼容／基础代码分别通过；GUI 和 CLI 证据另行记录</p></div><div class="fact"><strong>已验证<small>模型代码运行</small></strong><p>完整候选经操作者审阅；冻结已有测量计算，非科学准确性或隔离证明</p></div></div>
+        <div class="facts" aria-label="已有事实"><div class="fact"><strong>3<small>张真实切片 ROI</small></strong><p>实际 PathPilot 统计、独立核验和保存重读通过</p></div><div class="fact"><strong>15 / 75<small>项回归检查</small></strong><p>0.8 源码 coder 与共享研究代码分别通过；GUI 未在本轮复验</p></div><div class="fact"><strong>已验证<small>模型代码运行</small></strong><p>完整候选经操作者审阅；冻结已有测量计算，非科学准确性或隔离证明</p></div></div>
       </header>
 
 <section id="roi-screenshots" aria-labelledby="roi-screenshots-title"><div class="section-head"><h2 id="roi-screenshots-title">三张片子的圈选区域</h2><p>真实选区局部 · 点击图片放大</p></div><div class="roi-gallery"><figure class="roi-card"><a href="assets/roi/slide-01.jpg" target="_blank" rel="noopener"><img src="assets/roi/slide-01.jpg" width="800" height="800" loading="lazy" decoding="async" alt="片子 01 的原圈选区域与已有细胞检测轮廓"></a><figcaption><strong>片子 01</strong><span>选区内检测细胞：686 个</span><span>原圈选区域 · 点击查看大图</span></figcaption></figure><figure class="roi-card"><a href="assets/roi/slide-02.jpg" target="_blank" rel="noopener"><img src="assets/roi/slide-02.jpg" width="800" height="800" loading="lazy" decoding="async" alt="片子 02 的原圈选区域与已有细胞检测轮廓"></a><figcaption><strong>片子 02</strong><span>选区内检测细胞：6,423 个</span><span>原圈选区域 · 点击查看大图</span></figcaption></figure><figure class="roi-card"><a href="assets/roi/slide-03.jpg" target="_blank" rel="noopener"><img src="assets/roi/slide-03.jpg" width="800" height="800" loading="lazy" decoding="async" alt="片子 03 的原圈选区域与已有细胞检测轮廓"></a><figcaption><strong>片子 03</strong><span>选区内检测细胞：77 个</span><span>原圈选区域 · 点击查看大图</span></figcaption></figure></div><p class="footnote">从已保存的原选区直接导出，保留黄色选区边界与红色检测轮廓。仅展示局部，不包含软件侧栏、文件名或患者标识；工程显示不代替科学准确性验证。</p></section>
@@ -245,7 +245,7 @@
           <div class="demo-tabs" role="group" aria-label="选择能力演示">
             <button type="button" data-scene="stats" aria-pressed="true">① 固定统计</button>
             <button type="button" data-scene="research" aria-pressed="false">② 代码记录与检查</button>
-            <button type="button" data-scene="slides" aria-pressed="false">③ 真实 ROI 工程流程</button><button type="button" data-scene="roi" aria-pressed="false">④ ROI 合成图分析</button>
+            <button type="button" data-scene="slides" aria-pressed="false">③ 真实 ROI 工程流程</button>
           </div>
           <p class="demo-notice">这是根据已核对材料编排的流程动画。播放不会运行 Python、调用模型或分析切片；演示走完也不会改变上面的项目进度。</p>
           <ol class="demo-flow" id="demo-flow" aria-label="当前场景的演示步骤"><li data-state="active" aria-current="true">读取模拟名单</li><li>安排固定任务</li><li>按规则筛选</li><li>计算数量比例</li><li>保存结果记录</li></ol>
@@ -276,7 +276,7 @@
               <div class="slide-metadata" id="slide-metadata" hidden><div><span>每张片子的通道</span><strong>7 个</strong></div><div><span>像素大小</span><strong>约 0.5 μm</strong></div></div>
               <p class="demo-annotation" id="slide-note">已找到 3 张 .qptiff；这一步没有检测细胞。</p>
             </div>
-            <div class="demo-visual" data-panel="roi" hidden><p class="visual-title">已知合成七通道图 · 安装版 QuPath 0.7.0 实测</p><div class="research-facts"><div><span>DAPI 核团的已知数量</span><strong>3 个</strong></div><div><span>watershed 实际细胞数</span><strong>3 个</strong></div></div><p class="demo-annotation">五 marker 均测量自像素；每个 marker 的阳性数量为 1，阈值仅用于合成测试。</p><div class="demo-result" id="roi-result" hidden><strong>3 个细胞 · 逐细胞依据</strong><small>CD20／CD23、PD-L1／PANCK、CD8 相关表达，标签可重叠</small></div><p class="demo-annotation">这张页面不运行分析。真实 ROI 工程流程已另行核验，科学阈值与生物学解释仍待专家确认。</p></div><div class="demo-copy"><p class="eyebrow" id="demo-stage-label">固定统计 · 步骤 1 / 5</p><div role="status" aria-live="polite" aria-atomic="true"><h3 id="demo-step-title">读取内置的 7 个对象</h3><p id="demo-step-copy">没有输入真实图像时，演示会读取预先准备的模拟名单。CD8、PD-L1 等类别已经写在名单里。</p></div><div class="demo-boundary" id="demo-boundary" hidden></div></div>
+            <div class="demo-copy"><p class="eyebrow" id="demo-stage-label">固定统计 · 步骤 1 / 5</p><div role="status" aria-live="polite" aria-atomic="true"><h3 id="demo-step-title">读取内置的 7 个对象</h3><p id="demo-step-copy">没有输入真实图像时，演示会读取预先准备的模拟名单。CD8、PD-L1 等类别已经写在名单里。</p></div><div class="demo-boundary" id="demo-boundary" hidden></div></div>
           </div>
           <div class="demo-controls" role="group" aria-label="演示播放控制"><button type="button" class="primary" id="demo-play" aria-pressed="false">播放演示</button><button type="button" id="demo-prev" disabled>上一步</button><button type="button" id="demo-next">下一步</button><button type="button" id="demo-reset">重置</button><output id="demo-position">演示步骤 1 / 5 · 尚未播放</output></div>
           <noscript><p class="footnote">当前浏览器未启用 JavaScript，展示固定统计的起始画面。下方的路线图、阶段详情和资料链接仍可正常查看。</p></noscript>
@@ -332,7 +332,7 @@
         <div class="meeting"><h3>和老师沟通时，可以这样说</h3><p>“源码版 PathPilot 已在三张真实 ROI 上完成模型生成、审查后冻结统计、独立数值核对与 Harness 审计，保存重读一致。接下来补充专家检测参考和科学规则、候选隔离，以及反馈修订前后的效果评价。”</p></div>
       </section>
 
-<section id="qupath-report" class="document-entry" aria-labelledby="qupath-report-title"><div><h2 id="qupath-report-title">QuPath 与 PathPilot，到底怎样工作</h2><p>16 节通俗源码报告：从一句话到模型选工具、检测对象、阳性阈值、空间统计与 Excel 导出，附真实调用链和源码定位。</p><p><small>2026-10-21 源码原理核对；2026-10-26 已将面板适配成扩展并通过合成图 GUI 验收，未调用远程模型。可在线阅读、下载原文或随全部文档打包。</small></p></div><a href="%E9%A1%B9%E7%9B%AE%E6%96%87%E6%A1%A3.html#doc-0c4d1c7164fe" class="document-entry-link">阅读技术原理报告 →</a></section>
+<section id="qupath-report" class="document-entry" aria-labelledby="qupath-report-title"><div><h2 id="qupath-report-title">历史源码原理报告</h2><p>早期工具循环及固定分析的技术记录；当前调用链请查看代码阅读路线图。</p><p><small>2026-10-21 源码静态分析，旧版扩展已退役，不能视作当前执行流程。</small></p></div><a href="%E9%A1%B9%E7%9B%AE%E6%96%87%E6%A1%A3.html#doc-0c4d1c7164fe" class="document-entry-link">阅读历史技术报告 →</a></section>
       <section id="code-preview" class="document-entry" aria-labelledby="code-preview-title"><div><h2 id="code-preview-title">代码结构，一张图看懂分工</h2><p>点选模块关系图与代码目录，沿固定统计、研究预检和 QuPath 探针路线，查看现有技术和实现边界。</p><p><small>2026-10-27 核对：10 组目录、160 个文件的模块点选、搜索、跨页和四种屏幕尺寸检查通过；结构检查与病理科学验证分开记录。</small></p></div><a href="代码结构预览.html" class="document-entry-link">打开代码结构预览 →</a></section>
 
 <section class="document-entry" aria-labelledby="harness-skill-title"><div><h2 id="harness-skill-title">Harness 如何管理 skill 与执行记录</h2><p>QuPath skill 已注册为受控资源：校验、源码上下文和任务审计先于模型请求；人工审查后，冻结细胞快照与结果也保存到 Harness。</p><p><small>2026-10-27：三张真实 ROI 的 skill 任务、冻结计算与结果审计通过；当前入口不自动检测，任意代码 OS 隔离仍未验证。</small></p></div><a href="%E9%A1%B9%E7%9B%AE%E6%96%87%E6%A1%A3.html#doc-97da8c1000f5" class="document-entry-link">阅读当前 Harness 架构 →</a></section>
@@ -346,7 +346,7 @@
 
       <p class="footnote">公网发布：2026-10-21 已完成 GitHub Pages 首次部署，<a href="https://kleiber404.github.io/cancer-harness-dashboard/">公网主页</a>实测返回 HTTP 200，<a href="https://github.com/KLEIBER404/cancer-harness-dashboard/actions/runs/39543580765">首次部署工作流成功</a>。后续增删改内容必须在同次交付运行同步脚本并核对线上结果，<a href="https://github.com/KLEIBER404/cancer-harness-dashboard/actions">部署记录可查看</a>。仅发布展示页与文档；研究阶段、缺项与能力动画终点保持原有证据范围。<a aria-disabled="true" title="此材料保留在本地工程，未发布到公网。" class="local-only-link">查看连接与自动更新说明</a>。</p>
       <p class="footnote">2026-10-21 网页自检通过：三个动画场景、四种屏幕尺寸、文档搜索跳转、全部 MD 与 ZIP 下载内容一致；<a aria-disabled="true" title="此材料保留在本地工程，未发布到公网。" class="local-only-link">本地网页检查记录</a>仅证明页面行为，不作为病理分析、模型调用或候选执行证据。</p>
-      <footer><span>本轮真实 ROI 工程验收：2026-10-27；模型生成、快照统计、独立核验及保存重读通过。桌面恢复及扩展报告待收尾，科学判据和系统级隔离待验收。原位维护源的同步状态另行记录。后续开发同步维护进度与独立文档页；页面本身不会自动扫描或修改项目。</span><span>匿名 ROI 局部图 · 动画演示与文档入口 · 图片随站点托管</span></footer>
+      <footer><span>当前入口：QuPath 0.8 源码版；真实 ROI 工程验收记录于 2026-10-27。科学准确性、专家反馈与系统级隔离仍待验证。页面不会自动扫描或修改项目。</span><span>匿名 ROI 局部图 · 动画演示与文档入口 · 图片随站点托管</span></footer>
     </main>
   </div>
   <script>
@@ -376,18 +376,6 @@
             ['预检完成，在执行前停下', '记录与源码结构可以检查，也能整理首次模型输入。本历史工具的候选仍是 NOT_EXECUTED；源码版 PathPilot 已另行在真实 ROI 运行，真实专家修订提升数据仍缺。']
           ],
           boundary: '当前能做到：保存和检查任务、代码、反馈及版本。本历史工具到此停止；源码版 PathPilot 已另行生成与执行。系统级隔离及效果比较仍待完成。'
-        },
-        roi: {
-          name: 'ROI 合成图分析',
-          flow: ['PathPilot 选区入口', '检测三个核团', '测量五个 marker', 'Harness 绑定核验', '输出初步性状'],
-          steps: [
-            ['在 PathPilot 面板提交合成 ROI', '所提供 ChatPanel 已适配进 QuPath 0.7；测试通过首次参数窗口和实际按钮，自动运行内嵌固定检测／测量及 Harness。没有打开真实切片。'],
-            ['内置 watershed 检测得到 3 个细胞', '使用明确的合成测试参数。重复检测、无选区、多选区和错误通道均会拒绝，不扩大到全片。'],
-            ['在细胞副本上实际测量 Mean', '逐 marker 使用配置区室。原有细胞的测量和 PathClass 不修改；未知或未确认阈值保持 unknown。'],
-            ['固定统计进入既有 Harness', 'roi.summary 绑定快照、配置、图像及 ROI。错目标或额外 code／approved 参数在执行前拒绝。'],
-            ['保存数量、表达及初步性状依据', '实际生成中文报告、逐细胞 CSV、JSON 结果和 SQLite 审计。三个合成细胞的 marker 数量与已知像素一致。']
-          ],
-          boundary: '当前终点：本动画回放 0.7 固定分析；0.8 另已通过 Harness skill、冻结快照和结果审计的合成 GUI 验收。三张真实 ROI 的源码版 PathPilot 已另行通过工程验收；系统级代码隔离和科学准确性待验证。'
         },
         slides: {
           name: '真实 ROI 工程流程',
@@ -443,7 +431,6 @@
         });
         document.getElementById('stats-filter').textContent = index >= 2 ? '7 − 1 个未分类 − 1 个杂点 = 5 个参与统计。' : '名单里有 7 个对象，类别提前给定。';
         document.getElementById('stats-result').hidden = index < 3;
-        document.getElementById('roi-result').hidden = index < 4;
         document.getElementById('code-version').textContent = index >= 3 ? '第二版：人工修订并关联反馈' : '第一版：人工准备';
         document.getElementById('code-example').textContent = index >= 3 ? 'pixel >= 128' : 'pixel > 128';
         document.getElementById('code-note').textContent = ['要求“大于等于 128”，先保存任务和输入。', '第一版使用 >，代码仅保存为文本。', '人工反馈：改用 >=，包含等于阈值的情况。', '第二版已保存；两版均未执行。', '结构检查完成，执行状态仍为 NOT_EXECUTED。'][index];

@@ -27,18 +27,18 @@ flowchart TD
 
 | 工具 | 输入与行为 | 边界 |
 |---|---|---|
-| `qupath.skill_context` | 绑定查询和上下文摘要；发布已经过 skill／源码校验的本地上下文，记录任务状态与产物 | 只读取指定资源、写本地产物；不授予模型 shell、文件浏览或任意工具权限 |
+| `qupath.skill_context` | 在 Harness 授权后的工具执行阶段校验 skill 并检索源码，记录任务状态与上下文产物摘要 | 只读取指定资源、写本地产物；不授予模型 shell、文件浏览或任意工具权限 |
 | `quantification.record` | 绑定候选、包装、规格、快照、图像身份、ROI 与执行回执；核对后保存结果摘要及审计 | 不运行 Groovy，不重新计算模型结果，不把回执中的成功声明当作科学验证 |
 
-两项工具都使用现有只读 Profile，`allow_remote_llm=false`。模型请求由 coder 在拿到 Harness 的上下文后单独发出；当前 Harness 尚未统一调度整个模型循环或 QuPath 写操作。`qupath.source_context` 是 Registry 注册的本地资源服务；真实模型请求只收到任务字段、skill 和受限源码片段，独立用例及答案继续留在本地。
+两项工具都使用现有只读 Profile，`allow_remote_llm=false`。模型请求由 coder 在拿到 Harness 的上下文后单独发出；当前 Harness 尚未统一调度整个模型循环或 QuPath 写操作。模型请求只收到任务字段、skill 和受限源码片段，独立用例及答案继续留在本地。
 
 ## skill 具体如何管理
 
 - 作者工作区仍是 `code-intelligence/qupath-coding-agent-skill/`，运行副本仍位于各 coder 的 `skills/qupath-coding-agent-skill/`。Harness 管理加载和记录，不为改目录再次复制一套 skill。
 - `source-provenance.json` 固定允许的资源与摘要。加载 SKILL、引用、索引、指纹和检索脚本前检查对应摘要；检索后只读取限定数量和大小的当前源码片段，拒绝越界路径。
 - 上下文记录 skill 摘要、索引基线、实际源码版本、当前提交／已跟踪文件修改状态和片段是否过时。提交身份无法读取时明确记录未核验，不伪造匹配。
-- 每次生成都保存 `source-task.json` 和对应上下文产物；`manifest.json` 记录该 Harness 任务 ID／状态。缺失或被修改的 skill 会在创建候选目录和发起模型请求前停止。
-- `sync_workspace.py` 维护 0.8／0.7 的共享副本及 7 个 Harness／契约 helper；当前共检查 68 个文件。0.7 保留各自运行版本和导入路径。
+- 每次成功生成都保存 `source-task.json` 和对应上下文产物；`manifest.json` 记录该 Harness 任务 ID／状态。缺失或被修改的 skill 会在创建候选目录和发起模型请求前停止，并保留失败任务记录。
+- `sync_workspace.py` 维护 0.8 skill 与共享 helper；本轮检查 35 个受控文件，不再生成 0.7 副本。
 
 本机 `code/qupath-agent/harness_core/` 的新增文件写入仍被系统拒绝，因此新增的 QuPath skill 插件维护在可写的生产 `pathpilot-coder/`，通过原 Harness 注册机制挂载；没有修改受保护文件的权限，也没有另写一套 Harness 核心。
 
