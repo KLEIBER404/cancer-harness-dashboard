@@ -1,5 +1,7 @@
 # GitHub 版本管理指南
 
+> 2026-10-29 用户约定：QuPath 源码本轮仅做本地 Git 提交、标签与恢复备份，不推送或新建远程源码仓库。独立网页继续发布到现有 `KLEIBER404/cancer-harness-dashboard`；网站提交和源码提交分别追溯。
+
 > 2026-10-28 更新：网站维护源统一为 `code/`。`scripts/publish_dashboard.ps1` 使用 `../output/site-publish-checkout/` 作为独立发布检出，并在生成前检查该检出干净且与远端 `main` 一致；不一致时停止并先核对合并。`-PrepareOnly` 将预览生成到 `../output/site-preview/`，不会更改发布检出。下文旧 `public-site/` 路径为历史说明，不能直接用于发布。
 
 适用于 [QuPath Agentic Pathology 设计](frame.md)，面向 Windows PowerShell、个人开发和导师协作。网站部署与维护约定核对日期：2026-10-21；其余操作指南保留原有验证范围。
