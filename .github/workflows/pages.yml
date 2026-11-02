@@ -36,7 +36,7 @@ jobs:
           from urllib.request import Request, urlopen
           import hashlib, os, time
           base = os.environ['SITE_URL'].rstrip('/') + '/'
-          for path in sorted([*Path('.').glob('*.html'), *Path('.').glob('*.md'), *Path('assets/roi').glob('slide-*.jpg')]):
+          for path in sorted([*Path('.').glob('*.html'), *Path('.').glob('*.md'), *(p for p in Path('assets').rglob('*') if p.is_file())]):
               expected = path.read_bytes()
               url = base + quote(path.as_posix()) + '?revision=' + os.environ['GITHUB_SHA']
               for attempt in range(6):
