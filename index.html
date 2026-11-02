@@ -210,7 +210,7 @@
 .local-only-link{color:var(--muted);cursor:help;text-decoration:underline dotted}</style>
 </head>
 <body>
-<div role="note" aria-label="源码版 PathPilot 更新" class="latest-note">2026-11-02 · 分割校准已完成首轮开发验证：原生对象F1由0.416至0.755，计数MAE降至42.625；仍待独立盲测与专家复核。<a href="项目文档.html#doc-4bfb02f76bf5">查看修复依据</a></div>
+<div role="note" aria-label="源码版 PathPilot 更新" class="latest-note">2026-11-02 · 第二轮已完成：旧开发图F1=0.790，新8图同来源留出F1=0.618；泛化与参考口径仍待补。<a href="项目文档.html#doc-d5e5ee24ae41">查看完整结果</a></div>
   <a class="skip" href="#main">跳到主要内容</a>
   <div class="layout">
     <aside aria-label="项目导航">
@@ -233,14 +233,16 @@
       <header id="overview">
         <div class="topline"><span>FYP / AGENTIC PATHOLOGY</span><div class="offline"><i class="dot" aria-hidden="true"></i>项目看板 · <time datetime="2026-11-02">2026.11.02</time></div></div>
         <div class="hero">
-          <div><p class="eyebrow">项目全流程 / 当前进度</p><h1>知识开始可追溯，<br>误差开始可测量。</h1><p class="intro">本地知识库已建立，检测误差正在逐项修复。使用新增val子集校准并冻结QuPath参数后，旧8张开发图对象F1从0.416提高到0.755；这个改善尚未经过最终盲测，也没有证明知识库增益。</p></div>
+          <div><p class="eyebrow">项目全流程 / 当前进度</p><h1>知识开始可追溯，<br>误差开始可测量。</h1><p class="intro">分割已完成两轮校准。旧8图开发回归对象F1达到0.790，新增8图留出检查为0.618。新图表现较低，下一步需要确认参考口径并补患者或来源独立的数据；知识库增益仍未验证。</p></div>
           <div class="location"><div class="label">当前位置 · 证据与独立评价</div><h2>v0.1 · 部分完成</h2><p>资料、方法、代码和评价开始连接。医学专家批准为0，知识库有/无的同条件比较尚未完成；当前目标是让方法选择和检测误差都能核查。</p></div>
         </div>
-        <div class="checkpoint"><strong>本轮进展 · 参数校准减少碎片对象</strong><p>原生检测2181 → 993个，作者参考1334个。对象匹配改善，但仍有漏检；继续保留初次基线与全部校准候选。<a href="#segmentation-repair">查看前后对比 →</a></p></div>
-        <div class="facts" aria-label="已有事实"><div class="fact"><strong>45<small>份本地原文</small></strong><p>38份有PDF、7份仅XML；检索基线仍为15篇</p></div><div class="fact"><strong>33<small>个真实测试图块</small></strong><p>完整读取与独立保存重读通过，8张原生检测</p></div><div class="fact"><strong>0.755<small>开发图对象F1 · 8张</small></strong><p>val校准后冻结参数，最终盲测尚未完成</p></div></div>
+        <div class="checkpoint"><strong>第二轮结果 · 召回改善，泛化仍有限</strong><p>旧图匹配877 → 950，漏检457 → 384，误检116 → 128；新图平均F1=0.618，不回流选参。<a href="#segmentation-repair-round2">查看第二轮 →</a></p></div>
+        <div class="facts" aria-label="已有事实"><div class="fact"><strong>45<small>份本地原文</small></strong><p>38份有PDF、7份仅XML；检索基线仍为15篇</p></div><div class="fact"><strong>33<small>个真实测试图块</small></strong><p>完整读取与独立保存重读通过，8张原生检测</p></div><div class="fact"><strong>0.790<small>旧开发图F1 · 8张</small></strong><p>新8图同源留出F1=0.618，非外部盲测</p></div></div>
       </header>
 
-<section id="segmentation-repair" aria-labelledby="segmentation-repair-title"><div class="section-head"><h2 id="segmentation-repair-title">分割修复：先校准，再比较</h2><p>2026-11-02 · 新增8张val校准图，旧8图仅作开发回归</p></div><p>在新校准子集预声明比较6组原生参数，冻结选中的sigma=3像素设置后，旧8图平均对象F1由0.416提高至0.755，计数MAE由105.875降至42.625。新检测993个对象，对照作者参考1334个，仍有漏检。</p><figure style="margin:20px 0"><a href="assets/validation/native-calibration-comparison.jpg" target="_blank" rel="noopener"><img src="assets/validation/native-calibration-comparison.jpg" width="768" height="294" style="width:100%;height:auto" alt="同一CASE003图块，左为输入，中为首次原生检测，右为仅用val校准后冻结参数的原生检测"></a><figcaption>固定CASE003的实际输出；TissueNet / Van Valen Lab，经CelloType处理。仅输入与预测轮廓，不展示参考标签。<a href="assets/validation/TissueNet-LICENSE.txt">非商业学术许可与归属</a></figcaption></figure><p class="method-note">这是开发回归的改善；最终盲测、参考口径复核和知识库增益验证尚未完成。参数只适用于本次图块实验，未改QuPath全局默认设置。</p><p><a href="项目文档.html#doc-4bfb02f76bf5">查看完整候选、误差分析和运行依据 →</a></p></section>
+<section id="segmentation-repair-round2" aria-labelledby="round2-title"><div class="section-head"><h2 id="round2-title">第二轮：改善漏检，同时检查新图</h2><p>2026-11-02 · 开发与留出成绩分开报告</p></div><p>6组预声明候选仅用校准图选参。旧8图对象F1从0.755至0.790，计数MAE从42.625至32.000；漏检减少73个，误检增加12个。</p><p class="method-note">冻结后对预声明的新8图运行一次，平均对象F1为0.618，低于旧开发图。这是同来源图像留出，患者独立性未确认，不能称外部盲测，也没有验证知识库增益。</p><figure style="margin:20px 0"><a href="assets/validation/native-round2-comparison.jpg" target="_blank" rel="noopener"><img src="assets/validation/native-round2-comparison.jpg" width="768" height="294" style="width:100%;height:auto" alt="固定CASE003，左为输入，中为第一轮，右为第二轮实际分割轮廓"></a><figcaption>TissueNet / Van Valen Lab，经CelloType处理；固定图块的实际预测，不含参考标签。<a href="assets/validation/TissueNet-LICENSE.txt">非商业学术许可</a></figcaption></figure><p><a href="项目文档.html#doc-d5e5ee24ae41">查看候选全表、回执校验与新图限制 →</a></p></section>
+
+<section id="segmentation-repair" aria-labelledby="segmentation-repair-title"><div class="section-head"><h2 id="segmentation-repair-title">第一轮修复 · 历史结果保留</h2><p>2026-11-02 · 新增8张val校准图，旧8图仅作开发回归</p></div><p>在新校准子集预声明比较6组原生参数，冻结选中的sigma=3像素设置后，旧8图平均对象F1由0.416提高至0.755，计数MAE由105.875降至42.625。新检测993个对象，对照作者参考1334个，仍有漏检。</p><figure style="margin:20px 0"><a href="assets/validation/native-calibration-comparison.jpg" target="_blank" rel="noopener"><img src="assets/validation/native-calibration-comparison.jpg" width="768" height="294" style="width:100%;height:auto" alt="同一CASE003图块，左为输入，中为首次原生检测，右为仅用val校准后冻结参数的原生检测"></a><figcaption>固定CASE003的实际输出；TissueNet / Van Valen Lab，经CelloType处理。仅输入与预测轮廓，不展示参考标签。<a href="assets/validation/TissueNet-LICENSE.txt">非商业学术许可与归属</a></figcaption></figure><p class="method-note">这是开发回归的改善；最终盲测、参考口径复核和知识库增益验证尚未完成。参数只适用于本次图块实验，未改QuPath全局默认设置。</p><p><a href="项目文档.html#doc-4bfb02f76bf5">查看完整候选、误差分析和运行依据 →</a></p></section>
 
 <section id="knowledge-update" aria-labelledby="knowledge-title"><div class="section-head"><h2 id="knowledge-title">证据库：资料、知识与计划</h2><p>2026-11-02 · 本地语料与独立索引分开记录</p></div><p>45份有效原文已在本地保存，原文与参考标签不随网站分发。第一批RAG只索引15篇全文、1820个活跃块；62张知识草稿中61张有来源，1张表型候选待补证，全部尚无医学专家批准。</p><div class="evidence-table-wrap"><table class="evidence-table"><caption>真实语料的四模式检索比较 · 36题PROVISIONAL弱标注</caption><thead><tr><th scope="col">模式</th><th scope="col">Recall@10</th><th scope="col">MRR@10</th><th scope="col">nDCG@10</th></tr></thead><tbody><tr><th scope="row">sparse</th><td>0.1970</td><td>0.4471</td><td>0.2302</td></tr><tr><th scope="row">dense</th><td>0.1870</td><td>0.5396</td><td>0.2544</td></tr><tr><th scope="row">hybrid</th><td>0.2104</td><td>0.5268</td><td>0.2573</td></tr><tr><th scope="row">hybrid+reranker</th><td>0.2569</td><td>0.6290</td><td>0.3406</td></tr></tbody></table></div><p class="footnote">当前MiniLM为英语模型，中文用明确词法桥接；BGE-M3未运行。弱标注不是专家金标准，引用定位通过不等于医学引用准确，医学答案指标未测。</p><p><a href="项目文档.html#doc-a5970cc8ad9c">阅读来源、卡片、检索口径与人审计划 →</a></p></section>
 
@@ -287,7 +289,7 @@
               <div class="slide-metadata" id="slide-metadata" hidden><div><span>每张片子的通道</span><strong>7 个</strong></div><div><span>像素大小</span><strong>约 0.5 μm</strong></div></div>
               <p class="demo-annotation" id="slide-note">已找到 3 张 .qptiff；这一步没有检测细胞。</p>
             </div>
-            <div class="demo-visual" data-panel="validation" hidden><p class="visual-title">2026-11-02 实测摘要 · 网页播放不会运行分析</p><div class="validation-stats"><div><strong>33 / 33</strong><span>原生读取与独立保存重读</span></div><div><strong>8</strong><span>实际执行整图检测并独立评分</span></div><div><strong>0.755</strong><span>开发图对象F1 · val选参后固定运行</span></div></div></div><div class="demo-copy"><p class="eyebrow" id="demo-stage-label">固定统计 · 步骤 1 / 5</p><div role="status" aria-live="polite" aria-atomic="true"><h3 id="demo-step-title">读取内置的 7 个对象</h3><p id="demo-step-copy">没有输入真实图像时，演示会读取预先准备的模拟名单。CD8、PD-L1 等类别已经写在名单里。</p></div><div class="demo-boundary" id="demo-boundary" hidden></div></div>
+            <div class="demo-visual" data-panel="validation" hidden><p class="visual-title">2026-11-02 实测摘要 · 网页播放不会运行分析</p><div class="validation-stats"><div><strong>33 / 33</strong><span>原生读取与独立保存重读</span></div><div><strong>8</strong><span>实际执行整图检测并独立评分</span></div><div><strong>0.790 / 0.618</strong><span>旧开发图 / 新图同源留出对象F1</span></div></div></div><div class="demo-copy"><p class="eyebrow" id="demo-stage-label">固定统计 · 步骤 1 / 5</p><div role="status" aria-live="polite" aria-atomic="true"><h3 id="demo-step-title">读取内置的 7 个对象</h3><p id="demo-step-copy">没有输入真实图像时，演示会读取预先准备的模拟名单。CD8、PD-L1 等类别已经写在名单里。</p></div><div class="demo-boundary" id="demo-boundary" hidden></div></div>
           </div>
           <div class="demo-controls" role="group" aria-label="演示播放控制"><button type="button" class="primary" id="demo-play" aria-pressed="false">播放演示</button><button type="button" id="demo-prev" disabled>上一步</button><button type="button" id="demo-next">下一步</button><button type="button" id="demo-reset">重置</button><output id="demo-position">演示步骤 1 / 5 · 尚未播放</output></div>
           <noscript><p class="footnote">当前浏览器未启用 JavaScript，展示固定统计的起始画面。下方的路线图、阶段详情和资料链接仍可正常查看。</p></noscript>
@@ -305,7 +307,7 @@
           <li><span class="step-num">05</span><h3>专家反馈后修订</h3><p>具体反馈、再运行和前后比较</p><span class="status">待验证</span></li>
           <li><span class="step-num">06</span><h3>比较与研究结论</h3><p>已有工程基线，归因与外部验证待补</p><span class="status current">预备比较</span></li>
         </ol>
-        <div class="checkpoint"><strong>当前验证终点</strong><p>历史真实模型ROI统计已验证；33图块原生导入/持久化通过；新增8张val校准并冻结参数，旧8图开发回归F1=0.755。知识库具备候选证据与计划接口，医学审批、系统级隔离和有/无知识的同条件效果比较继续核验。</p></div>
+        <div class="checkpoint"><strong>当前验证终点</strong><p>历史真实模型ROI统计已验证；33图块原生导入/持久化通过；新增8张val校准并冻结参数，第二轮旧8图开发F1=0.790，新8图同源留出F1=0.618。知识库具备候选证据与计划接口，医学审批、系统级隔离和有/无知识的同条件效果比较继续核验。</p></div>
       </section>
 
       <section id="tracks" aria-labelledby="tracks-title">
@@ -372,7 +374,7 @@
             ['核对像素、通道与完整ROI', '读取整幅图像和全部声明通道，ROI覆盖完整宽高；物理尺度未知，不填默认值。'],
             ['只对已知结构通道运行检测', '8张TissueNet调用QuPath原生Watershed；4张CODEX映射未知而不检测，组织分类器未运行。'],
             ['保存后由独立进程重读', '33/33核对通道、实际波段、整图ROI和细胞ID/几何/测量；不是只看程序退出码。'],
-            ['校准后在开发图固定运行', '新增8张val校准图选参，冻结后旧8图F1=0.755、计数MAE=42.625；这不是盲测或知识库增益。']
+            ['第二轮后检查预声明新图', '旧8图F1=0.790，新8图同来源留出F1=0.618。不回流选参，不是患者独立盲测或知识库增益。']
           ],
           boundary: '当前终点：真实图块工程链路和误差已量化；本轮未调用模型，没有医学或知识库增益验证。首轮独立图像校准已运行；患者独立盲测、专家审核及同条件对照继续开展。'
         },
