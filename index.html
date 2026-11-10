@@ -210,7 +210,7 @@
 .local-only-link{color:var(--muted);cursor:help;text-decoration:underline dotted}</style>
 </head>
 <body>
-<div role="note" aria-label="源码版 PathPilot 更新" class="latest-note">2026-11-10 · 首批四类病例实体与过滤查询已接入原Engine；旧版本保留，专家/原图特征验证与最终推荐仍待完成。<a href="项目文档.html#doc-936e0358a64b">查看可核查结果</a></div>
+<div role="note" aria-label="源码版 PathPilot 更新" class="latest-note">2026-11-10 · 本轮4篇主文已读，1主2次研究路线已推荐；原始多通道输入、完整标准和医学验证仍有缺项。<a href="项目文档.html#doc-2df5b409e1f0">查看阶段验收</a></div>
   <a class="skip" href="#main">跳到主要内容</a>
   <div class="layout">
     <aside aria-label="项目导航">
@@ -241,6 +241,8 @@
 </header>
 
 <section id="case-curation-update" class="document-entry" aria-labelledby="case-curation-title"><div><h2 id="case-curation-title">病例层已接入原Engine · 2026-11-10</h2><p>4个案例实体、172个SlideCard、4个判据、4个工作流已追加原SQLite。案例分图像资源与研究任务，不按患者数解释；1个工程计量已验证，2个仅特征比较，1个仍阻断。</p></div><a class="document-entry-link" href="项目文档.html#doc-936e0358a64b">查看实际查询、版本与医学边界 →</a></section>
+
+<section id="case-recommendation" class="document-entry" aria-labelledby="case-recommendation-title"><div><h2 id="case-recommendation-title">首个实验推荐：LUSC H&amp;E TLS区域定量</h2><p>内部筛选87分，当前限作者标注计数与面积复核；不是自动TLS识别或成熟度验收。两个NSCLC原文任务为次路线（75/73分），尚缺raw图像与专家确认。9份指定报告及12项阶段答复已整理，整体仍为PARTIALLY_COMPLETE。</p></div><a class="document-entry-link" href="项目文档.html#doc-2df5b409e1f0">查看评分理由、流程和逐项验收 →</a></section>
 
 <section id="case-layer-evidence" aria-labelledby="case-layer-title"><div class="section-head"><h2 id="case-layer-title">病例检索：能找到，也明确缺什么</h2><p>真实本地向量/融合/重排 · 无自动执行权限</p></div><p>原62张卡的既有版本逐条未改写。扩展库为22个来源、2738个活跃块，包含论文、作者说明和审计记录，不能称为相同数量的论文。原15篇/1820块与旧检索成绩作为历史基线保留。</p><div class="evidence-table-wrap"><table class="evidence-table"><thead><tr><th>实际查询</th><th>结果</th><th>保留的边界</th></tr></thead><tbody><tr><td>肺癌成熟度 + 可用mIF WSI</td><td>0</td><td>无原片，不以代表图补齐</td></tr><tr><td>肺癌原文判据候选</td><td>2</td><td>研究特定规则，仍无原片/专家批准</td></tr><tr><td>CRC budding标准候选</td><td>1</td><td>部分原标准参考，不能给患者分级</td></tr><tr><td>已验证LUSC原片工作流</td><td>1</td><td>作者区域计量，非自动TLS检测</td></tr></tbody></table></div><p class="method-note">五态比较检查缺panel、来源冲突、队列/组织学不适配和缺数据。真实作者区域计数与合成mIF特征工程检查分开；没有真实mIF医学准确率，也没有知识库增益结论。<a href="项目文档.html#doc-936e0358a64b">阅读实体、证据角色和限制</a></p></section>
 
