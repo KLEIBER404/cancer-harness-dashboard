@@ -1,0 +1,8 @@
+Source: Author dataset, https://zenodo.org/records/10020271 (DOI 10.5281/zenodo.10020271).
+Dataset: Immunotherapy response induces divergent tertiary lymphoid structure morphologies in hepatocellular carcinoma.
+License: Creative Commons Attribution 4.0, as stated in the downloaded author record.
+Screenshot: QuPath 0.8 source GUI, acquisition 4, author channel label DNA1 (C45), grayscale display with automatic display contrast.
+The screenshot is a screen-region capture excluding the local project list. It is not a generated image, segmentation result, phenotype validation, or diagnostic reference.
+The source MCD was converted losslessly to float32 OME-TIFF; all 50-channel pixel values were independently checked in QuPath.
+Author-supplied channel labels are preserved. Panel identity reconciliation remains incomplete.
+Dataset creators: Shu, Daniel
