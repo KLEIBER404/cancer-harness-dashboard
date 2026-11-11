@@ -210,7 +210,7 @@
 .local-only-link{color:var(--muted);cursor:help;text-decoration:underline dotted}</style>
 </head>
 <body>
-<div role="note" aria-label="源码版 PathPilot 更新" class="latest-note">2026-11-11 · QuPath 实际测试与八项修复已复测；原始IMC已打开，医学验证仍未完成。<a href="项目文档.html#doc-a86d18037472">查看实际测试</a></div>
+<div role="note" aria-label="源码版 PathPilot 更新" class="latest-note">2026-11-11 · 已新增25图独立H&E;核参考测试，另复核8张冻结图；临床诊断、mIF/TLS与RAG增益仍未验证。<a href="项目文档.html#doc-a0260847b1a0">查看本轮验证</a></div>
   <a class="skip" href="#main">跳到主要内容</a>
   <div class="layout">
     <aside aria-label="项目导航">
@@ -233,12 +233,14 @@
       <header id="overview">
         <div class="topline"><span>FYP / AGENTIC PATHOLOGY</span><div class="offline"><i class="dot" aria-hidden="true"></i>项目看板 · <time datetime="2026-11-10">2026.11.10</time></div></div>
         <div class="hero">
-          <div><p class="eyebrow">项目全流程 / 当前进度</p><h1>知识开始可追溯，<br>误差开始可测量。</h1><p class="intro">原文判据、图像资源与工作流已开始按病例关联。首批四类实体复用原知识引擎，查询能区分有原片的作者区域计量、无原片的研究判据和缺完整标准的参考项。全部保留待人审边界，没有自动诊断或知识库增益结论。</p></div>
+          <div><p class="eyebrow">项目全流程 / 当前进度</p><h1>知识开始可追溯，<br>误差开始可测量。</h1><p class="intro">本轮把验证推进到独立来源：25个MoNuSAC作者患者标识各取一图，固定QuPath H&amp;E核基线宏F1=0.6859；原8张荧光留出图仅作冻结复核。结果仍有漏检、误检和参考歧义，尚不能给出癌症诊断或真实mIF/TLS准确率。</p></div>
           <div class="location"><div class="label">当前位置 · 证据与独立评价</div><h2>v0.1 · 部分完成</h2><p>资料、方法、代码和评价开始连接。医学专家批准为0，知识库有/无的同条件比较尚未完成；当前目标是让方法选择和检测误差都能核查。</p></div>
         </div>
         <div class="checkpoint"><strong>第二轮结果 · 召回改善，泛化仍有限</strong><p>旧图匹配877 → 950，漏检457 → 384，误检116 → 128；新图平均F1=0.618，不回流选参。<a href="#segmentation-repair-round2">查看第二轮 →</a></p></div>
         <div class="facts" aria-label="已有事实"><div class="fact"><strong>5<small>个案例实体</small></strong><p>2图像资源、3研究任务/参考，不是患者数</p></div><div class="fact"><strong>173<small>个SlideCard</small></strong><p>包含缺项/失败元数据，不代表全部医学可用</p></div><div class="fact"><strong>4 + 5<small>判据 / 工作流</small></strong><p>待专家确认；作者计量和IMC完整性通过工程验证</p></div></div>
 </header>
+
+<section id="medical-accuracy-update" aria-labelledby="medical-accuracy-title"><div class="section-head"><h2 id="medical-accuracy-title">参考一致性验证 · 2026-11-11</h2><p>8图冻结复核 + 25图独立H&amp;E基线</p></div><p>新下载MoNuSAC官方测试原包，25个不同作者患者标识各取排序首图，运行前冻结QuPath软件默认核检测参数；25/25完成。下表的两批任务与参数不同，分开报告。</p><div class="evidence-table-wrap"><table class="evidence-table"><thead><tr><th>任务</th><th>逐图宏F1</th><th>合并微F1</th><th>召回率</th></tr></thead><tbody><tr><td>TissueNet已评分8图复核</td><td>0.6177</td><td>0.6338</td><td>57.28%</td></tr><tr><td>MoNuSAC固定H&amp;E核基线25图</td><td>0.6859</td><td>0.7471</td><td>78.32%</td></tr></tbody></table></div><p>对象一对一匹配，IoU≥0.50。MoNuSAC有效参考7099、预测7785，TP 5560、FP 2225、FN 1539；已排除模糊区域像素，7个NegativeROA标记的语义仍未裁定，依组织者代码兼容处理。</p><img src="assets/validation/monusac-agreement-20261111.png" width="1920" height="768" style="width:100%;height:auto" alt="25个作者患者标识各一图的对象F1，逐图差异明显；宏平均0.6859，微平均0.7471"><p>新数据是H&amp;E核对象，未预测细胞类型；不是mIF、TLS成熟度、癌症诊断或知识库增益测试。逐图F1最低0.2564，不能只看总分。图表只含数值，不含原片或参考标签。<a href="https://monusac-2020.grand-challenge.org/Data/">官方来源与CC BY-NC-SA 4.0许可</a></p><details><summary>查看冻结荧光图的阈值敏感性</summary><img src="assets/validation/reference-agreement-20261111.png" width="1920" height="736" style="width:100%;height:auto" alt="相同预测在IoU0.50至0.90下对象F1持续下降；仅为评分敏感性，未调参"></details><p><a href="项目文档.html#doc-a0260847b1a0">查看25图全部结果、标注问题、下载与复现证据 →</a></p></section>
 
 <section id="qupath-test-update" aria-labelledby="qupath-test-title"><div class="section-head"><h2 id="qupath-test-title">QuPath 实际测试 · 2026-11-11</h2><p>171 项读写通过 · 1 项无效文件排除</p></div><p>50 通道 IMC 全部 29,850,000 个 float32 像素值摘要一致，双轴尺度与项目重读通过。正常 GUI 已打开测试项目；1,672 个既有细胞的四组合 GUI 回归通过，本轮使用本机模型响应夹具和工程阈值，没有医学准确率结论。</p><img src="assets/validation/qupath-imc-channel.png" width="1430" height="1140" style="width:100%;height:auto" alt="QuPath 正常窗口显示公开IMC的作者标签DNA1通道，灰度对比度仅用于显示"><p>截图：公开作者 IMC，DNA1 单通道显示；50 通道全开会叠加发白。作者 panel 映射仍待核准，截图不表示已识别细胞或TLS。<a href="assets/validation/IMC-NOTICE.txt">来源与 CC BY 4.0 说明</a></p><p><a href="项目文档.html#doc-a86d18037472">查看八项修复、实际回执与剩余边界 →</a></p></section>
 
@@ -301,7 +303,7 @@
               <div class="slide-metadata" id="slide-metadata" hidden><div><span>每张片子的通道</span><strong>7 个</strong></div><div><span>像素大小</span><strong>约 0.5 μm</strong></div></div>
               <p class="demo-annotation" id="slide-note">已找到 3 张 .qptiff；这一步没有检测细胞。</p>
             </div>
-            <div class="demo-visual" data-panel="validation" hidden><p class="visual-title">2026-11-02 实测摘要 · 网页播放不会运行分析</p><div class="validation-stats"><div><strong>33 / 33</strong><span>原生读取与独立保存重读</span></div><div><strong>8</strong><span>实际执行整图检测并独立评分</span></div><div><strong>0.790 / 0.618</strong><span>旧开发图 / 新图同源留出对象F1</span></div></div></div><div class="demo-copy"><p class="eyebrow" id="demo-stage-label">固定统计 · 步骤 1 / 5</p><div role="status" aria-live="polite" aria-atomic="true"><h3 id="demo-step-title">读取内置的 7 个对象</h3><p id="demo-step-copy">没有输入真实图像时，演示会读取预先准备的模拟名单。CD8、PD-L1 等类别已经写在名单里。</p></div><div class="demo-boundary" id="demo-boundary" hidden></div></div>
+            <div class="demo-visual" data-panel="validation" hidden><p class="visual-title">2026-11-11 实测摘要 · 网页播放不会运行分析</p><div class="validation-stats"><div><strong>25 / 25</strong><span>固定H&amp;E核基线全部完成</span></div><div><strong>0.6859</strong><span>逐图宏平均对象F1</span></div><div><strong>0.7471</strong><span>合并微平均对象F1 · 非诊断</span></div></div></div><div class="demo-copy"><p class="eyebrow" id="demo-stage-label">固定统计 · 步骤 1 / 5</p><div role="status" aria-live="polite" aria-atomic="true"><h3 id="demo-step-title">读取内置的 7 个对象</h3><p id="demo-step-copy">没有输入真实图像时，演示会读取预先准备的模拟名单。CD8、PD-L1 等类别已经写在名单里。</p></div><div class="demo-boundary" id="demo-boundary" hidden></div></div>
           </div>
           <div class="demo-controls" role="group" aria-label="演示播放控制"><button type="button" class="primary" id="demo-play" aria-pressed="false">播放演示</button><button type="button" id="demo-prev" disabled>上一步</button><button type="button" id="demo-next">下一步</button><button type="button" id="demo-reset">重置</button><output id="demo-position">演示步骤 1 / 5 · 尚未播放</output></div>
           <noscript><p class="footnote">当前浏览器未启用 JavaScript，展示固定统计的起始画面。下方的路线图、阶段详情和资料链接仍可正常查看。</p></noscript>
@@ -378,19 +380,7 @@
     (() => {
       // ponytail: page-local playback only; real task execution stays in the Python/QuPath runtime.
       const scenes = {
-        validation: {
-          name: '真实图块验证',
-          flow: ['导入真实图块', '核对全部通道', '原生整图检测', '独立保存重读', '参考与误差评价'],
-          steps: [
-            ['导入33个真实公开图块', '8张TissueNet、4张92通道CRC CODEX和21张MIHIC，都是图块，不是整张WSI。'],
-            ['核对像素、通道与完整ROI', '读取整幅图像和全部声明通道，ROI覆盖完整宽高；物理尺度未知，不填默认值。'],
-            ['只对已知结构通道运行检测', '8张TissueNet调用QuPath原生Watershed；4张CODEX映射未知而不检测，组织分类器未运行。'],
-            ['保存后由独立进程重读', '33/33核对通道、实际波段、整图ROI和细胞ID/几何/测量；不是只看程序退出码。'],
-            ['第二轮后检查预声明新图', '旧8图F1=0.790，新8图同来源留出F1=0.618。不回流选参，不是患者独立盲测或知识库增益。']
-          ],
-          boundary: '当前终点：真实图块工程链路和误差已量化；本轮未调用模型，没有医学或知识库增益验证。首轮独立图像校准已运行；患者独立盲测、专家审核及同条件对照继续开展。'
-        },
-        
+        validation: {"name": "参考一致性验证（2026-11-11）", "flow": ["核验官方来源", "冻结25图与参数", "原生核检测", "参考排除与匹配", "报告误差与边界"], "steps": [["下载官方MoNuSAC测试归档", "202,746,703字节原包，313项ZIP CRC通过；许可与本地摘要保存，不把本地摘要当官方校验值。"], ["25个作者患者标识，各取排序首图", "运行前冻结全部25图和软件默认H&E参数；不按图像难度或结果选图。"], ["25/25完成原生核检测", "零细胞扩张，只导出核对象；推理脚本没有读取XML参考，双轴尺度与作者元数据核对。"], ["按参考规则排除模糊像素并一对一匹配", "IoU≥0.50；NegativeROA与越界多边形问题完整记录，不把F1称为官方按类别PQ。"], ["完整报告逐图失败与总分", "25图宏F1=0.6859，微F1=0.7471；原8图另作冻结复核，不合并成绩。"]], "boundary": "当前终点：独立来源H&E核参考一致性已量化，参数未按本组结果优化；不是癌症诊断、mIF表型、TLS成熟度或RAG增益结论。网页仅回顾证据，不运行分析。"},
         stats: {
           name: '固定统计',
           flow: ['读取模拟名单', '安排固定任务', '按规则筛选', '计算数量比例', '保存结果记录'],
