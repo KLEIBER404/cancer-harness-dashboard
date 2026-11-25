@@ -1,0 +1,508 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 1106" width="1440" height="1106" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, 'Inter', sans-serif" role="img" aria-labelledby="workflow-title workflow-description">
+  <title id="workflow-title">PathPilot QuPath 0.8 workflow with knowledge-assisted TLS candidate search</title>
+  <desc id="workflow-description">Updated 25 November 2026 from the 24 November test: native full-image detection, knowledge-assisted AI code generation, human review, frozen snapshot, independent Python audit, and distance-density candidate screening. 3720 cells, 11 candidate clusters, 3 exploratory curve matches.</desc>
+  <defs>
+    <filter id="cardShadow" x="-3%" y="-3%" width="106%" height="108%">
+      <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#0f172a" flood-opacity="0.06" />
+      <feDropShadow dx="0" dy="1" stdDeviation="2" flood-color="#0f172a" flood-opacity="0.04" />
+    </filter>
+    <filter id="glowGate" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#f59e0b" flood-opacity="0.25" />
+    </filter>
+    <filter id="glowGreen" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#10b981" flood-opacity="0.25" />
+    </filter>
+    <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#eff6ff" />
+      <stop offset="35%" stop-color="#f3e8ff" />
+      <stop offset="70%" stop-color="#fef3c7" />
+      <stop offset="100%" stop-color="#ecfdf5" />
+    </linearGradient>
+    <linearGradient id="ribbonPurple" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#c4b5fd" stop-opacity="0.7" />
+      <stop offset="100%" stop-color="#8b5cf6" stop-opacity="0.85" />
+    </linearGradient>
+    <linearGradient id="ribbonAmber" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#fde68a" stop-opacity="0.75" />
+      <stop offset="100%" stop-color="#f59e0b" stop-opacity="0.9" />
+    </linearGradient>
+    <linearGradient id="ribbonGreen" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#a7f3d0" stop-opacity="0.75" />
+      <stop offset="100%" stop-color="#10b981" stop-opacity="0.9" />
+    </linearGradient>
+    <marker id="arrowDark" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#475569" />
+    </marker>
+    <marker id="arrowPurple" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#7c3aed" />
+    </marker>
+    <marker id="arrowAmber" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#d97706" />
+    </marker>
+    <marker id="arrowBlue" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#2563eb" />
+    </marker>
+    <marker id="arrowGreen" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#059669" />
+    </marker>
+    <marker id="arrowRed" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#dc2626" />
+    </marker>
+  </defs>
+  <rect width="1440" height="1106" fill="#f8fafc" />
+  <g transform="translate(480, 10)">
+    <rect x="0" y="0" width="480" height="26" rx="13" fill="#fee2e2" stroke="#fca5a5" stroke-width="1.1" />
+    <circle cx="16" cy="13" r="5" fill="#ef4444" />
+    <text x="240" y="17.5" text-anchor="middle" font-size="12" font-weight="800" fill="#991b1b" letter-spacing="0.5">      PATHPILOT WORKFLOW IN QUPATH 0.8    </text>
+  </g>
+  <g transform="translate(24, 42)">
+    <rect x="0" y="0" width="676" height="88" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.2" filter="url(#cardShadow)" />
+    <text x="20" y="22" font-size="13" font-weight="800" fill="#1e293b">Task Preparation in QuPath</text>
+    <rect x="490" y="9" width="168" height="18" rx="9" fill="#fee2e2" />
+    <text x="574" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#b91c1c">Gate 1: Task Consent</text>
+    <g transform="translate(20, 36)">
+      <rect x="0" y="0" width="66" height="22" rx="5" fill="#f1f5f9" stroke="#94a3b8" />
+      <text x="33" y="15" text-anchor="middle" font-size="10.5" font-weight="600" fill="#334155">ROI / All</text>
+      <line x1="66" y1="11" x2="86" y2="11" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrowDark)" />
+      <rect x="90" y="0" width="84" height="22" rx="5" fill="#fef3c7" stroke="#f59e0b" />
+      <text x="132" y="15" text-anchor="middle" font-size="10.5" font-weight="600" fill="#92400e">Set Task / Rules</text>
+      <line x1="174" y1="11" x2="194" y2="11" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrowDark)" />
+      <rect x="198" y="0" width="102" height="22" rx="5" fill="#fef3c7" stroke="#f59e0b" />
+      <text x="249" y="15" text-anchor="middle" font-size="10.5" font-weight="600" fill="#92400e">Rules / DB (Opt.)</text>
+      <line x1="300" y1="11" x2="320" y2="11" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrowDark)" />
+      <rect x="324" y="0" width="88" height="22" rx="5" fill="#ffedd5" stroke="#f97316" />
+      <text x="368" y="15" text-anchor="middle" font-size="10.5" font-weight="600" fill="#c2410c">Confirm Task</text>
+      <line x1="412" y1="11" x2="432" y2="11" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrowDark)" />
+      <rect x="436" y="0" width="70" height="22" rx="5" fill="#fee2e2" stroke="#ef4444" />
+      <text x="471" y="15" text-anchor="middle" font-size="10.5" font-weight="700" fill="#b91c1c">Generate</text>
+    </g>
+    <g transform="translate(20, 65)">
+      <rect x="0" y="0" width="154" height="16" rx="4" fill="#fef2f2" />
+      <text x="77" y="12" text-anchor="middle" font-size="9.5" font-weight="600" fill="#b91c1c">⚠ Invalid JSON blocks OK</text>
+      <rect x="162" y="0" width="156" height="16" rx="4" fill="#fef2f2" />
+      <text x="240" y="12" text-anchor="middle" font-size="9.5" font-weight="600" fill="#b91c1c">⚠ Edits revoke consent</text>
+      <rect x="326" y="0" width="180" height="16" rx="4" fill="#fef2f2" />
+      <text x="416" y="12" text-anchor="middle" font-size="9.5" font-weight="600" fill="#b91c1c">⚠ Thresholds must be explicit</text>
+    </g>
+  </g>
+  <g transform="translate(740, 42)">
+    <rect x="0" y="0" width="676" height="88" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.2" filter="url(#cardShadow)" />
+    <text x="20" y="22" font-size="13" font-weight="800" fill="#1e293b">From Generated Script to Audited Result</text>
+    <rect x="490" y="9" width="168" height="18" rx="9" fill="#fee2e2" />
+    <text x="574" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#b91c1c">Gate 2: Script Review</text>
+    <g transform="translate(20, 36)">
+      <rect x="0" y="0" width="112" height="22" rx="5" fill="#f1f5f9" stroke="#94a3b8" />
+      <text x="56" y="15" text-anchor="middle" font-size="10.5" font-weight="600" fill="#334155">Candidate + Wrapper</text>
+      <line x1="112" y1="11" x2="132" y2="11" stroke="#7c3aed" stroke-width="1.5" marker-end="url(#arrowPurple)" />
+      <rect x="136" y="0" width="246" height="22" rx="5" fill="#f3e8ff" stroke="#a855f7" stroke-dasharray="3,2" />
+      <text x="259" y="15" text-anchor="middle" font-size="10.5" font-weight="700" fill="#6b21a8">Review → QuPath Run + Python Audit</text>
+      <line x1="382" y1="11" x2="402" y2="11" stroke="#dc2626" stroke-width="1.8" marker-end="url(#arrowRed)" />
+      <rect x="406" y="0" width="116" height="22" rx="5" fill="#fee2e2" stroke="#ef4444" />
+      <text x="464" y="15" text-anchor="middle" font-size="10.5" font-weight="700" fill="#b91c1c">Audited Result</text>
+    </g>
+    <g transform="translate(20, 65)">
+      <rect x="0" y="0" width="174" height="16" rx="4" fill="#fef2f2" />
+      <text x="87" y="12" text-anchor="middle" font-size="9.5" font-weight="600" fill="#b91c1c">⚠ No OS sandbox (human gate)</text>
+      <rect x="182" y="0" width="160" height="16" rx="4" fill="#fef2f2" />
+      <text x="262" y="12" text-anchor="middle" font-size="9.5" font-weight="600" fill="#b91c1c">⚠ Inputs frozen before run</text>
+      <rect x="350" y="0" width="172" height="16" rx="4" fill="#fef2f2" />
+      <text x="436" y="12" text-anchor="middle" font-size="9.5" font-weight="600" fill="#b91c1c">⚠ Mismatches block audit pass</text>
+    </g>
+  </g>
+  <g transform="translate(24, 140)">
+    <rect x="0" y="0" width="1392" height="42" rx="10" fill="url(#headerGrad)" stroke="#cbd5e1" stroke-width="1.2" filter="url(#cardShadow)" />
+    <text x="24" y="26" font-size="16" font-weight="900" fill="#0f172a" letter-spacing="0.3">PathPilot: Knowledge-Assisted Code Generation, TLS Search and Audited Quantification</text>
+    <g transform="translate(850, 9)">
+      <rect x="0" y="0" width="120" height="24" rx="12" fill="#ffffff" stroke="#93c5fd" stroke-width="1" />
+      <text x="60" y="16" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1e40af">🔒 Local Slide Data</text>
+      <rect x="130" y="0" width="124" height="24" rx="12" fill="#ffffff" stroke="#fcd34d" stroke-width="1" />
+      <text x="192" y="16" text-anchor="middle" font-size="10.5" font-weight="700" fill="#92400e">⚖ Two Approvals</text>
+      <rect x="264" y="0" width="130" height="24" rx="12" fill="#ffffff" stroke="#86efac" stroke-width="1" />
+      <text x="329" y="16" text-anchor="middle" font-size="10.5" font-weight="700" fill="#166534">✓ Independent Audit</text>
+      <rect x="404" y="0" width="126" height="24" rx="12" fill="#ffffff" stroke="#c084fc" stroke-width="1" />
+      <text x="467" y="16" text-anchor="middle" font-size="10.5" font-weight="700" fill="#6b21a8">★ QuPath 0.8</text>
+    </g>
+  </g>
+  <g transform="translate(24, 194)">
+    <rect x="0" y="0" width="268" height="462" rx="14" fill="#ffffff" stroke="#94a3b8" stroke-width="1.3" filter="url(#cardShadow)" />
+    <rect x="0" y="0" width="268" height="38" rx="14" fill="#eff6ff" />
+    <rect x="0" y="24" width="268" height="14" fill="#eff6ff" />
+    <text x="134" y="24" text-anchor="middle" font-size="14.5" font-weight="800" fill="#1e3a8a">(a) Cells, Knowledge and Task</text>
+    <g transform="translate(14, 46)">
+      <rect x="0" y="0" width="240" height="106" rx="8" fill="#f8fafc" stroke="#bfdbfe" stroke-width="1.1" />
+      <text x="12" y="18" font-size="11.5" font-weight="800" fill="#1e40af">Native Detection → Cell Measurements</text>
+      <rect x="12" y="26" width="68" height="42" rx="5" fill="#dbeafe" stroke="#3b82f6" stroke-width="1" />
+      <circle cx="30" cy="42" r="5" fill="#2563eb" />
+      <circle cx="48" cy="48" r="7" fill="#1d4ed8" />
+      <circle cx="62" cy="38" r="4" fill="#3b82f6" />
+      <text x="46" y="62" text-anchor="middle" font-size="8.5" font-weight="700" fill="#1e3a8a">Cell Hierarchy</text>
+      <rect x="88" y="26" width="140" height="42" rx="5" fill="#ffffff" stroke="#93c5fd" />
+      <text x="94" y="38" font-size="9" font-weight="700" fill="#1e293b">• X/Y calibration (μm/px)</text>
+      <text x="94" y="50" font-size="9" font-weight="600" fill="#475569">• Exact marker measurements</text>
+      <text x="94" y="62" font-size="9" font-weight="600" fill="#475569">• Selected ROI or same-plane cells</text>
+      <rect x="12" y="74" width="216" height="22" rx="4" fill="#eff6ff" />
+      <text x="120" y="89" text-anchor="middle" font-size="9.5" font-weight="700" fill="#1d4ed8">        🔒 Slide pixels &amp; cell data stay local      </text>
+    </g>
+    <g transform="translate(14, 160)">
+      <rect x="0" y="0" width="240" height="88" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.1" />
+      <text x="12" y="18" font-size="11" font-weight="800" fill="#0f766e">Local Knowledge DB (Optional)</text>
+      <rect x="12" y="26" width="216" height="34" rx="5" fill="#f0fdf4" stroke="#86efac" stroke-width="1" />
+      <text x="18" y="40" font-size="9" font-weight="700" fill="#166534">Explicit QUPATH_KNOWLEDGE_DB</text>
+      <text x="18" y="52" font-size="8.5" font-weight="600" fill="#15803d">Confirm panel, card versions and scope</text>
+      <rect x="12" y="66" width="216" height="16" rx="3" fill="#e2e8f0" />
+      <text x="120" y="78" text-anchor="middle" font-size="8.5" font-weight="700" fill="#334155">Definitions: off by default; TLS asks consent</text>
+    </g>
+    <g transform="translate(14, 256)">
+      <rect x="0" y="0" width="240" height="96" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.1" />
+      <text x="12" y="18" font-size="11.5" font-weight="800" fill="#334155">Strict Task Spec JSON</text>
+      <rect x="12" y="26" width="216" height="62" rx="5" fill="#ffffff" stroke="#94a3b8" />
+      <text x="18" y="40" font-size="9" font-weight="600" fill="#0f172a">goal + measurements</text>
+      <text x="18" y="52" font-size="9" font-weight="600" fill="#0f172a">outputs: numeric or null fields</text>
+      <text x="18" y="64" font-size="9" font-weight="600" fill="#0f172a">cases: independent local tests</text>
+      <text x="18" y="76" font-size="8.5" font-weight="600" fill="#0f172a">optional: marker rules, knowledge, spatial / TLS</text>
+    </g>
+    <g transform="translate(14, 360)">
+      <rect x="0" y="0" width="240" height="64" rx="8" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5" filter="url(#glowGate)" />
+      <text x="120" y="20" text-anchor="middle" font-size="11.5" font-weight="900" fill="#92400e">⚠ GATE 1: Task Consent</text>
+      <text x="120" y="36" text-anchor="middle" font-size="9" font-weight="700" fill="#78350f">Review and approve the JSON</text>
+      <rect x="16" y="42" width="208" height="16" rx="4" fill="#ffffff" />
+      <text x="120" y="54" text-anchor="middle" font-size="8" font-weight="700" fill="#b45309">        Edits revoke consent • Invalid JSON blocks approval      </text>
+    </g>
+    <text x="134" y="442" text-anchor="middle" font-size="10" font-weight="600" fill="#64748b">Explicit rules, thresholds and analysis scope</text>
+    <text x="134" y="454" text-anchor="middle" font-size="9" font-weight="600" fill="#94a3b8">      Reference cases and answers stay local    </text>
+  </g>
+  <path d="M 292 380 C 304 380, 304 330, 314 330" fill="none" stroke="url(#ribbonPurple)" stroke-width="8" stroke-linecap="round" />
+  <path d="M 292 380 C 304 380, 304 330, 314 330" fill="none" stroke="#7c3aed" stroke-width="1.8" marker-end="url(#arrowPurple)" />
+  <g transform="translate(316, 194)">
+    <rect x="0" y="0" width="344" height="462" rx="14" fill="#ffffff" stroke="#94a3b8" stroke-width="1.3" filter="url(#cardShadow)" />
+    <rect x="0" y="0" width="344" height="38" rx="14" fill="#f3e8ff" />
+    <rect x="0" y="24" width="344" height="14" fill="#f3e8ff" />
+    <text x="172" y="24" text-anchor="middle" font-size="14.5" font-weight="800" fill="#581c87">(b) Code Generation</text>
+    <g transform="translate(14, 46)">
+      <rect x="0" y="0" width="316" height="66" rx="8" fill="#faf5ff" stroke="#d8b4fe" stroke-width="1.1" />
+      <text x="14" y="18" font-size="11" font-weight="800" fill="#6b21a8">Assemble Model Request</text>
+      <g transform="translate(12, 26)">
+        <rect x="0" y="0" width="90" height="28" rx="4" fill="#ffffff" stroke="#c084fc" />
+        <text x="45" y="13.5" text-anchor="middle" font-size="8.5" font-weight="700" fill="#581c87">QuPath Skill</text>
+        <text x="45" y="23" text-anchor="middle" font-size="7.3" font-weight="600" fill="#6b21a8">qupath.skill_context</text>
+        <text x="97" y="18" font-size="12" font-weight="800" fill="#7c3aed">+</text>
+        <rect x="110" y="0" width="92" height="28" rx="4" fill="#ffffff" stroke="#c084fc" />
+        <text x="156" y="13.5" text-anchor="middle" font-size="8.5" font-weight="700" fill="#581c87">Task Fields</text>
+        <text x="156" y="23" text-anchor="middle" font-size="7.3" font-weight="600" fill="#6b21a8">keys, rules &amp; knowledge</text>
+        <text x="208" y="18" font-size="12" font-weight="800" fill="#7c3aed">→</text>
+        <rect x="220" y="0" width="72" height="28" rx="4" fill="#ede9fe" stroke="#a855f7" />
+        <text x="256" y="13.5" text-anchor="middle" font-size="8.5" font-weight="800" fill="#4c1d95">Request</text>
+        <text x="256" y="23" text-anchor="middle" font-size="7.2" font-weight="700" fill="#581c87">Harness record</text>
+      </g>
+    </g>
+    <g transform="translate(14, 120)">
+      <rect x="0" y="0" width="316" height="186" rx="8" fill="#fdf4ff" stroke="#a855f7" stroke-width="1.3" />
+      <text x="158" y="18" text-anchor="middle" font-size="12" font-weight="800" fill="#4c1d95">Single Chat Completions Call</text>
+      <rect x="20" y="26" width="276" height="26" rx="5" fill="#ffffff" stroke="#c084fc" />
+      <text x="158" y="43" text-anchor="middle" font-size="10.5" font-weight="800" fill="#581c87">        Task fields + source context → single JSON response      </text>
+      <g transform="translate(16, 60)">
+        <circle cx="24" cy="24" r="14" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.4" />
+        <text x="24" y="28" text-anchor="middle" font-size="10.5" font-weight="800" fill="#4c1d95">In</text>
+        <path d="M 38 24 L 74 24" stroke="#7c3aed" stroke-width="1.8" marker-end="url(#arrowPurple)" />
+        <circle cx="94" cy="24" r="14" fill="#ddd6fe" stroke="#7c3aed" stroke-width="1.4" />
+        <text x="94" y="28" text-anchor="middle" font-size="10.5" font-weight="800" fill="#4c1d95">API</text>
+        <path d="M 108 24 L 154 24" stroke="#7c3aed" stroke-width="1.8" marker-end="url(#arrowPurple)" />
+        <text x="131" y="16" text-anchor="middle" font-size="7.5" font-weight="700" fill="#6b21a8">1 call • no tools</text>
+        <circle cx="174" cy="24" r="14" fill="#c4b5fd" stroke="#6d28d9" stroke-width="1.4" />
+        <text x="174" y="28" text-anchor="middle" font-size="10.5" font-weight="800" fill="#3b0764">Out</text>
+        <path d="M 188 24 L 224 24" stroke="#7c3aed" stroke-width="1.8" marker-end="url(#arrowPurple)" />
+        <circle cx="246" cy="24" r="16" fill="#8b5cf6" stroke="#4c1d95" stroke-width="1.8" />
+        <text x="246" y="28" text-anchor="middle" font-size="10.5" font-weight="900" fill="#ffffff">Code</text>
+      </g>
+      <g transform="translate(16, 114)">
+        <rect x="0" y="0" width="90" height="20" rx="4" fill="#ffffff" stroke="#c084fc" />
+        <text x="45" y="13.5" text-anchor="middle" font-size="8.5" font-weight="700" fill="#581c87">1. Record Request</text>
+        <rect x="97" y="0" width="90" height="20" rx="4" fill="#ffffff" stroke="#c084fc" />
+        <text x="142" y="13.5" text-anchor="middle" font-size="8.5" font-weight="700" fill="#581c87">2. Single API Call</text>
+        <rect x="194" y="0" width="90" height="20" rx="4" fill="#ffffff" stroke="#c084fc" />
+        <text x="239" y="13.5" text-anchor="middle" font-size="8.5" font-weight="700" fill="#581c87">3. Text Precheck</text>
+      </g>
+      <g transform="translate(16, 142)">
+        <rect x="0" y="0" width="284" height="34" rx="5" fill="#ede9fe" />
+        <text x="12" y="16" font-size="9" font-weight="700" fill="#4c1d95">▶ Harness records inputs before the API call</text>
+        <text x="12" y="27" font-size="8" font-weight="600" fill="#6b21a8">REQUEST_PREPARED (execution_authorized=false)</text>
+      </g>
+    </g>
+    <g transform="translate(14, 314)">
+      <rect x="0" y="0" width="316" height="110" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.1" />
+      <text x="14" y="18" font-size="11" font-weight="800" fill="#1e293b">Candidate Groovy Script</text>
+      <rect x="12" y="26" width="292" height="74" rx="5" fill="#0f172a" />
+      <text x="20" y="42" font-family="monospace" font-size="8.5" fill="#38bdf8">// Example: count existing cells</text>
+      <text x="20" y="55" font-family="monospace" font-size="8.5" fill="#e2e8f0">Map analyze(List cells) {</text>
+      <text x="32" y="68" font-family="monospace" font-size="8.5" fill="#a7f3d0">  def count = cells.size()</text>
+      <text x="32" y="81" font-family="monospace" font-size="8.5" fill="#fde047">  return [total_cells: count]</text>
+      <text x="20" y="93" font-family="monospace" font-size="8.5" fill="#e2e8f0">}</text>
+    </g>
+    <text x="172" y="442" text-anchor="middle" font-size="10" font-weight="600" fill="#64748b">      The request includes task fields and source context    </text>
+    <text x="172" y="454" text-anchor="middle" font-size="9" font-weight="600" fill="#94a3b8">      Selected definitions require explicit permission    </text>
+  </g>
+  <path d="M 660 380 C 674 380, 674 310, 686 310" fill="none" stroke="url(#ribbonAmber)" stroke-width="8" stroke-linecap="round" />
+  <path d="M 660 380 C 674 380, 674 310, 686 310" fill="none" stroke="#d97706" stroke-width="1.8" marker-end="url(#arrowAmber)" />
+  <g transform="translate(688, 194)">
+    <rect x="0" y="0" width="344" height="462" rx="14" fill="#ffffff" stroke="#94a3b8" stroke-width="1.3" filter="url(#cardShadow)" />
+    <rect x="0" y="0" width="344" height="38" rx="14" fill="#fef3c7" />
+    <rect x="0" y="24" width="344" height="14" fill="#fef3c7" />
+    <text x="172" y="24" text-anchor="middle" font-size="14.5" font-weight="800" fill="#92400e">(c) Script Review and Run</text>
+    <g transform="translate(14, 46)">
+      <rect x="0" y="0" width="316" height="66" rx="8" fill="#fffbeb" stroke="#fde68a" stroke-width="1.1" />
+      <text x="14" y="16" font-size="11" font-weight="800" fill="#92400e">Pre-Execution Checks</text>
+      <g transform="translate(10, 24)">
+        <rect x="0" y="0" width="68" height="34" rx="4" fill="#ffffff" stroke="#fcd34d" />
+        <text x="34" y="14" text-anchor="middle" font-size="8.5" font-weight="700" fill="#92400e">File Hashes</text>
+        <text x="34" y="26" text-anchor="middle" font-size="10" font-weight="800" fill="#b45309">SHA-256</text>
+        <rect x="74" y="0" width="68" height="34" rx="4" fill="#ffffff" stroke="#fcd34d" />
+        <text x="108" y="14" text-anchor="middle" font-size="8.5" font-weight="700" fill="#92400e">ROI / Scope</text>
+        <text x="108" y="26" text-anchor="middle" font-size="10" font-weight="800" fill="#b45309">Area &amp; z/t</text>
+        <rect x="148" y="0" width="76" height="34" rx="4" fill="#ffffff" stroke="#fcd34d" />
+        <text x="186" y="14" text-anchor="middle" font-size="8.5" font-weight="700" fill="#92400e">Inputs</text>
+        <text x="186" y="26" text-anchor="middle" font-size="10" font-weight="800" fill="#b45309">Keys &amp; μm</text>
+        <rect x="230" y="0" width="66" height="34" rx="4" fill="#ffffff" stroke="#fcd34d" />
+        <text x="263" y="14" text-anchor="middle" font-size="8.5" font-weight="700" fill="#92400e">Gate 2</text>
+        <text x="263" y="26" text-anchor="middle" font-size="10" font-weight="800" fill="#b45309">Approved</text>
+      </g>
+    </g>
+    <g transform="translate(14, 120)">
+      <rect x="0" y="0" width="316" height="84" rx="8" fill="#ffffff" stroke="#f59e0b" stroke-width="1.2" />
+      <rect x="12" y="8" width="292" height="24" rx="4" fill="#fef3c7" />
+      <text x="158" y="24" text-anchor="middle" font-size="10.5" font-weight="900" fill="#78350f">Host checks files, scope and inputs before execution</text>
+      <g transform="translate(12, 38)">
+        <rect x="0" y="0" width="90" height="36" rx="5" fill="#f3e8ff" stroke="#a855f7" />
+        <text x="45" y="15" text-anchor="middle" font-size="8.5" font-weight="800" fill="#581c87">REVIEW</text>
+        <text x="45" y="28" text-anchor="middle" font-size="8" font-weight="600" fill="#7c3aed">Read full script</text>
+        <rect x="98" y="0" width="96" height="36" rx="5" fill="#fef3c7" stroke="#d97706" />
+        <text x="146" y="15" text-anchor="middle" font-size="8.5" font-weight="900" fill="#92400e">APPROVE RUN</text>
+        <text x="146" y="28" text-anchor="middle" font-size="8" font-weight="700" fill="#b45309">Freeze snapshot</text>
+        <rect x="202" y="0" width="90" height="36" rx="5" fill="#fee2e2" stroke="#ef4444" />
+        <text x="247" y="15" text-anchor="middle" font-size="8.5" font-weight="800" fill="#991b1b">STOP</text>
+        <text x="247" y="28" text-anchor="middle" font-size="8" font-weight="600" fill="#b91c1c">Check failed</text>
+      </g>
+    </g>
+    <g transform="translate(14, 212)">
+      <rect x="0" y="0" width="316" height="136" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.1" />
+      <text x="14" y="18" font-size="11" font-weight="800" fill="#1e293b">Wrapped Execution (After Gate 2)</text>
+      <g transform="translate(12, 28)">
+        <rect x="0" y="0" width="292" height="28" rx="4" fill="#ffffff" stroke="#e2e8f0" />
+        <circle cx="16" cy="14" r="8" fill="#fef3c7" stroke="#d97706" />
+        <text x="16" y="17" text-anchor="middle" font-size="8.5" font-weight="800" fill="#92400e">1</text>
+        <text x="32" y="17.5" font-size="9" font-weight="700" fill="#334155">Freeze ROI / same-plane cells and calibrated centroids</text>
+      </g>
+      <g transform="translate(12, 62)">
+        <rect x="0" y="0" width="292" height="28" rx="4" fill="#ffffff" stroke="#e2e8f0" />
+        <circle cx="16" cy="14" r="8" fill="#fef3c7" stroke="#d97706" />
+        <text x="16" y="17" text-anchor="middle" font-size="8.5" font-weight="800" fill="#92400e">2</text>
+        <text x="32" y="17.5" font-size="9" font-weight="700" fill="#334155">Run independent local test cases first in wrapper</text>
+      </g>
+      <g transform="translate(12, 96)">
+        <rect x="0" y="0" width="292" height="28" rx="4" fill="#ffffff" stroke="#e2e8f0" />
+        <circle cx="16" cy="14" r="8" fill="#dcfce7" stroke="#16a34a" />
+        <text x="16" y="17" text-anchor="middle" font-size="8.5" font-weight="800" fill="#166534">3</text>
+        <text x="32" y="17.5" font-size="8.8" font-weight="700" fill="#166534">Run candidate analysis on the frozen snapshot</text>
+      </g>
+    </g>
+    <g transform="translate(14, 360)">
+      <rect x="0" y="0" width="316" height="64" rx="8" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5" filter="url(#glowGate)" />
+      <text x="158" y="20" text-anchor="middle" font-size="11.5" font-weight="900" fill="#92400e">⚠ GATE 2: Script Review and Run</text>
+      <text x="158" y="36" text-anchor="middle" font-size="9" font-weight="700" fill="#78350f">Inspect full saved script in the native Script Editor</text>
+      <rect x="16" y="42" width="284" height="16" rx="4" fill="#ffffff" />
+      <text x="158" y="54" text-anchor="middle" font-size="8.3" font-weight="800" fill="#b45309">        No OS sandbox • Runs with QuPath process privileges      </text>
+    </g>
+    <text x="172" y="442" text-anchor="middle" font-size="10" font-weight="600" fill="#64748b">Snapshot binds scope geometry, cell IDs and measurements</text>
+    <text x="172" y="454" text-anchor="middle" font-size="9" font-weight="600" fill="#94a3b8">      Missing calibration blocks requested spatial metrics    </text>
+  </g>
+  <path d="M 1032 380 C 1044 380, 1044 330, 1056 330" fill="none" stroke="url(#ribbonGreen)" stroke-width="8" stroke-linecap="round" />
+  <path d="M 1032 380 C 1044 380, 1044 330, 1056 330" fill="none" stroke="#059669" stroke-width="1.8" marker-end="url(#arrowGreen)" />
+  <g transform="translate(1058, 194)">
+    <rect x="0" y="0" width="358" height="462" rx="14" fill="#ffffff" stroke="#94a3b8" stroke-width="1.3" filter="url(#cardShadow)" />
+    <rect x="0" y="0" width="358" height="38" rx="14" fill="#dcfce7" />
+    <rect x="0" y="24" width="358" height="14" fill="#dcfce7" />
+    <text x="179" y="24" text-anchor="middle" font-size="14.5" font-weight="800" fill="#14532d">(d) Independent Result Audit</text>
+    <g transform="translate(14, 46)">
+      <rect x="0" y="0" width="330" height="70" rx="8" fill="#f0fdf4" stroke="#86efac" stroke-width="1.1" />
+      <text x="14" y="18" font-size="11" font-weight="800" fill="#14532d">Frozen Host Cell Snapshot</text>
+      <rect x="12" y="26" width="306" height="36" rx="5" fill="#ffffff" stroke="#bbf7d0" />
+      <text x="20" y="40" font-size="9" font-weight="700" fill="#166534">• Cell ROI centroids: boundary in, holes out, same z/t</text>
+      <text x="20" y="52" font-size="8.5" font-weight="600" fill="#15803d">• Spatial inputs: calibrated area (mm²) and centroids (μm)</text>
+    </g>
+    <g transform="translate(14, 124)">
+      <rect x="0" y="0" width="330" height="126" rx="8" fill="#ffffff" stroke="#10b981" stroke-width="1.3" />
+      <text x="165" y="18" text-anchor="middle" font-size="11.5" font-weight="900" fill="#065f46">QuPath Execution and Python Recalculation</text>
+      <rect x="12" y="26" width="144" height="48" rx="5" fill="#eff6ff" stroke="#3b82f6" />
+      <text x="84" y="40" text-anchor="middle" font-size="9.5" font-weight="800" fill="#1e40af">Track 1: QuPath 0.8</text>
+      <text x="84" y="52" text-anchor="middle" font-size="8" font-weight="600" fill="#1d4ed8">Groovy 5.0.6 wrapper</text>
+      <text x="84" y="64" text-anchor="middle" font-size="7.5" font-weight="700" fill="#2563eb">Candidate + host spatial</text>
+      <rect x="174" y="26" width="144" height="48" rx="5" fill="#ecfdf5" stroke="#10b981" />
+      <text x="246" y="40" text-anchor="middle" font-size="9.5" font-weight="800" fill="#065f46">Track 2: Python</text>
+      <text x="246" y="52" text-anchor="middle" font-size="8" font-weight="600" fill="#047857">Independent audit</text>
+      <text x="246" y="64" text-anchor="middle" font-size="7.5" font-weight="700" fill="#059669">Rules &amp; spatial ref.</text>
+      <path d="M 84 74 L 84 86 L 140 86" stroke="#2563eb" stroke-width="1.4" fill="none" />
+      <path d="M 246 74 L 246 86 L 190 86" stroke="#059669" stroke-width="1.4" fill="none" />
+      <polygon points="165,76 182,92 165,108 148,92" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5" />
+      <text x="165" y="96" text-anchor="middle" font-size="11" font-weight="900" fill="#15803d">≈</text>
+      <g transform="translate(12, 102)">
+        <rect x="180" y="2" width="126" height="16" rx="3" fill="#fee2e2" />
+        <text x="243" y="13.5" text-anchor="middle" font-size="8" font-weight="700" fill="#991b1b">✗ Mismatch → audit fails</text>
+        <rect x="0" y="2" width="138" height="16" rx="3" fill="#dcfce7" />
+        <text x="69" y="13.5" text-anchor="middle" font-size="8" font-weight="800" fill="#166534">✓ Match → REPORT_READY</text>
+      </g>
+    </g>
+    <g transform="translate(14, 258)">
+      <rect x="0" y="0" width="330" height="92" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.1" />
+      <text x="14" y="18" font-size="11" font-weight="800" fill="#1e293b">Harness Store and Provenance</text>
+      <rect x="12" y="26" width="306" height="56" rx="5" fill="#ffffff" stroke="#94a3b8" />
+      <text x="20" y="40" font-size="8.5" font-weight="700" fill="#0f172a">run-UUID/harness/harness.sqlite</text>
+      <text x="20" y="52" font-size="8" font-weight="600" fill="#475569">Hashes bind specification, script and snapshot</text>
+      <text x="20" y="64" font-size="8" font-weight="600" fill="#475569">One session for skill, request and result records</text>
+      <text x="20" y="76" font-size="8" font-weight="700" fill="#15803d">The receipt records the outcome or failure</text>
+    </g>
+    <g transform="translate(14, 360)">
+      <rect x="0" y="0" width="330" height="64" rx="8" fill="#dcfce7" stroke="#10b981" stroke-width="1.5" filter="url(#glowGreen)" />
+      <text x="165" y="20" text-anchor="middle" font-size="12" font-weight="900" fill="#065f46">✓ RESULT AUDIT: REPORT_READY</text>
+      <text x="165" y="36" text-anchor="middle" font-size="9" font-weight="700" fill="#047857">Audited metrics and execution record</text>
+      <rect x="16" y="42" width="298" height="16" rx="4" fill="#ffffff" />
+      <text x="165" y="54" text-anchor="middle" font-size="8.5" font-weight="800" fill="#15803d">Counts • Marker Rules • Spatial Metrics • TLS Curves</text>
+    </g>
+    <text x="179" y="442" text-anchor="middle" font-size="10" font-weight="600" fill="#64748b">TLS: hidden cases + full frozen-snapshot recalculation</text>
+    <text x="179" y="454" text-anchor="middle" font-size="9" font-weight="600" fill="#94a3b8">      REPORT_READY = audited record (not clinical validity)    </text>
+  </g>
+  <g id="tls-workflow" transform="translate(24, 666)">
+    <!--TLS 专用流程：原生检测准备输入，AI 生成搜索代码，人工审查后独立复核。-->
+    <rect width="1392" height="174" rx="14" fill="#ffffff" stroke="#94a3b8" stroke-width="1.3" />
+    <text x="24" y="23" font-size="13.5" fill="#0f172a" font-weight="900">TLS CANDIDATE SEARCH · DISTANCE–DENSITY COUPLING</text>
+    <text x="1368" y="23" font-size="10" fill="#047857" font-weight="800" text-anchor="end">REAL RUN · 24 NOV 2026</text>
+    <g transform="translate(18, 37)">
+      <rect width="264" height="99" rx="8" fill="#eff6ff" stroke="#93c5fd" />
+      <text x="11" y="19" font-size="10.6" fill="#0f172a" font-weight="800">1. Native Whole-Image Detection</text>
+      <text x="11" y="38" font-size="9.2" fill="#334155" font-weight="600">QuPath Cell Detection parameter dialog</text>
+      <text x="11" y="53" font-size="9.2" fill="#334155" font-weight="600">Full image on the current Z/T plane</text>
+      <text x="11" y="68" font-size="9.2" fill="#334155" font-weight="600">3,720 measured cells in the latest run</text>
+      <text x="11" y="83" font-size="9.2" fill="#334155" font-weight="600">TLS scope: selected ROI or up to 5,000 cells</text>
+    </g>
+    <line x1="282" y1="86" x2="290" y2="86" stroke="#64748b" stroke-width="1.3" marker-end="url(#arrowDark)" />
+    <g transform="translate(291, 37)">
+      <rect width="264" height="99" rx="8" fill="#f3e8ff" stroke="#c4b5fd" />
+      <text x="11" y="19" font-size="10.6" fill="#0f172a" font-weight="800">2. Knowledge → Generated Code</text>
+      <text x="11" y="38" font-size="9.2" fill="#334155" font-weight="600">CD20 / CD23 / CD8 + spatial method cards</text>
+      <text x="11" y="53" font-size="9.2" fill="#334155" font-weight="600">User approves definitions and full script</text>
+      <text x="11" y="68" font-size="9.2" fill="#334155" font-weight="600">Exact Cell mean keys + explicit thresholds</text>
+      <text x="11" y="83" font-size="9.2" fill="#334155" font-weight="600">Robust Otsu values remain unconfirmed</text>
+    </g>
+    <line x1="555" y1="86" x2="563" y2="86" stroke="#64748b" stroke-width="1.3" marker-end="url(#arrowDark)" />
+    <g transform="translate(564, 37)">
+      <rect width="264" height="99" rx="8" fill="#ecfeff" stroke="#67e8f9" />
+      <text x="11" y="19" font-size="10.6" fill="#0f172a" font-weight="800">3. Search CD23 Core Candidates</text>
+      <text x="11" y="38" font-size="9.2" fill="#334155" font-weight="600">CD23 centroid graph: links within 25 μm</text>
+      <text x="11" y="53" font-size="9.2" fill="#334155" font-weight="600">At least 3 objects per connected cluster</text>
+      <text x="11" y="68" font-size="9.2" fill="#334155" font-weight="600">Core = convex hull; interior distance = 0</text>
+      <text x="11" y="83" font-size="9.2" fill="#334155" font-weight="600">11 CD23 clusters found in this real run</text>
+    </g>
+    <line x1="828" y1="86" x2="836" y2="86" stroke="#64748b" stroke-width="1.3" marker-end="url(#arrowDark)" />
+    <g transform="translate(837, 37)">
+      <rect width="264" height="99" rx="8" fill="#fffbeb" stroke="#fcd34d" />
+      <text x="11" y="19" font-size="10.6" fill="#0f172a" font-weight="800">4. Distance–Density Curve Rule</text>
+      <text x="11" y="38" font-size="9.2" fill="#334155" font-weight="600">10 μm rings to 40 μm; clipped ring areas</text>
+      <text x="11" y="53" font-size="9.2" fill="#334155" font-weight="600">Density = count / area; normalize to scope</text>
+      <text x="11" y="68" font-size="9.2" fill="#334155" font-weight="600">Fit CD20 and CD8 relative-density slopes</text>
+      <text x="11" y="83" font-size="9.2" fill="#334155" font-weight="600">Match: CD20 slope &lt; 0 AND CD8 slope &gt; 0</text>
+    </g>
+    <line x1="1101" y1="86" x2="1109" y2="86" stroke="#64748b" stroke-width="1.3" marker-end="url(#arrowDark)" />
+    <g transform="translate(1110, 37)">
+      <rect width="264" height="99" rx="8" fill="#f0fdf4" stroke="#86efac" />
+      <text x="11" y="19" font-size="10.6" fill="#0f172a" font-weight="800">5. Independent Audit and Display</text>
+      <text x="11" y="38" font-size="9.2" fill="#334155" font-weight="600">Hidden cases + Python snapshot recompute</text>
+      <text x="11" y="53" font-size="9.2" fill="#334155" font-weight="600">3 curve matches: candidate IDs 2 / 4 / 8</text>
+      <text x="11" y="68" font-size="9.2" fill="#334155" font-weight="600">Per-candidate curves and separate outlines</text>
+      <text x="11" y="83" font-size="9.2" fill="#334155" font-weight="600">Pathology review determines TLS status</text>
+    </g>
+    <text x="24" y="155" font-size="9.4" fill="#475569" font-weight="600">Rule detail: ≥2 valid rings per marker; zero-area rings excluded; zero baseline → insufficient data; |slope| ≤ 10⁻¹² /μm treated as zero.</text>
+    <text x="24" y="168" font-size="9.4" fill="#92400e" font-weight="700">Exploratory spatial evidence: curve matches require segmentation, threshold / parameter validation and expert review before diagnostic use.</text>
+  </g>
+  <g transform="translate(24, 852)">
+    <!--基础量化：计数、标记组合及标定空间统计。-->
+    <rect x="0" y="0" width="1392" height="130" rx="14" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.3" filter="url(#cardShadow)" />
+    <rect x="0" y="0" width="1392" height="32" rx="14" fill="#f8fafc" />
+    <rect x="0" y="18" width="1392" height="14" fill="#f8fafc" />
+    <text x="24" y="22" font-size="13.5" font-weight="900" fill="#0f172a">QUANTIFICATION TASKS AND INPUT CHECKS</text>
+    <g transform="translate(18, 38)">
+      <rect x="0" y="0" width="324" height="82" rx="8" fill="#f0fdf4" stroke="#86efac" stroke-width="1" />
+      <text x="12" y="18" font-size="11" font-weight="800" fill="#166534">1. Existing Cell Count</text>
+      <rect x="234" y="6" width="80" height="16" rx="8" fill="#dcfce7" />
+      <text x="274" y="17.5" text-anchor="middle" font-size="8.5" font-weight="800" fill="#15803d">One ROI</text>
+      <text x="12" y="34" font-size="9" font-weight="600" fill="#334155">• Count existing Cell objects in the selected ROI</text>
+      <text x="12" y="47" font-size="9" font-weight="600" fill="#334155">• Check independent cases before running</text>
+      <text x="12" y="60" font-size="9" font-weight="700" fill="#15803d">• Result: total_cells</text>
+      <rect x="12" y="66" width="300" height="10" rx="3" fill="#bbf7d0" />
+    </g>
+    <g transform="translate(360, 38)">
+      <rect x="0" y="0" width="330" height="82" rx="8" fill="#fef3c7" stroke="#fde68a" stroke-width="1" />
+      <text x="12" y="18" font-size="11" font-weight="800" fill="#92400e">2. Marker Combinations</text>
+      <rect x="240" y="6" width="80" height="16" rx="8" fill="#fef3c7" />
+      <text x="280" y="17.5" text-anchor="middle" font-size="8.5" font-weight="800" fill="#b45309">All Rules Match</text>
+      <text x="12" y="34" font-size="9" font-weight="600" fill="#334155">• Example: CD8 positive and CD23 negative</text>
+      <text x="12" y="47" font-size="9" font-weight="600" fill="#334155">• Require exact measurement keys and explicit thresholds</text>
+      <text x="12" y="60" font-size="9" font-weight="700" fill="#b45309">• Exclude missing values from the evaluable denominator</text>
+      <rect x="12" y="66" width="306" height="10" rx="3" fill="#fcd34d" />
+    </g>
+    <g transform="translate(708, 38)">
+      <rect x="0" y="0" width="330" height="82" rx="8" fill="#eff6ff" stroke="#bfdbfe" stroke-width="1" />
+      <text x="12" y="18" font-size="11" font-weight="800" fill="#1e40af">3. Calibrated Spatial Metrics</text>
+      <rect x="238" y="6" width="82" height="16" rx="8" fill="#dbeafe" />
+      <text x="279" y="17.5" text-anchor="middle" font-size="8.5" font-weight="800" fill="#1d4ed8">Local Audit</text>
+      <text x="12" y="34" font-size="9" font-weight="600" fill="#334155">• Density (cells/mm²) and mean NN distance (μm)</text>
+      <text x="12" y="47" font-size="9" font-weight="600" fill="#334155">• Require X/Y calibration and at most 2,000 cells for NN</text>
+      <text x="12" y="60" font-size="9" font-weight="700" fill="#1e40af">• Mean nearest-neighbor distance is null for one cell</text>
+      <rect x="12" y="66" width="306" height="10" rx="3" fill="#93c5fd" />
+    </g>
+    <g transform="translate(1056, 38)">
+      <rect x="0" y="0" width="318" height="82" rx="8" fill="#fef2f2" stroke="#fecaca" stroke-width="1" />
+      <text x="12" y="18" font-size="11" font-weight="800" fill="#991b1b">4. Invalid Inputs</text>
+      <rect x="236" y="6" width="72" height="16" rx="8" fill="#fee2e2" />
+      <text x="272" y="17.5" text-anchor="middle" font-size="8.5" font-weight="800" fill="#b91c1c">Run Blocked</text>
+      <text x="12" y="34" font-size="9" font-weight="600" fill="#334155">• A required measurement key is absent</text>
+      <text x="12" y="47" font-size="9" font-weight="600" fill="#334155">• Spatial metrics requested without valid calibration</text>
+      <text x="12" y="60" font-size="9" font-weight="700" fill="#991b1b">• Modified script, changed ROI/plane, or &gt;2,000 NN cells</text>
+      <rect x="12" y="66" width="294" height="10" rx="3" fill="#fca5a5" />
+    </g>
+  </g>
+  <g transform="translate(24, 990)">
+    <!--验收证据：保留历史参考结果，追加本次 TLS 实际运行及回归结果。-->
+    <rect x="0" y="0" width="1392" height="102" rx="12" fill="#0f172a" filter="url(#cardShadow)" />
+    <text x="24" y="24" font-size="12" font-weight="900" fill="#94a3b8" letter-spacing="0.4">PROJECT VALIDATION / 11–24 NOV 2026 · HISTORICAL REFERENCES + CURRENT TLS ENGINEERING CHECKS</text>
+    <g transform="translate(24, 34)">
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="256" height="56" rx="6" fill="#1e293b" stroke="#334155" />
+        <text x="12" y="18" font-size="10" font-weight="800" fill="#38bdf8">◆ MoNuSAC H&amp;E Baseline (1st Tiles)</text>
+        <text x="12" y="33" font-size="8.8" font-weight="600" fill="#cbd5e1">Macro F1: 0.6859 | Micro F1: 0.7471</text>
+        <text x="12" y="46" font-size="7.8" font-weight="600" fill="#94a3b8">11 Nov • 25 patients (1st tile each; IoU ≥ 0.50)</text>
+      </g>
+      <g transform="translate(268, 0)">
+        <rect x="0" y="0" width="278" height="56" rx="6" fill="#1e293b" stroke="#334155" />
+        <text x="12" y="18" font-size="10" font-weight="800" fill="#34d399">◆ WP5 H&amp;E Nuclear Proxy (2nd Tiles)</text>
+        <text x="12" y="33" font-size="8.6" font-weight="600" fill="#cbd5e1">Count MAE: 54.14 | Density: 1,954.84 nuclei/mm²</text>
+        <text x="12" y="46" font-size="7.8" font-weight="600" fill="#94a3b8">NN MAE: 1.664 μm (n=22/23; shares Batch 1 IDs)</text>
+      </g>
+      <g transform="translate(558, 0)">
+        <rect x="0" y="0" width="262" height="56" rx="6" fill="#1e293b" stroke="#334155" />
+        <text x="12" y="18" font-size="10" font-weight="800" fill="#fbbf24">◆ E1 Prompt Protocol (5 Synthetic Tasks)</text>
+        <text x="12" y="33" font-size="8.8" font-weight="600" fill="#cbd5e1">Passes: A0 19/50 | A1 47/50 | A2 47/50</text>
+        <text x="12" y="46" font-size="7.8" font-weight="600" fill="#94a3b8">150 real calls • Same counts in Groovy 5.0.6 replay</text>
+      </g>
+      <g transform="translate(832, 0)">
+        <rect x="0" y="0" width="252" height="56" rx="6" fill="#1e293b" stroke="#334155" />
+        <text x="12" y="18" font-size="10" font-weight="800" fill="#c084fc">◆ Local Knowledge Seed DB (Optional)</text>
+        <text x="12" y="33" font-size="8.6" font-weight="600" fill="#cbd5e1">24 active sources • 2,786 chunks • 267 cards</text>
+        <text x="12" y="46" font-size="7.8" font-weight="600" fill="#94a3b8">0 expert-confirmed • Explicit panel / card selection</text>
+      </g>
+      <g transform="translate(1096, 0)">
+        <rect x="0" y="0" width="248" height="56" rx="6" fill="#1e293b" stroke="#10b981" />
+        <text x="12" y="18" font-size="10" font-weight="800" fill="#a7f3d0">◆ TLS Whole-Image Run (24 Nov)</text>
+        <text x="12" y="33" font-size="8.8" font-weight="700" fill="#ffffff">3,720 cells → 11 candidates → 3 curve matches</text>
+        <text x="12" y="46" font-size="7.8" font-weight="700" fill="#34d399">59 Python checks: 58 passed / 1 skipped</text>
+      </g>
+    </g>
+  </g>
+</svg>
