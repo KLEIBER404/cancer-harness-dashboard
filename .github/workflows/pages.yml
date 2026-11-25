@@ -21,10 +21,14 @@ jobs:
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v4
         with:
+          # 每次重试使用独立名称，避免同一工作流残留的同名产物阻止部署。
+          name: github-pages-${{ github.run_attempt }}
           path: .
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
+        with:
+          artifact_name: github-pages-${{ github.run_attempt }}
       - name: Verify deployed files
         timeout-minutes: 5
         env:
