@@ -78,9 +78,9 @@
     </g>
     <g transform="translate(20, 65)">
       <rect x="0" y="0" width="154" height="16" rx="4" fill="#fef2f2" />
-      <text x="77" y="12" text-anchor="middle" font-size="9.5" font-weight="600" fill="#b91c1c">⚠ Invalid JSON blocks OK</text>
+      <text x="77" y="12" text-anchor="middle" font-size="9.5" font-weight="600" fill="#b91c1c">JSON editor: invalid → blocked</text>
       <rect x="162" y="0" width="156" height="16" rx="4" fill="#fef2f2" />
-      <text x="240" y="12" text-anchor="middle" font-size="9.5" font-weight="600" fill="#b91c1c">⚠ Edits revoke consent</text>
+      <text x="240" y="12" text-anchor="middle" font-size="9.5" font-weight="600" fill="#b91c1c">JSON edits revoke consent</text>
       <rect x="326" y="0" width="180" height="16" rx="4" fill="#fef2f2" />
       <text x="416" y="12" text-anchor="middle" font-size="9.5" font-weight="600" fill="#b91c1c">⚠ Thresholds must be explicit</text>
     </g>
@@ -139,34 +139,34 @@
       <rect x="88" y="26" width="140" height="42" rx="5" fill="#ffffff" stroke="#93c5fd" />
       <text x="94" y="38" font-size="9" font-weight="700" fill="#1e293b">• X/Y calibration (μm/px)</text>
       <text x="94" y="50" font-size="9" font-weight="600" fill="#475569">• Exact marker measurements</text>
-      <text x="94" y="62" font-size="9" font-weight="600" fill="#475569">• Selected ROI or same-plane cells</text>
+      <text x="94" y="62" font-size="8" font-weight="600" fill="#475569">• General: ROI; TLS: ROI / same plane</text>
       <rect x="12" y="74" width="216" height="22" rx="4" fill="#eff6ff" />
       <text x="120" y="89" text-anchor="middle" font-size="9.5" font-weight="700" fill="#1d4ed8">        🔒 Slide pixels &amp; cell data stay local      </text>
     </g>
     <g transform="translate(14, 160)">
       <rect x="0" y="0" width="240" height="88" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.1" />
-      <text x="12" y="18" font-size="11" font-weight="800" fill="#0f766e">Local Knowledge DB (Optional)</text>
+      <text x="12" y="18" font-size="11" font-weight="800" fill="#0f766e">Local Knowledge DB (TLS: Required)</text>
       <rect x="12" y="26" width="216" height="34" rx="5" fill="#f0fdf4" stroke="#86efac" stroke-width="1" />
       <text x="18" y="40" font-size="9" font-weight="700" fill="#166534">Explicit QUPATH_KNOWLEDGE_DB</text>
-      <text x="18" y="52" font-size="8.5" font-weight="600" fill="#15803d">Confirm panel, card versions and scope</text>
+      <text x="18" y="52" font-size="8.5" font-weight="600" fill="#15803d">General: choose cards; TLS: fixed latest</text>
       <rect x="12" y="66" width="216" height="16" rx="3" fill="#e2e8f0" />
-      <text x="120" y="78" text-anchor="middle" font-size="8.5" font-weight="700" fill="#334155">Definitions: off by default; TLS asks consent</text>
+      <text x="120" y="78" text-anchor="middle" font-size="8.5" font-weight="700" fill="#334155">TLS: 4 fixed cards; send after consent</text>
     </g>
     <g transform="translate(14, 256)">
       <rect x="0" y="0" width="240" height="96" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.1" />
-      <text x="12" y="18" font-size="11.5" font-weight="800" fill="#334155">Strict Task Spec JSON</text>
+      <text x="12" y="18" font-size="11.5" font-weight="800" fill="#334155">Task Spec (JSON or TLS Form)</text>
       <rect x="12" y="26" width="216" height="62" rx="5" fill="#ffffff" stroke="#94a3b8" />
-      <text x="18" y="40" font-size="9" font-weight="600" fill="#0f172a">goal + measurements</text>
-      <text x="18" y="52" font-size="9" font-weight="600" fill="#0f172a">outputs: numeric or null fields</text>
-      <text x="18" y="64" font-size="9" font-weight="600" fill="#0f172a">cases: independent local tests</text>
-      <text x="18" y="76" font-size="8.5" font-weight="600" fill="#0f172a">optional: marker rules, knowledge, spatial / TLS</text>
+      <text x="18" y="40" font-size="9" font-weight="600" fill="#0f172a">General: goal, measurements, outputs</text>
+      <text x="18" y="52" font-size="9" font-weight="600" fill="#0f172a">General: cases + optional spatial metrics</text>
+      <text x="18" y="64" font-size="9" font-weight="600" fill="#0f172a">TLS form: scope, marker rules and radii</text>
+      <text x="18" y="76" font-size="8.5" font-weight="600" fill="#0f172a">TLS: 6 host-built hidden reference cases</text>
     </g>
     <g transform="translate(14, 360)">
       <rect x="0" y="0" width="240" height="64" rx="8" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5" filter="url(#glowGate)" />
       <text x="120" y="20" text-anchor="middle" font-size="11.5" font-weight="900" fill="#92400e">⚠ GATE 1: Task Consent</text>
-      <text x="120" y="36" text-anchor="middle" font-size="9" font-weight="700" fill="#78350f">Review and approve the JSON</text>
+      <text x="120" y="36" text-anchor="middle" font-size="9" font-weight="700" fill="#78350f">Review task rules and analysis scope</text>
       <rect x="16" y="42" width="208" height="16" rx="4" fill="#ffffff" />
-      <text x="120" y="54" text-anchor="middle" font-size="8" font-weight="700" fill="#b45309">        Edits revoke consent • Invalid JSON blocks approval      </text>
+      <text x="120" y="54" text-anchor="middle" font-size="8" font-weight="700" fill="#b45309">General JSON: edits revoke consent; invalid blocks</text>
     </g>
     <text x="134" y="442" text-anchor="middle" font-size="10" font-weight="600" fill="#64748b">Explicit rules, thresholds and analysis scope</text>
     <text x="134" y="454" text-anchor="middle" font-size="9" font-weight="600" fill="#94a3b8">      Reference cases and answers stay local    </text>
@@ -197,9 +197,9 @@
     </g>
     <g transform="translate(14, 120)">
       <rect x="0" y="0" width="316" height="186" rx="8" fill="#fdf4ff" stroke="#a855f7" stroke-width="1.3" />
-      <text x="158" y="18" text-anchor="middle" font-size="12" font-weight="800" fill="#4c1d95">Single Chat Completions Call</text>
+      <text x="158" y="18" text-anchor="middle" font-size="12" font-weight="800" fill="#4c1d95">Chat Completions (No Model Tools)</text>
       <rect x="20" y="26" width="276" height="26" rx="5" fill="#ffffff" stroke="#c084fc" />
-      <text x="158" y="43" text-anchor="middle" font-size="10.5" font-weight="800" fill="#581c87">        Task fields + source context → single JSON response      </text>
+      <text x="158" y="43" text-anchor="middle" font-size="10.5" font-weight="800" fill="#581c87">Task + context → JSON code; TLS may retry once</text>
       <g transform="translate(16, 60)">
         <circle cx="24" cy="24" r="14" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.4" />
         <text x="24" y="28" text-anchor="middle" font-size="10.5" font-weight="800" fill="#4c1d95">In</text>
@@ -207,7 +207,7 @@
         <circle cx="94" cy="24" r="14" fill="#ddd6fe" stroke="#7c3aed" stroke-width="1.4" />
         <text x="94" y="28" text-anchor="middle" font-size="10.5" font-weight="800" fill="#4c1d95">API</text>
         <path d="M 108 24 L 154 24" stroke="#7c3aed" stroke-width="1.8" marker-end="url(#arrowPurple)" />
-        <text x="131" y="16" text-anchor="middle" font-size="7.5" font-weight="700" fill="#6b21a8">1 call • no tools</text>
+        <text x="131" y="16" text-anchor="middle" font-size="7" font-weight="700" fill="#6b21a8">TLS: up to 2 calls</text>
         <circle cx="174" cy="24" r="14" fill="#c4b5fd" stroke="#6d28d9" stroke-width="1.4" />
         <text x="174" y="28" text-anchor="middle" font-size="10.5" font-weight="800" fill="#3b0764">Out</text>
         <path d="M 188 24 L 224 24" stroke="#7c3aed" stroke-width="1.8" marker-end="url(#arrowPurple)" />
@@ -276,7 +276,7 @@
         <text x="45" y="28" text-anchor="middle" font-size="8" font-weight="600" fill="#7c3aed">Read full script</text>
         <rect x="98" y="0" width="96" height="36" rx="5" fill="#fef3c7" stroke="#d97706" />
         <text x="146" y="15" text-anchor="middle" font-size="8.5" font-weight="900" fill="#92400e">APPROVE RUN</text>
-        <text x="146" y="28" text-anchor="middle" font-size="8" font-weight="700" fill="#b45309">Freeze snapshot</text>
+        <text x="146" y="28" text-anchor="middle" font-size="8" font-weight="700" fill="#b45309">Check snapshot</text>
         <rect x="202" y="0" width="90" height="36" rx="5" fill="#fee2e2" stroke="#ef4444" />
         <text x="247" y="15" text-anchor="middle" font-size="8.5" font-weight="800" fill="#991b1b">STOP</text>
         <text x="247" y="28" text-anchor="middle" font-size="8" font-weight="600" fill="#b91c1c">Check failed</text>
@@ -289,7 +289,7 @@
         <rect x="0" y="0" width="292" height="28" rx="4" fill="#ffffff" stroke="#e2e8f0" />
         <circle cx="16" cy="14" r="8" fill="#fef3c7" stroke="#d97706" />
         <text x="16" y="17" text-anchor="middle" font-size="8.5" font-weight="800" fill="#92400e">1</text>
-        <text x="32" y="17.5" font-size="9" font-weight="700" fill="#334155">Freeze ROI / same-plane cells and calibrated centroids</text>
+        <text x="32" y="17.5" font-size="9" font-weight="700" fill="#334155">Check frozen inputs; TLS freezes before generation</text>
       </g>
       <g transform="translate(12, 62)">
         <rect x="0" y="0" width="292" height="28" rx="4" fill="#ffffff" stroke="#e2e8f0" />
@@ -364,13 +364,13 @@
       <text x="165" y="20" text-anchor="middle" font-size="12" font-weight="900" fill="#065f46">✓ RESULT AUDIT: REPORT_READY</text>
       <text x="165" y="36" text-anchor="middle" font-size="9" font-weight="700" fill="#047857">Audited metrics and execution record</text>
       <rect x="16" y="42" width="298" height="16" rx="4" fill="#ffffff" />
-      <text x="165" y="54" text-anchor="middle" font-size="8.5" font-weight="800" fill="#15803d">Counts • Marker Rules • Spatial Metrics • TLS Curves</text>
+      <text x="165" y="54" text-anchor="middle" font-size="8.5" font-weight="800" fill="#15803d">Verified AI metrics + host-calculated TLS curves</text>
     </g>
-    <text x="179" y="442" text-anchor="middle" font-size="10" font-weight="600" fill="#64748b">TLS: hidden cases + full frozen-snapshot recalculation</text>
+    <text x="179" y="442" text-anchor="middle" font-size="10" font-weight="600" fill="#64748b">TLS: AI outputs recomputed; curves calculated by host</text>
     <text x="179" y="454" text-anchor="middle" font-size="9" font-weight="600" fill="#94a3b8">      REPORT_READY = audited record (not clinical validity)    </text>
   </g>
   <g id="tls-workflow" transform="translate(24, 666)">
-    <!--TLS 专用流程：原生检测准备输入，AI 生成搜索代码，人工审查后独立复核。-->
+    <!--曲线由宿主 Python 在复核 AI 候选指标后计算，不声称模型生成曲线算法或两套算法独立验证曲线。-->
     <rect width="1392" height="174" rx="14" fill="#ffffff" stroke="#94a3b8" stroke-width="1.3" />
     <text x="24" y="23" font-size="13.5" fill="#0f172a" font-weight="900">TLS CANDIDATE SEARCH · DISTANCE–DENSITY COUPLING</text>
     <text x="1368" y="23" font-size="10" fill="#047857" font-weight="800" text-anchor="end">REAL RUN · 24 NOV 2026</text>
@@ -380,13 +380,13 @@
       <text x="11" y="38" font-size="9.2" fill="#334155" font-weight="600">QuPath Cell Detection parameter dialog</text>
       <text x="11" y="53" font-size="9.2" fill="#334155" font-weight="600">Full image on the current Z/T plane</text>
       <text x="11" y="68" font-size="9.2" fill="#334155" font-weight="600">3,720 measured cells in the latest run</text>
-      <text x="11" y="83" font-size="9.2" fill="#334155" font-weight="600">TLS scope: selected ROI or up to 5,000 cells</text>
+      <text x="11" y="83" font-size="9.2" fill="#334155" font-weight="600">TLS: 1–5,000 same-plane input cells</text>
     </g>
     <line x1="282" y1="86" x2="290" y2="86" stroke="#64748b" stroke-width="1.3" marker-end="url(#arrowDark)" />
     <g transform="translate(291, 37)">
       <rect width="264" height="99" rx="8" fill="#f3e8ff" stroke="#c4b5fd" />
       <text x="11" y="19" font-size="10.6" fill="#0f172a" font-weight="800">2. Knowledge → Generated Code</text>
-      <text x="11" y="38" font-size="9.2" fill="#334155" font-weight="600">CD20 / CD23 / CD8 + spatial method cards</text>
+      <text x="11" y="38" font-size="9.2" fill="#334155" font-weight="600">4 fixed latest marker / spatial method cards</text>
       <text x="11" y="53" font-size="9.2" fill="#334155" font-weight="600">User approves definitions and full script</text>
       <text x="11" y="68" font-size="9.2" fill="#334155" font-weight="600">Exact Cell mean keys + explicit thresholds</text>
       <text x="11" y="83" font-size="9.2" fill="#334155" font-weight="600">Robust Otsu values remain unconfirmed</text>
@@ -395,15 +395,15 @@
     <g transform="translate(564, 37)">
       <rect width="264" height="99" rx="8" fill="#ecfeff" stroke="#67e8f9" />
       <text x="11" y="19" font-size="10.6" fill="#0f172a" font-weight="800">3. Search CD23 Core Candidates</text>
-      <text x="11" y="38" font-size="9.2" fill="#334155" font-weight="600">CD23 centroid graph: links within 25 μm</text>
-      <text x="11" y="53" font-size="9.2" fill="#334155" font-weight="600">At least 3 objects per connected cluster</text>
-      <text x="11" y="68" font-size="9.2" fill="#334155" font-weight="600">Core = convex hull; interior distance = 0</text>
+      <text x="11" y="38" font-size="9.2" fill="#334155" font-weight="600">This run: CD23 links ≤25 μm; core ≥3 objects</text>
+      <text x="11" y="53" font-size="9.2" fill="#334155" font-weight="600">AI searches connected CD23 core groups</text>
+      <text x="11" y="68" font-size="9.2" fill="#334155" font-weight="600">Host core = convex hull; interior distance = 0</text>
       <text x="11" y="83" font-size="9.2" fill="#334155" font-weight="600">11 CD23 clusters found in this real run</text>
     </g>
     <line x1="828" y1="86" x2="836" y2="86" stroke="#64748b" stroke-width="1.3" marker-end="url(#arrowDark)" />
     <g transform="translate(837, 37)">
       <rect width="264" height="99" rx="8" fill="#fffbeb" stroke="#fcd34d" />
-      <text x="11" y="19" font-size="10.6" fill="#0f172a" font-weight="800">4. Distance–Density Curve Rule</text>
+      <text x="11" y="19" font-size="10.6" fill="#0f172a" font-weight="800">4. Host Python: Curve Screening</text>
       <text x="11" y="38" font-size="9.2" fill="#334155" font-weight="600">10 μm rings to 40 μm; clipped ring areas</text>
       <text x="11" y="53" font-size="9.2" fill="#334155" font-weight="600">Density = count / area; normalize to scope</text>
       <text x="11" y="68" font-size="9.2" fill="#334155" font-weight="600">Fit CD20 and CD8 relative-density slopes</text>
@@ -413,7 +413,7 @@
     <g transform="translate(1110, 37)">
       <rect width="264" height="99" rx="8" fill="#f0fdf4" stroke="#86efac" />
       <text x="11" y="19" font-size="10.6" fill="#0f172a" font-weight="800">5. Independent Audit and Display</text>
-      <text x="11" y="38" font-size="9.2" fill="#334155" font-weight="600">Hidden cases + Python snapshot recompute</text>
+      <text x="11" y="38" font-size="9.2" fill="#334155" font-weight="600">Recompute AI output + record evidence</text>
       <text x="11" y="53" font-size="9.2" fill="#334155" font-weight="600">3 curve matches: candidate IDs 2 / 4 / 8</text>
       <text x="11" y="68" font-size="9.2" fill="#334155" font-weight="600">Per-candidate curves and separate outlines</text>
       <text x="11" y="83" font-size="9.2" fill="#334155" font-weight="600">Pathology review determines TLS status</text>
@@ -422,7 +422,6 @@
     <text x="24" y="168" font-size="9.4" fill="#92400e" font-weight="700">Exploratory spatial evidence: curve matches require segmentation, threshold / parameter validation and expert review before diagnostic use.</text>
   </g>
   <g transform="translate(24, 852)">
-    <!--基础量化：计数、标记组合及标定空间统计。-->
     <rect x="0" y="0" width="1392" height="130" rx="14" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.3" filter="url(#cardShadow)" />
     <rect x="0" y="0" width="1392" height="32" rx="14" fill="#f8fafc" />
     <rect x="0" y="18" width="1392" height="14" fill="#f8fafc" />
@@ -469,7 +468,6 @@
     </g>
   </g>
   <g transform="translate(24, 990)">
-    <!--验收证据：保留历史参考结果，追加本次 TLS 实际运行及回归结果。-->
     <rect x="0" y="0" width="1392" height="102" rx="12" fill="#0f172a" filter="url(#cardShadow)" />
     <text x="24" y="24" font-size="12" font-weight="900" fill="#94a3b8" letter-spacing="0.4">PROJECT VALIDATION / 11–24 NOV 2026 · HISTORICAL REFERENCES + CURRENT TLS ENGINEERING CHECKS</text>
     <g transform="translate(24, 34)">
@@ -501,7 +499,7 @@
         <rect x="0" y="0" width="248" height="56" rx="6" fill="#1e293b" stroke="#10b981" />
         <text x="12" y="18" font-size="10" font-weight="800" fill="#a7f3d0">◆ TLS Whole-Image Run (24 Nov)</text>
         <text x="12" y="33" font-size="8.8" font-weight="700" fill="#ffffff">3,720 cells → 11 candidates → 3 curve matches</text>
-        <text x="12" y="46" font-size="7.8" font-weight="700" fill="#34d399">59 Python checks: 58 passed / 1 skipped</text>
+        <text x="12" y="46" font-size="7.8" font-weight="700" fill="#34d399">24 Nov: 59 Python checks, 58 pass / 1 skip</text>
       </g>
     </g>
   </g>
