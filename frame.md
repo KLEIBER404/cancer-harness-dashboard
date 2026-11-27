@@ -4,6 +4,8 @@
 
 > 2026-10-27 当前验证范围：三张真实 ROI 的源码版 PathPilot 生成、冻结统计、独立核验和保存重读已通过。本文保留早期说明，最新已验证范围与未完成项见[三张切片工程验收](三张切片工程验收.md)。
 
+> **2026-11-27 PathPilot DSH 迁移实施与工程验收：**源码版 QuPath ChatPanel 现在通过 `AgentEngine → dsh_agent.py → 固定 DeepSeekHarness SDK/profile → PathPilot Cordis stage tool → dsh_worker.py` 运行唯一 Agent loop。A→B→C→F→D→E 已完成；量化、插件作者与 TLS 使用各自受限的候选暂存工具，新量化/TLS 请求不再创建旧 Harness Runtime task。QuPath 保留人工审查、Groovy 执行、图像/ROI、知识界面、原生检测和 TLS 结果绘制；旧 Harness receipts/SQLite 保留兼容。69 项 Python 测试通过、1 项可选离线模型集成跳过，Cordis 2 项通过，源码版 GUI fake-provider smoke 通过，35 个共享文件一致。使用 localhost fixture 和合成对象，未调用真实模型或打开真实切片。DSH 上游完整测试有 399 通过、10 失败、10 跳过；生产 Windows executable 与 PathPilot fixture 分项通过。真实 provider 质量、病理科学有效性、专家确认和 OS 级候选隔离尚未验收。详情见 `../qupath-main 2/qupath-main/PATHPILOT_WORKFLOW.md` 与[项目看板](项目进度看板.html)。
+
 # QuPath Agentic Pathology — 系统架构设计（v0.3，修订 10）
 
 > **2026-10-29 实施更新：**原任务确认窗口已支持 1–6 marker 阴阳组合，必须显式选择实际测量键、阈值及来源；宿主建立独立用例并对实际快照复算。17 项 Python 测试和四种组合的源码 GUI 回归通过。新小切片的七通道读取、工程检测及测量已完成；人工细胞真值、真实阳性阈值和 TLS 空间标准仍待确认。见[多通道组合统计验收](多通道组合统计验收.md)。下方第三次谈话计划保留为历史计划，不替代本次验收范围。
